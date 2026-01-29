@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useScroll, useInView, MotionValue } from "framer-motion";
+import { motion, useInView, MotionValue, useMotionValue, useSpring } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Users, Target, FlaskConical } from "lucide-react";
 
 // Composant pour un bloc monolithique
 const MonolithBlock = ({
@@ -32,7 +32,7 @@ const MonolithBlock = ({
       ref={ref}
       className={`relative bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 ${className}`}
       style={{
-        padding: "clamp(3rem, 8vw, 4rem)",
+        padding: "clamp(2rem, 4vw, 3rem)",
         borderColor: isHovered ? "rgba(64, 180, 166, 0.3)" : "rgba(255, 255, 255, 0.1)",
         ...style,
       }}
@@ -65,10 +65,10 @@ const MonolithBlock = ({
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{
-            opacity: 0.02,
+            opacity: 0.08,
           }}
         >
-          <h2 className="text-[15rem] md:text-[20rem] font-black uppercase tracking-wider text-white">
+          <h2 className="text-[15rem] md:text-[20rem] font-black uppercase tracking-wider" style={{ color: "#40B4A6" }}>
             {backgroundTitle}
           </h2>
         </div>
@@ -196,7 +196,74 @@ const ConnectionLiane = ({
   );
 };
 
-// Composant pour le scanner (orbe qui suit les bordures avec traînée longue)
+// Composant pour l'orbe guide qui suit la souris (loupe lumineuse)
+const GuidingOrb = ({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 150, damping: 15 });
+  const springY = useSpring(mouseY, { stiffness: 150, damping: 15 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+    };
+
+    const section = sectionRef.current;
+    if (section) {
+      section.addEventListener("mousemove", handleMouseMove);
+      return () => section.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, [sectionRef, mouseX, mouseY]);
+
+  return (
+    <>
+      {/* Masque radial pour éclairer le texte sous l'orbe */}
+      <motion.div
+        className="pointer-events-none fixed z-40"
+        style={{
+          left: springX,
+          top: springY,
+          transform: "translate(-50%, -50%)",
+          width: "400px",
+          height: "400px",
+          background: "radial-gradient(circle, rgba(64, 180, 166, 0.15) 0%, transparent 70%)",
+          filter: "blur(20px)",
+        }}
+      />
+      {/* Orbe lumineuse */}
+      <motion.div
+        className="pointer-events-none fixed z-50"
+        style={{
+          left: springX,
+          top: springY,
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <motion.div
+          className="w-8 h-8 bg-[#40B4A6] rounded-full"
+          style={{
+            filter: "blur(8px)",
+            boxShadow: "0 0 40px rgba(64, 180, 166, 0.8), 0 0 80px rgba(64, 180, 166, 0.4)",
+          }}
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.7, 1, 0.7],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </motion.div>
+    </>
+  );
+};
+
+// Composant pour le scanner (orbe qui suit les bordures avec traînée longue) - DEPRECATED
 const ScannerBeam = ({
   scrollProgress,
   blocks,
@@ -308,131 +375,68 @@ const ScannerBeam = ({
 
 const ManifesteSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [blockPositions, setBlockPositions] = useState<
-    Array<{ x: number; y: number; width: number; height: number }>
-  >([]);
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
-  const [blockCenters, setBlockCenters] = useState<
-    Array<{ x: number; y: number }>
-  >([]);
 
-  // Scroll progress pour cette section
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Mettre à jour les positions des blocs pour le scanner
-  useEffect(() => {
-    const updatePositions = () => {
-      const blocks = sectionRef.current?.querySelectorAll("[data-monolith-block]");
-      if (!blocks) return;
-
-      const positions = Array.from(blocks).map((block) => {
-        const rect = block.getBoundingClientRect();
-        return {
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
-          width: rect.width,
-          height: rect.height,
-        };
-      });
-
-      setBlockPositions(positions);
-
-      // Calculer les centres pour les lianes
-      const centers = Array.from(blocks).map((block) => {
-        const rect = block.getBoundingClientRect();
-        return {
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
-        };
-      });
-      setBlockCenters(centers);
-    };
-
-    updatePositions();
-    window.addEventListener("resize", updatePositions);
-    window.addEventListener("scroll", updatePositions);
-
-    return () => {
-      window.removeEventListener("resize", updatePositions);
-      window.removeEventListener("scroll", updatePositions);
-    };
-  }, []);
 
   return (
     <section
       ref={sectionRef}
       id="manifeste"
-      className="relative min-h-screen w-full lg:w-[calc(100%-5rem)] lg:ml-20 snap-start snap-always flex-shrink-0 overflow-hidden"
+      className="relative h-screen sm:h-auto sm:min-h-screen w-full lg:w-[calc(100%-5rem)] lg:ml-20 snap-start snap-always flex-shrink-0 overflow-hidden sm:overflow-y-auto"
       style={{
-        background: "radial-gradient(ellipse at center, #1B365D 0%, #0A0F1A 100%)",
+        background: "#1B365D",
       }}
       aria-label="Manifeste Lianet - Strategic Monolith"
     >
-      {/* Texture de grain cinématographique (graphite) */}
+      {/* Texture de grain cinématographique (réduite pour la lisibilité) */}
       <div
         className="absolute inset-0 z-0 grain-bg pointer-events-none"
         style={{
-          opacity: 0.15,
-          filter: "contrast(200%) brightness(80%)",
+          opacity: 0.05,
+          filter: "contrast(150%) brightness(90%)",
         }}
         aria-hidden="true"
       />
 
-      {/* Lianes de connexion (traversant les espaces) */}
-      {blockCenters.length >= 2 && (
-        <div className="absolute inset-0 z-10 pointer-events-none">
-          {blockCenters.map((center, index) => {
-            if (index < blockCenters.length - 1) {
-              return (
-                <ConnectionLiane
-                  key={index}
-                  from={center}
-                  to={blockCenters[index + 1]}
-                  isActive={hoveredBlock === index || hoveredBlock === index + 1}
-                  sectionRef={sectionRef}
-                />
-              );
-            }
-            return null;
-          })}
-        </div>
-      )}
 
-      {/* Scanner Beam */}
-      <ScannerBeam scrollProgress={scrollYProgress} blocks={blockPositions} />
+      {/* Orbe Guide (Desktop uniquement) */}
+      <div className="hidden lg:block">
+        <GuidingOrb sectionRef={sectionRef} />
+      </div>
 
-      {/* Contenu principal */}
-      <div className="relative z-20 container mx-auto px-6 py-16 md:py-24 lg:py-32">
-        {/* Grille asymétrique (Grid 12 colonnes) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Bloc 1: La Vision (Le Manifeste) - Pleine largeur */}
+      {/* Contenu principal - Desktop: Grid fixe 100vh, Mobile: Stack fluide */}
+      <div className="relative z-20 h-full sm:h-auto">
+        {/* Desktop: Grid 12x6 pour 100vh */}
+        <div className="hidden lg:grid lg:grid-cols-12 lg:grid-rows-6 h-full gap-6 p-8">
+          {/* Bloc 1: La Vision (Le Manifeste) - col-span-7 row-span-4 */}
           <MonolithBlock
             backgroundTitle="VISION"
             delay={0}
-            className="md:col-span-12"
+            className="col-span-7 row-span-4 border-r border-white/10"
             data-monolith-block
             onHover={(hovered) => setHoveredBlock(hovered ? 0 : null)}
             isHovered={hoveredBlock === 0}
             isOtherHovered={hoveredBlock !== null && hoveredBlock !== 0}
-            style={{ minHeight: "50dvh" }}
           >
-            <div className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto px-[10%] min-h-[50dvh]">
-              <GlitchTitle scrollProgress={scrollYProgress} blockIndex={0} totalBlocks={4} size="large">
-                L&apos;Audace du Lien
-              </GlitchTitle>
-              <motion.p
-                className="text-xl md:text-2xl lg:text-3xl text-white/80 font-light leading-relaxed mb-8"
+            <div className="flex flex-col items-center justify-center h-full text-center px-8 py-6">
+              <motion.h2
+                className="text-4xl md:text-5xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
+                L&apos;Audace du Lien
+              </motion.h2>
+              <motion.p
+                className="text-base md:text-lg text-white font-light leading-snug mb-6 max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
                 L&apos;innovation n&apos;est pas une destination, c&apos;est une architecture. Chez Lianet, nous ne nous contentons pas de suivre le flux technologique ; nous forgeons les connexions invisibles entre vos talents, votre stratégie et les outils de demain. Nous créons la clarté là où règne la complexité.
               </motion.p>
               <motion.p
-                className="text-lg md:text-xl text-[#40B4A6] italic font-serif"
+                className="text-sm md:text-base text-[#40B4A6] italic font-serif"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -442,149 +446,310 @@ const ManifesteSection = () => {
             </div>
           </MonolithBlock>
 
-          {/* Bloc 2: L'Équation (La Méthode) - 7 colonnes */}
+          {/* Bloc 2: L'Équation (La Méthode) - col-span-5 row-span-2 */}
           <MonolithBlock
             backgroundTitle="METHOD"
             delay={0.2}
-            className="md:col-span-7"
+            className="col-span-5 row-span-2"
             data-monolith-block
             onHover={(hovered) => setHoveredBlock(hovered ? 1 : null)}
             isHovered={hoveredBlock === 1}
             isOtherHovered={hoveredBlock !== null && hoveredBlock !== 1}
           >
-            <div className="flex flex-col h-full">
-              <GlitchTitle scrollProgress={scrollYProgress} blockIndex={1} totalBlocks={4}>
-                L&apos;Équation
-              </GlitchTitle>
-              <motion.div
-                className="mb-8"
+            <div className="flex flex-col h-full justify-center px-4 py-6">
+              <motion.h2
+                className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                  <span className="text-[#40B4A6]">Talent</span>
-                  <span className="text-white/60 mx-3">+</span>
-                  <span className="text-[#40B4A6]">Stratégie</span>
-                  <span className="text-white/60 mx-3">+</span>
-                  <span className="text-[#40B4A6]">Lab</span>
+                L&apos;Équation
+              </motion.h2>
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center gap-4">
+                  <Users className="w-7 h-7 text-[#40B4A6]" />
+                  <span className="text-xl md:text-2xl font-bold text-white">Talent</span>
                 </div>
-              </motion.div>
-              <div className="flex-1 flex flex-col justify-end">
-                <motion.p
-                  className="text-lg md:text-xl text-white/80 font-light leading-relaxed mb-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
-                  Trois forces, un seul impact. Nous mobilisons l&apos;intelligence humaine, nous la cadrons par une vision marché rigoureuse, et nous l&apos;éprouvons dans notre Lab pour garantir une exécution sans faille.
-                </motion.p>
-                <motion.p
-                  className="text-base md:text-lg text-[#40B4A6] font-semibold uppercase tracking-wider"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
-                >
-                  L&apos;ingénierie du succès.
-                </motion.p>
+                <div className="flex items-center gap-4">
+                  <Target className="w-7 h-7 text-[#40B4A6]" />
+                  <span className="text-xl md:text-2xl font-bold text-white">Stratégie</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FlaskConical className="w-7 h-7 text-[#40B4A6]" />
+                  <span className="text-xl md:text-2xl font-bold text-white">Lab</span>
+                </div>
               </div>
+              <motion.p
+                className="text-sm md:text-base text-white font-light leading-snug"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                Trois forces, un seul impact.
+              </motion.p>
             </div>
           </MonolithBlock>
 
-          {/* Bloc 3: L'Impact (Preuve de Valeur) - 5 colonnes */}
+          {/* Bloc 3: L'Impact (Preuve de Valeur) - col-span-5 row-span-2 */}
           <MonolithBlock
             backgroundTitle="IMPACT"
             delay={0.4}
-            className="md:col-span-5"
+            className="col-span-5 row-span-2"
             data-monolith-block
             onHover={(hovered) => setHoveredBlock(hovered ? 2 : null)}
             isHovered={hoveredBlock === 2}
             isOtherHovered={hoveredBlock !== null && hoveredBlock !== 2}
           >
-            <div className="flex flex-col h-full">
-              <GlitchTitle scrollProgress={scrollYProgress} blockIndex={2} totalBlocks={4}>
+            <div className="flex flex-col h-full justify-center px-4 py-6">
+              <motion.h2
+                className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
                 L&apos;Impact
-              </GlitchTitle>
-              <div className="flex-1 flex flex-col justify-center space-y-8 mb-8">
+              </motion.h2>
+              <div className="space-y-6">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
                 >
                   <div
-                    className="text-5xl md:text-6xl lg:text-7xl font-black mb-3"
+                    className="text-3xl md:text-4xl font-black mb-2"
                     style={{
                       color: "#40B4A6",
-                      filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.6))",
+                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
                     }}
                   >
                     +10 ans
                   </div>
-                  <p className="text-base text-white/60">d&apos;expertise hybride</p>
+                  <p className="text-xs md:text-sm text-white">d&apos;expertise hybride</p>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.9 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
                 >
                   <div
-                    className="text-5xl md:text-6xl lg:text-7xl font-black mb-3"
+                    className="text-3xl md:text-4xl font-black mb-2"
                     style={{
                       color: "#40B4A6",
-                      filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.6))",
+                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
                     }}
                   >
                     100%
                   </div>
-                  <p className="text-base text-white/60">Focus Solutions</p>
+                  <p className="text-xs md:text-sm text-white">Focus Solutions</p>
                 </motion.div>
               </div>
-              <motion.p
-                className="text-lg md:text-xl text-white/80 font-light leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.1 }}
-              >
-                Notre obsession : la transformation concrète. Chaque ligne de code, chaque conseil stratégique est une brique posée vers votre leadership de marché.
-              </motion.p>
             </div>
           </MonolithBlock>
 
-          {/* Bloc 4: L'Engagement (CTA) - Pleine largeur */}
+          {/* Bloc 4: L'Engagement (CTA) - col-span-12 row-span-2 */}
           <MonolithBlock
             backgroundTitle="ACTION"
             delay={0.6}
-            className="md:col-span-12"
+            className="col-span-12 row-span-2"
             data-monolith-block
             onHover={(hovered) => setHoveredBlock(hovered ? 3 : null)}
             isHovered={hoveredBlock === 3}
             isOtherHovered={hoveredBlock !== null && hoveredBlock !== 3}
           >
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
+            <div className="flex flex-col md:flex-row items-center justify-between h-full gap-6 px-6 py-4">
               <motion.div
                 className="flex-1"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
-                <GlitchTitle scrollProgress={scrollYProgress} blockIndex={3} totalBlocks={4}>
+                <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-white mb-3 leading-snug">
                   Prêt pour l&apos;ascension ?
-                </GlitchTitle>
-                <p className="text-xl md:text-2xl text-white/80 font-light leading-relaxed mt-6">
+                </h2>
+                <p className="text-sm md:text-base text-white font-light leading-snug">
                   Votre vision mérite une exécution d&apos;exception. Collaborons pour transformer vos défis en actifs stratégiques.
                 </p>
               </motion.div>
               <motion.button
-                className="group relative px-12 py-6 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-lg md:text-xl"
+                className="group relative px-8 py-4 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-sm md:text-base"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.9, type: "spring", stiffness: 200 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="relative z-10 flex items-center gap-3 uppercase tracking-tighter">
+                <span className="relative z-10 flex items-center gap-2 uppercase tracking-tighter">
                   Initier le mouvement
-                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-[#8FD6CC]"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.button>
+            </div>
+          </MonolithBlock>
+        </div>
+
+        {/* Mobile: Stack fluide avec scroll */}
+        <div className="lg:hidden space-y-8 p-8">
+          {/* Bloc 1 Mobile */}
+          <MonolithBlock
+            backgroundTitle="VISION"
+            delay={0}
+            className=""
+            data-monolith-block
+            onHover={(hovered) => setHoveredBlock(hovered ? 0 : null)}
+            isHovered={hoveredBlock === 0}
+            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 0}
+          >
+            <div className="flex flex-col items-center justify-center text-center py-8">
+              <motion.h2
+                className="text-4xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                L&apos;Audace du Lien
+              </motion.h2>
+              <motion.p
+                className="text-base text-white font-light leading-snug mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                L&apos;innovation n&apos;est pas une destination, c&apos;est une architecture. Chez Lianet, nous ne nous contentons pas de suivre le flux technologique ; nous forgeons les connexions invisibles entre vos talents, votre stratégie et les outils de demain. Nous créons la clarté là où règne la complexité.
+              </motion.p>
+              <motion.p
+                className="text-sm text-[#40B4A6] italic font-serif"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                Penser global, agir précis.
+              </motion.p>
+            </div>
+          </MonolithBlock>
+
+          {/* Bloc 2 Mobile */}
+          <MonolithBlock
+            backgroundTitle="METHOD"
+            delay={0.2}
+            className=""
+            data-monolith-block
+            onHover={(hovered) => setHoveredBlock(hovered ? 1 : null)}
+            isHovered={hoveredBlock === 1}
+            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 1}
+          >
+            <div className="flex flex-col py-8">
+              <motion.h2
+                className="text-3xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                L&apos;Équation
+              </motion.h2>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <Users className="w-6 h-6 text-[#40B4A6]" />
+                  <span className="text-xl font-bold text-white">Talent</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Target className="w-6 h-6 text-[#40B4A6]" />
+                  <span className="text-xl font-bold text-white">Stratégie</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FlaskConical className="w-6 h-6 text-[#40B4A6]" />
+                  <span className="text-xl font-bold text-white">Lab</span>
+                </div>
+              </div>
+            </div>
+          </MonolithBlock>
+
+          {/* Bloc 3 Mobile */}
+          <MonolithBlock
+            backgroundTitle="IMPACT"
+            delay={0.4}
+            className=""
+            data-monolith-block
+            onHover={(hovered) => setHoveredBlock(hovered ? 2 : null)}
+            isHovered={hoveredBlock === 2}
+            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 2}
+          >
+            <div className="flex flex-col py-8">
+              <motion.h2
+                className="text-3xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                L&apos;Impact
+              </motion.h2>
+              <div className="space-y-6">
+                <div>
+                  <div
+                    className="text-4xl font-black mb-2"
+                    style={{
+                      color: "#40B4A6",
+                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
+                    }}
+                  >
+                    +10 ans
+                  </div>
+                  <p className="text-sm text-white/80">d&apos;expertise hybride</p>
+                </div>
+                <div>
+                  <div
+                    className="text-4xl font-black mb-2"
+                    style={{
+                      color: "#40B4A6",
+                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
+                    }}
+                  >
+                    100%
+                  </div>
+                  <p className="text-sm text-white/80">Focus Solutions</p>
+                </div>
+              </div>
+            </div>
+          </MonolithBlock>
+
+          {/* Bloc 4 Mobile */}
+          <MonolithBlock
+            backgroundTitle="ACTION"
+            delay={0.6}
+            className=""
+            data-monolith-block
+            onHover={(hovered) => setHoveredBlock(hovered ? 3 : null)}
+            isHovered={hoveredBlock === 3}
+            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 3}
+          >
+            <div className="flex flex-col items-center text-center py-8">
+              <motion.h2
+                className="text-3xl font-bold uppercase tracking-tighter text-white mb-4 leading-snug"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                Prêt pour l&apos;ascension ?
+              </motion.h2>
+              <p className="text-base text-white font-light leading-snug mb-6">
+                Votre vision mérite une exécution d&apos;exception. Collaborons pour transformer vos défis en actifs stratégiques.
+              </p>
+              <motion.button
+                className="group relative px-8 py-4 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-base"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.9, type: "spring", stiffness: 200 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="relative z-10 flex items-center gap-2 uppercase tracking-tighter">
+                  Initier le mouvement
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-[#8FD6CC]"
