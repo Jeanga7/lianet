@@ -1,13 +1,19 @@
 import HeroSection from "@/components/hero/HeroSection";
+import ExpertiseSection from "@/components/sections/ExpertiseSection";
 
 export default function Home() {
   return (
-    <main>
-      <HeroSection />
+    <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth scrollbar-hide">
+      <section id="hero" className="h-screen w-screen snap-start snap-always flex-shrink-0">
+        <HeroSection />
+      </section>
+      <section id="expertise" className="h-screen w-screen snap-start snap-always flex-shrink-0">
+        <ExpertiseSection />
+      </section>
 
       {/* Rupture visuelle (mobile luxury) */}
-      <section className="min-h-screen bg-[#333333] text-white">
-        <div className="mx-auto max-w-5xl px-6 py-24">
+      <section id="manifeste" className="h-screen w-screen snap-start snap-always flex-shrink-0 bg-[#333333] text-white">
+        <div className="mx-auto flex h-full max-w-5xl flex-col justify-center px-6 py-24">
           <p className="text-xs font-semibold tracking-[0.32em] text-[#8FD6CC]/80">
             LIANET / MANIFESTE
           </p>

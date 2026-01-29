@@ -1,37 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Button from "@/components/ui/Button";
-import Sidebar from "./Sidebar";
-import Navigation from "./Navigation";
-import FullMenu from "./FullMenu";
-import MobileMenuButton from "./MobileMenuButton";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import ScrollIndicator from "./ScrollIndicator";
-import ScrollProgressBar from "./ScrollProgressBar";
 import OrganicBackground from "./OrganicBackground";
 
 const HeroSection = () => {
-  const [isFullMenuOpen, setIsFullMenuOpen] = useState(false);
   const { scrollY } = useScroll();
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
 
   return (
-    <div className="relative flex min-h-screen w-full overflow-hidden bg-white grid-pattern lg:bg-transparent lg:grid-pattern-none">
+    <div className="relative flex h-full w-full overflow-hidden bg-white grid-pattern lg:bg-transparent lg:grid-pattern-none">
       {/* Background image desktop */}
       <div 
         className="hidden lg:block absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/background-lianet-1.png')" }}
         aria-hidden="true"
       />
-      <Sidebar onMenuClick={() => setIsFullMenuOpen(true)} />
-      <Navigation />
-      <FullMenu isOpen={isFullMenuOpen} onClose={() => setIsFullMenuOpen(false)} />
-
-      {/* Scroll progress (ultra-fin) */}
-      <ScrollProgressBar className="fixed left-0 top-0 z-[90] w-full" />
 
       {/* Organic background (mobile) */}
       <OrganicBackground className="pointer-events-none absolute inset-0 z-0 lg:hidden" />
@@ -51,9 +38,6 @@ const HeroSection = () => {
           quality={90}
         />
       </div>
-
-      {/* Menu button mobile épuré */}
-      <MobileMenuButton onMenuClick={() => setIsFullMenuOpen(true)} />
 
       {/* Halo organique (mobile) + parallax léger */}
       <motion.div

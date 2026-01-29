@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SiteLayout from "@/components/layout/SiteLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | Lianet",
   },
   description:
-    "Lianet connecte les entreprises africaines avec des talents digitaux d’élite pour concevoir des solutions impactantes et évolutives.",
+    "Lianet connecte les entreprises africaines avec des talents digitaux d'élite pour concevoir des solutions impactantes et évolutives.",
   icons: {
     icon: "/icon.png",
     apple: "/apple-touch-icon.png",
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SiteLayout>{children}</SiteLayout>
       </body>
     </html>
   );
