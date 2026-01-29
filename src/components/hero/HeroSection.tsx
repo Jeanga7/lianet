@@ -1,15 +1,29 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Button from "@/components/ui/Button";
+import PageWipe from "@/components/ui/PageWipe";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import ScrollIndicator from "./ScrollIndicator";
 import OrganicBackground from "./OrganicBackground";
 
 const HeroSection = () => {
   const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
+  
+  // Parallax Clipping : Le contenu Hero se translate vers le haut quand Expertise monte
+  const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -20], { clamp: true });
+  
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [targetUrl, setTargetUrl] = useState<string | null>(null);
+
+  const handleButtonClick = useCallback(() => {
+    setIsTransitioning(true);
+    setTargetUrl("/solutions");
+  }, []);
 
   return (
     <div className="relative flex h-full w-full overflow-hidden bg-white grid-pattern lg:bg-transparent lg:grid-pattern-none">
@@ -47,7 +61,12 @@ const HeroSection = () => {
       />
 
       {/* Layout principal : Sidebar à gauche + Contenu à droite */}
-      <div className="relative z-10 ml-0 flex flex-1 flex-col pt-32 pb-20 lg:ml-20 lg:pt-24 lg:pb-0 lg:flex-row">
+      <motion.div 
+        className="relative z-10 ml-0 flex flex-1 flex-col pt-32 pb-20 lg:ml-20 lg:pt-24 lg:pb-0 lg:flex-row"
+        style={{
+          y: contentY,
+        }}
+      >
         {/* Zone Texte/CTA (Gauche) */}
         <div className="flex flex-1 flex-col justify-center px-8 py-16 lg:py-24 lg:pl-16 lg:pr-12">
           <motion.div
@@ -72,7 +91,7 @@ const HeroSection = () => {
 
             {/* Paragraphe avec effet reveal */}
             <motion.p
-              className="max-w-xl text-base text-[#333333] sm:text-lg"
+              className="max-w-xl text-base text-foreground sm:text-lg"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -96,17 +115,81 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              <Button className="w-full sm:w-auto lg:inline-flex">Explorer les Solutions</Button>
+              <Button 
+                className="w-full sm:w-auto lg:inline-flex"
+                onClick={handleButtonClick}
+              >
+                Explorer les Solutions
+              </Button>
             </motion.div>
           </motion.div>
         </div>
 
         {/* Zone Visuelle (désactivée) */}
         <div className="relative hidden flex-1 lg:block" />
-      </div>
+      </motion.div>
 
       {/* Scroll indicator (bas-centre) */}
       <ScrollIndicator className="absolute left-1/2 bottom-16 z-20 -translate-x-1/2 lg:bottom-10" />
+
+      {/* Lueur turquoise pour Shared Element Transition (Hero → Expertise) */}
+      <motion.div
+        layoutId="hero-liane-glow"
+        className="hidden lg:block absolute left-20 bottom-0 w-2 h-32 pointer-events-none z-30"
+        style={{
+          background: "linear-gradient(to top, rgba(64, 180, 166, 0.4), rgba(64, 180, 166, 0.1), transparent)",
+          filter: "blur(4px)",
+        }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        aria-hidden="true"
+      >
+        {/* Halo pulsant autour de la lueur */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(circle, rgba(64, 180, 166, 0.3), transparent 70%)",
+            filter: "blur(8px)",
+            width: "40px",
+            left: "-19px",
+          }}
+          animate={{
+            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        {/* Spark effect - étincelle qui parcourt la liane */}
+        <motion.div
+          className="absolute w-1 h-1 bg-secondary rounded-full"
+          style={{
+            boxShadow: "0 0 8px rgba(64, 180, 166, 0.8)",
+          }}
+          animate={{
+            y: [0, 128, 0],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </motion.div>
+
+      {/* PageWipe Transition */}
+      <PageWipe
+        isActive={isTransitioning}
+        targetUrl={targetUrl}
+        color="#40B4A6"
+        onComplete={() => {
+          setIsTransitioning(false);
+          setTargetUrl(null);
+        }}
+      />
     </div>
   );
 };

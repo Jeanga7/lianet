@@ -14,7 +14,10 @@ interface FullMenuProps {
 const backdropVariants: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } },
-  exit: { opacity: 0, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] as const } },
+  exit: { 
+    opacity: 0, 
+    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] as const },
+  },
 };
 
 const panelVariants: Variants = {
@@ -30,7 +33,7 @@ const panelVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    transition: { duration: 0.2, ease: [0.4, 0, 1, 1] as const, when: "afterChildren" },
+    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] as const },
   },
 };
 
@@ -41,6 +44,11 @@ const itemVariants: Variants = {
     y: 0,
     transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
   },
+  exit: {
+    opacity: 0,
+    y: -10,
+    transition: { duration: 0.1, ease: [0.4, 0, 1, 1] as const },
+  },
 };
 
 const poleTitleVariants: Variants = {
@@ -50,6 +58,11 @@ const poleTitleVariants: Variants = {
     x: 0,
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
   },
+  exit: {
+    opacity: 0,
+    x: 20,
+    transition: { duration: 0.1, ease: [0.4, 0, 1, 1] as const },
+  },
 };
 
 const poleDescriptionVariants: Variants = {
@@ -57,6 +70,10 @@ const poleDescriptionVariants: Variants = {
   show: {
     opacity: 1,
     transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.1, ease: [0.4, 0, 1, 1] as const },
   },
 };
 
@@ -126,6 +143,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
           initial="hidden"
           animate="show"
           exit="exit"
+          variants={backdropVariants}
         >
           {/* Mobile version - Fond Bleu Profond */}
           <div className="absolute inset-0 h-[100dvh] bg-[#1B365D] lg:hidden">

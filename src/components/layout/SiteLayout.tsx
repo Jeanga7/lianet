@@ -16,6 +16,9 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
 
   return (
     <>
+      {/* Texture de grain globale - Fixed pour lier toutes les sections */}
+      <div className="fixed inset-0 z-0 grain-bg pointer-events-none" aria-hidden="true" />
+      
       {/* Éléments fixes globaux */}
       <Sidebar onMenuClick={() => setIsFullMenuOpen(true)} />
       <Navigation />

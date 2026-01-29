@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Menu } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SidebarProps {
   onMenuClick?: () => void;
@@ -17,6 +17,40 @@ const sections = [
 
 const Sidebar = ({ onMenuClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState<string>("hero");
+  const [expertiseHover, setExpertiseHover] = useState<"talent" | "lab" | null>(null);
+  const [isExpertiseExpanded, setIsExpertiseExpanded] = useState(false);
+
+  // Écouter les événements de hover depuis ExpertiseSection
+  useEffect(() => {
+    const handleExpertiseHover = (event: CustomEvent) => {
+      const { poleId } = event.detail;
+      if (poleId === "talent") {
+        setExpertiseHover("talent");
+      } else if (poleId === "lab") {
+        setExpertiseHover("lab");
+      } else {
+        setExpertiseHover(null);
+      }
+    };
+
+    window.addEventListener("expertiseHover", handleExpertiseHover as EventListener);
+    return () => {
+      window.removeEventListener("expertiseHover", handleExpertiseHover as EventListener);
+    };
+  }, []);
+
+  // Écouter les événements d'expansion depuis ExpertiseSection
+  useEffect(() => {
+    const handleExpertiseExpanded = (event: CustomEvent) => {
+      const { isExpanded } = event.detail;
+      setIsExpertiseExpanded(isExpanded);
+    };
+
+    window.addEventListener("expertiseExpanded", handleExpertiseExpanded as EventListener);
+    return () => {
+      window.removeEventListener("expertiseExpanded", handleExpertiseExpanded as EventListener);
+    };
+  }, []);
 
   // Détection de la section active au scroll avec threshold: 0.6
   useEffect(() => {
@@ -63,12 +97,26 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
   }, []);
 
   return (
-    <motion.aside
-      className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center bg-primary text-primary-foreground border-r border-primary/20 lg:flex"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-    >
+    <>
+      {/* Barre de progression horizontale quand expertise expanded */}
+      <AnimatePresence>
+        {isExpertiseExpanded && activeSection === "expertise" && (
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-0 left-0 right-0 h-1 bg-secondary z-[60]"
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.aside
+        className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center bg-primary text-primary-foreground border-r border-primary/20 lg:flex"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+      >
       {/* Menu hamburger en haut */}
       <motion.button
         type="button"
@@ -86,6 +134,10 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
       <div className="mt-auto mb-auto flex flex-col items-center gap-4">
         {sections.map((section, index) => {
           const isActive = activeSection === section.id;
+          const isExpertise = section.id === "expertise";
+          const shouldStretchUp = isExpertise && isActive && expertiseHover === "talent";
+          const shouldStretchDown = isExpertise && isActive && expertiseHover === "lab";
+          const shouldFade = isExpertise && isActive && isExpertiseExpanded;
           
           return (
             <motion.button
@@ -96,7 +148,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
               className="group relative flex h-7 w-7 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
               initial={{ opacity: 0, scale: 0 }}
               animate={{
-                opacity: isActive ? 1 : 0.5,
+                opacity: shouldFade ? 0.2 : isActive ? 1 : 0.5,
                 scale: isActive ? 1.2 : 1,
               }}
               whileHover={{ scale: isActive ? 1.2 : 1.1 }}
@@ -107,25 +159,41 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
               aria-label={section.label}
               title={section.label}
             >
-              {isActive && (
+              {isActive && !shouldFade && (
                 <motion.span
                   layoutId="sidebarActiveRing"
                   className="absolute inset-0 rounded-full border border-secondary/80 bg-secondary/10"
                   transition={{ type: "spring", stiffness: 520, damping: 34 }}
                 />
               )}
-              <span
-                className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                  isActive
-                    ? "bg-secondary scale-125"
-                    : "bg-primary-foreground/30 group-hover:bg-secondary/60"
-                }`}
-              />
+              {shouldFade ? (
+                <motion.div
+                  className="h-full w-[1px] bg-gray-400/50"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              ) : (
+                <motion.span
+                  className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                    isActive
+                      ? "bg-secondary"
+                      : "bg-primary-foreground/30 group-hover:bg-secondary/60"
+                  }`}
+                  animate={{
+                    scaleY: shouldStretchUp ? 1.8 : shouldStretchDown ? 1.8 : 1,
+                    scaleX: shouldStretchUp || shouldStretchDown ? 1.2 : 1,
+                    y: shouldStretchUp ? -4 : shouldStretchDown ? 4 : 0,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                />
+              )}
             </motion.button>
           );
         })}
       </div>
-    </motion.aside>
+      </motion.aside>
+    </>
   );
 };
 
