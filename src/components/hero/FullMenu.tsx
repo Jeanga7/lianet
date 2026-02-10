@@ -159,7 +159,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               className="relative flex h-full flex-col overflow-hidden"
             >
               {/* Top bar - Bouton fermer */}
-              <div className="flex shrink-0 items-start justify-end px-8 pt-8">
+              <div className="flex shrink-0 items-start justify-end px-6 pt-8">
                 <motion.button
                   onClick={onClose}
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/90 transition-colors hover:bg-white/20"
@@ -175,7 +175,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               <div className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide pb-[max(120px,env(safe-area-inset-bottom))]">
                 <motion.div
                   variants={panelVariants}
-                  className="px-8"
+                  className="px-6"
                 >
                   {/* Vision - Header subtil */}
                   <motion.div variants={poleTitleVariants} className="py-8 pl-6 border-b border-white/10">
@@ -229,7 +229,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                             className="flex w-full items-center justify-between py-8 pl-6 pr-4 text-left"
                             whileTap={{ scale: 0.98 }}
                           >
-                            <h3 className="text-5xl font-extrabold leading-none tracking-tighter text-white">
+                            <h3 className="text-5xl font-extrabold leading-[1.1] tracking-[-0.04em] text-white">
                               {pole.title}
                             </h3>
                             <motion.div
@@ -420,13 +420,13 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
 
           {/* Desktop version */}
           <div className="hidden lg:block">
-            {/* Backdrop */}
-            <motion.div
-              variants={backdropVariants}
+          {/* Backdrop */}
+          <motion.div
+            variants={backdropVariants}
               className="absolute inset-0 bg-foreground/10 backdrop-blur-md"
-              onClick={onClose}
-              aria-hidden="true"
-            />
+            onClick={onClose}
+            aria-hidden="true"
+          />
 
             {/* Base wash (blanc) */}
             <div className="absolute inset-0 bg-background/92" />
@@ -454,13 +454,13 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
           />
 
             {/* Content desktop */}
-            <motion.div
-              variants={panelVariants}
-              role="dialog"
-              aria-modal="true"
-              aria-label="Menu principal"
-              className="relative mx-auto flex h-full w-full max-w-7xl flex-col overflow-hidden px-8 py-6 lg:px-10 lg:py-10"
-            >
+          <motion.div
+            variants={panelVariants}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu principal"
+              className="relative mx-auto flex h-full w-full max-w-7xl flex-col overflow-hidden px-6 py-6 md:px-8 lg:px-10 lg:py-10"
+          >
             {/* Top bar */}
             <div className="flex items-start justify-end shrink-0">
               <button
@@ -637,7 +637,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       Carrières <span className="text-[#333333]/60">(Join the Liane)</span>
                       <span className="translate-x-0 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
                         →
-                      </span>
+                          </span>
                     </Link>
                   </li>
                   <li>
@@ -648,11 +648,11 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     >
                       Études de cas <span className="text-[#333333]/60">(Success Stories)</span>
                       <span className="translate-x-0 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
-                        →
-                      </span>
-                    </Link>
+                            →
+                          </span>
+                        </Link>
                   </li>
-                </ul>
+                  </ul>
               </motion.section>
 
               {/* Col 4: Contact & localisation */}
@@ -731,11 +731,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               seulement des solutions ; nous connectons les bâtisseurs du monde
               de demain.
             </motion.p>
-            </motion.div>
+          </motion.div>
           </div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
-

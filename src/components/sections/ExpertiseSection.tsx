@@ -181,6 +181,46 @@ const CanvasCard = ({
 
   const springConfig = { stiffness: 100, damping: 20 };
 
+  // Parallaxe interne : motion values pour le titre massif en arrière-plan
+  const titleParallaxX = useMotionValue(0);
+  const titleParallaxY = useMotionValue(0);
+  const titleSpringX = useSpring(titleParallaxX, { stiffness: 150, damping: 25 });
+  const titleSpringY = useSpring(titleParallaxY, { stiffness: 150, damping: 25 });
+
+  // Suivre la position de la souris sur la carte pour la parallaxe
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = (e.clientX - centerX) / rect.width;
+      const deltaY = (e.clientY - centerY) / rect.height;
+      
+      // Le titre massif bouge plus lentement (facteur 0.3) que le texte de devant
+      titleParallaxX.set(deltaX * 30);
+      titleParallaxY.set(deltaY * 30);
+    };
+
+    const handleMouseLeave = () => {
+      titleParallaxX.set(0);
+      titleParallaxY.set(0);
+    };
+
+    const card = cardRef.current;
+    if (card) {
+      card.addEventListener("mousemove", handleMouseMove, { passive: true });
+      card.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (card) {
+        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, [titleParallaxX, titleParallaxY]);
+
   // Courbes organiques pour transitions entre pôles
   const getPathForPole = (poleId: string) => {
     switch (poleId) {
@@ -199,20 +239,23 @@ const CanvasCard = ({
     <motion.article
       ref={cardRef}
       key={pole.id}
-      initial={{ y: 100, opacity: 0 }}
+      initial={{ y: 100, opacity: 0, scale: 0.95 }}
       animate={{ 
         y: 0, 
         opacity: 1,
+        scale: 1,
         borderColor: isInView ? "rgba(64, 180, 166, 0.5)" : "rgba(64, 180, 166, 0.05)",
         filter: isInView 
           ? "drop-shadow(0 0 15px rgba(64, 180, 166, 0.3))" 
           : "drop-shadow(0 0 0px rgba(64, 180, 166, 0))",
       }}
-      exit={{ y: -100, opacity: 0 }}
+      exit={{ y: -100, opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className="relative w-full h-full max-w-3xl rounded-2xl p-12 lg:p-16 flex flex-col overflow-hidden"
       style={{
         background: "radial-gradient(ellipse 150% 100% at 100% 50%, #40B4A6 0%, rgba(64, 180, 166, 0.2) 30%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.98) 100%)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
         willChange: "transform, opacity",
         boxShadow: "0 20px 60px rgba(64, 180, 166, 0.15), 0 0 0 1px rgba(64, 180, 166, 0.05)",
       }}
@@ -285,13 +328,15 @@ const CanvasCard = ({
         )}
       </AnimatePresence>
 
-      {/* Titre massif en arrière-plan avec Reveal Cinématique */}
+      {/* Titre massif en arrière-plan avec Reveal Cinématique et Parallaxe Interne */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0" aria-hidden="true">
         <motion.h2 
-          className="text-8xl lg:text-9xl font-extrabold opacity-10 select-none relative overflow-hidden"
+          className="text-8xl lg:text-9xl font-extrabold opacity-10 select-none relative overflow-hidden tracking-[-0.04em] leading-[1.1]"
           style={{
             color: "#1B365D",
             textShadow: "0 0 40px rgba(27, 54, 93, 0.3), 0 0 80px rgba(27, 54, 93, 0.2)",
+            x: titleSpringX,
+            y: titleSpringY,
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
@@ -320,7 +365,7 @@ const CanvasCard = ({
           {pole.title}
         </h1>
 
-        {/* Slogan avec ombre colorée - Assemblage depuis la gauche */}
+        {/* Slogan avec ombre colorée - Assemblage depuis la gauche avec Scale-In */}
         <motion.p 
           className="text-xl lg:text-2xl font-light italic mb-6" 
           role="text"
@@ -328,22 +373,22 @@ const CanvasCard = ({
             color: "#1B365D",
             textShadow: "0 2px 8px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(27, 54, 93, 0.2)",
           }}
-          initial={{ x: -30, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ x: -30, opacity: 0, scale: 0.95 }}
+          animate={{ x: 0, opacity: 1, scale: 1 }}
           transition={{ type: "spring", ...springConfig }}
         >
           {pole.slogan}
         </motion.p>
 
-        {/* Description avec ombre colorée - Assemblage depuis le bas */}
+        {/* Description avec ombre colorée - Assemblage depuis le bas avec Scale-In */}
         <motion.p 
           className="text-lg lg:text-xl font-light leading-relaxed max-w-2xl mb-12"
           style={{
             color: "#1B365D",
             textShadow: "0 1px 5px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(27, 54, 93, 0.15)",
           }}
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ y: 30, opacity: 0, scale: 0.95 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ type: "spring", ...springConfig, delay: 0.1 }}
         >
           {pole.description}
@@ -404,10 +449,10 @@ const CanvasCard = ({
           ))}
         </motion.ul>
 
-        {/* Bouton du pôle optimisé - Assemblage depuis la droite */}
+        {/* Bouton du pôle optimisé - Assemblage depuis la droite avec Scale-In */}
         <motion.div
-          initial={{ x: 30, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ x: 30, opacity: 0, scale: 0.95 }}
+          animate={{ x: 0, opacity: 1, scale: 1 }}
           transition={{ type: "spring", ...springConfig, delay: 0.2 }}
           className="mb-6"
         >
@@ -511,7 +556,7 @@ const MobilePoleSection = ({
           >
             {/* Numéro en fond avec opacité 0.1 */}
             <div
-              className="absolute -left-4 -top-8 text-[12rem] font-black select-none pointer-events-none"
+              className="font-title absolute -left-4 -top-8 text-[12rem] font-black select-none pointer-events-none"
               style={{
                 color: "#1B365D",
                 opacity: 0.1,
@@ -523,7 +568,7 @@ const MobilePoleSection = ({
 
             {/* Titre principal massif */}
             <h2
-              className="relative text-5xl md:text-6xl font-bold leading-tight"
+              className="relative text-5xl md:text-6xl font-bold leading-[1.1] tracking-[-0.04em]"
               style={{
                 color: "#1B365D",
                 textShadow: "0 2px 8px rgba(27, 54, 93, 0.1)",
@@ -575,7 +620,7 @@ const MobilePoleSection = ({
                 {/* Glow au clic */}
                 <AnimatePresence>
                   {clickedService?.poleId === pole.id && clickedService?.serviceIdx === serviceIdx && (
-                    <motion.div
+                <motion.div
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 2, opacity: [0.5, 0, 0] }}
                       exit={{ scale: 2.5, opacity: 0 }}
@@ -806,7 +851,6 @@ const ExpertiseSection = () => {
       role="main"
     >
       {/* Texture de grain premium globale - Fixed pour couvrir tout le scroll */}
-      <div className="fixed inset-0 z-0 grain-bg pointer-events-none" />
 
       {/* Background Effects - Orbes de lumière */}
       <BackgroundEffects />
@@ -857,7 +901,12 @@ const ExpertiseSection = () => {
               top: lianePosition.top,
               height: lianePosition.height,
             }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ 
+              type: "spring",
+              stiffness: 200,
+              damping: 20,
+              bounce: 0.3,
+            }}
           >
             {/* Halo turquoise qui diffuse sur le fond blanc - Amélioré pour transition */}
             <motion.div
@@ -953,7 +1002,7 @@ const ExpertiseSection = () => {
                 ease: "easeInOut",
               }}
             />
-        </motion.div>
+              </motion.div>
 
           {/* Liane SVG - Tracé organique qui relie les pôles */}
           <svg 
@@ -1021,7 +1070,7 @@ const ExpertiseSection = () => {
                   <div className="relative">
                     {/* Titre outline fantôme */}
                     <motion.h3
-                      className="absolute -left-8 -top-16 text-[15rem] font-black text-transparent pointer-events-none select-none"
+                      className="font-title absolute -left-8 -top-16 text-[15rem] font-black text-transparent pointer-events-none select-none"
                       style={{
                         WebkitTextStroke: "1px rgba(0, 0, 0, 0.05)",
                         stroke: "rgba(0, 0, 0, 0.05)",
@@ -1038,7 +1087,7 @@ const ExpertiseSection = () => {
 
                     {/* Titre principal avec effet magnétique et Reveal Cinématique */}
                     <MagneticTitle
-                      className="relative text-4xl lg:text-5xl font-bold transition-colors z-10 overflow-hidden"
+                      className="relative text-4xl lg:text-5xl font-bold leading-[1.1] tracking-[-0.04em] transition-colors z-10 overflow-hidden"
                       animate={{
                         color: shouldHighlight ? "#40B4A6" : "#333333",
                       }}
@@ -1064,8 +1113,8 @@ const ExpertiseSection = () => {
                   </span>
                   </button>
                 </li>
-              );
-            })}
+            );
+          })}
           </ul>
         </nav>
 

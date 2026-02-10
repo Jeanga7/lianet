@@ -91,9 +91,49 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
   // Scroll vers une section au clic (avec snap, utilise scrollIntoView)
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const container = document.getElementById("main-scroll");
+    if (!element || !container) return;
+
+    const start = container.scrollTop;
+    const target = element.offsetTop;
+    const duration = 750;
+    const startTime = performance.now();
+
+    const cubicBezier = (t: number) => {
+      const p0 = 0;
+      const p1 = 1;
+      const cx = 3 * 0.22;
+      const bx = 3 * (0.36 - 0.22) - cx;
+      const ax = 1 - cx - bx;
+      const cy = 3 * 1;
+      const by = 3 * (1 - 1) - cy;
+      const ay = 1 - cy - by;
+
+      const sampleCurveX = (tX: number) => ((ax * tX + bx) * tX + cx) * tX;
+      const sampleCurveY = (tY: number) => ((ay * tY + by) * tY + cy) * tY;
+      const sampleCurveDerivativeX = (tD: number) => (3 * ax * tD + 2 * bx) * tD + cx;
+
+      let x = t;
+      for (let i = 0; i < 5; i += 1) {
+        const dx = sampleCurveX(x) - t;
+        if (Math.abs(dx) < 1e-4) break;
+        const dxd = sampleCurveDerivativeX(x);
+        if (Math.abs(dxd) < 1e-6) break;
+        x -= dx / dxd;
+      }
+
+      return sampleCurveY(x);
+    };
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      const eased = cubicBezier(t);
+      container.scrollTop = start + (target - start) * eased;
+      if (t < 1) requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
   }, []);
 
   return (
@@ -112,11 +152,12 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
       </AnimatePresence>
 
       <motion.aside
-        className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center bg-primary text-primary-foreground border-r border-primary/20 lg:flex"
+        className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center bg-primary text-primary-foreground lg:flex"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
       {/* Menu hamburger en haut */}
       <motion.button
         type="button"

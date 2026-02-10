@@ -6,6 +6,7 @@ import Navigation from "@/components/hero/Navigation";
 import FullMenu from "@/components/hero/FullMenu";
 import ScrollProgressBar from "@/components/hero/ScrollProgressBar";
 import MobileMenuButton from "@/components/hero/MobileMenuButton";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 interface SiteLayoutProps {
   children: React.ReactNode;
@@ -17,7 +18,10 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
   return (
     <>
       {/* Texture de grain globale - Fixed pour lier toutes les sections */}
-      <div className="fixed inset-0 z-0 grain-bg pointer-events-none" aria-hidden="true" />
+      <div className="grain-bg" aria-hidden="true" />
+      
+      {/* Curseur personnalisé haute performance */}
+      <CustomCursor enabled={true} />
       
       {/* Éléments fixes globaux */}
       <Sidebar onMenuClick={() => setIsFullMenuOpen(true)} />

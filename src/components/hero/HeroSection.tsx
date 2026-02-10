@@ -6,14 +6,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Button from "@/components/ui/Button";
 import PageWipe from "@/components/ui/PageWipe";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
-import ScrollIndicator from "./ScrollIndicator";
 import OrganicBackground from "./OrganicBackground";
 
 const HeroSection = () => {
   const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll();
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
-  
   // Parallax Clipping : Le contenu Hero se translate vers le haut quand Expertise monte
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -20], { clamp: true });
   
@@ -62,13 +60,13 @@ const HeroSection = () => {
 
       {/* Layout principal : Sidebar à gauche + Contenu à droite */}
       <motion.div 
-        className="relative z-10 ml-0 flex flex-1 flex-col pt-32 pb-20 lg:ml-20 lg:pt-24 lg:pb-0 lg:flex-row"
+        className="relative z-10 ml-0 flex flex-1 flex-col pt-32 pb-20 lg:pt-24 lg:pb-0 lg:flex-row"
         style={{
           y: contentY,
         }}
       >
         {/* Zone Texte/CTA (Gauche) */}
-        <div className="flex flex-1 flex-col justify-center px-8 py-16 lg:py-24 lg:pl-16 lg:pr-12">
+        <div className="flex flex-1 flex-col justify-center px-6 py-16 lg:py-24 lg:pl-16 lg:pr-12">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -77,7 +75,7 @@ const HeroSection = () => {
           >
             {/* Titre massif avec effet reveal */}
             <motion.h1
-              className="text-[12vw] font-extrabold leading-[0.9] tracking-tighter text-[#1B365D] sm:text-7xl md:text-8xl lg:text-9xl"
+              className="text-[12vw] font-extrabold leading-[1.1] tracking-[-0.04em] text-[#1B365D] sm:text-7xl md:text-8xl lg:text-9xl"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -115,10 +113,7 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              <Button 
-                className="w-full sm:w-auto lg:inline-flex"
-                onClick={handleButtonClick}
-              >
+              <Button className="w-full sm:w-auto lg:inline-flex" onClick={handleButtonClick}>
                 Explorer les Solutions
               </Button>
             </motion.div>
@@ -128,9 +123,6 @@ const HeroSection = () => {
         {/* Zone Visuelle (désactivée) */}
         <div className="relative hidden flex-1 lg:block" />
       </motion.div>
-
-      {/* Scroll indicator (bas-centre) */}
-      <ScrollIndicator className="absolute left-1/2 bottom-16 z-20 -translate-x-1/2 lg:bottom-10" />
 
       {/* Lueur turquoise pour Shared Element Transition (Hero → Expertise) */}
       <motion.div

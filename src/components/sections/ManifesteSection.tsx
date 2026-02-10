@@ -1,767 +1,1482 @@
 "use client";
 
-import { motion, useInView, MotionValue, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { ArrowRight, Users, Target, FlaskConical } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { ArrowRight, Users, Target, FlaskConical, TrendingUp, Eye, Lightbulb, Zap, Sparkles, CheckCircle2, Award, Globe, Code, Briefcase, Rocket, Hexagon, Circle, Diamond, Plus, Minus } from "lucide-react";
 
-// Composant pour un bloc monolithique
-const MonolithBlock = ({
-  children,
-  delay = 0,
-  className = "",
-  backgroundTitle,
-  onHover,
-  isHovered,
-  isOtherHovered,
-  style,
-}: {
-  children: React.ReactNode;
-  delay?: number;
+// Composant Lens Flare pour le socle
+const LensFlare = () => {
+  return (
+    <motion.div
+      className="absolute top-0 h-[2px] w-32 pointer-events-none z-30"
+      style={{
+        background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), rgba(64, 180, 166, 0.4), rgba(255, 255, 255, 0.6), transparent)",
+        filter: "blur(1px)",
+        left: "-8rem",
+      }}
+      animate={{
+        left: ["-8rem", "100%"],
+      }}
+      transition={{
+        duration: 5,
+        repeat: Infinity,
+        ease: "linear",
+      }}
+    />
+  );
+};
+
+// Composant Badge pour les éléments clés
+const Badge = ({ 
+  children, 
+  variant = "default",
+  icon: Icon,
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  variant?: "default" | "accent" | "highlight";
+  icon?: React.ElementType;
   className?: string;
-  backgroundTitle?: string;
-  onHover?: (hovered: boolean) => void;
-  isHovered?: boolean;
-  isOtherHovered?: boolean;
-  style?: React.CSSProperties;
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const variants = {
+    default: "bg-white/5 border-white/10 text-white",
+    accent: "bg-[#40B4A6]/10 border-[#40B4A6]/30 text-[#40B4A6]",
+    highlight: "bg-[#40B4A6]/20 border-[#40B4A6]/50 text-white",
+  };
+
+  return (
+    <motion.span
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold border ${variants[variant]} ${className}`}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      {Icon && <Icon className="w-3 h-3" />}
+      {children}
+    </motion.span>
+  );
+};
+
+// Composant Séparateur décoratif
+const DecorativeSeparator = ({ 
+  orientation = "horizontal",
+  variant = "default",
+  className = "" 
+}: { 
+  orientation?: "horizontal" | "vertical";
+  variant?: "default" | "accent" | "bold";
+  className?: string;
+}) => {
+  const variants = {
+    default: "bg-white/15",
+    accent: "bg-[#40B4A6]/40",
+    bold: "bg-white/25",
+  };
+
+  if (orientation === "vertical") {
+    return (
+      <motion.div
+        className={`w-[1px] h-full ${variants[variant]} ${className}`}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      />
+    );
+  }
 
   return (
     <motion.div
-      ref={ref}
-      className={`relative bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 ${className}`}
-      style={{
-        padding: "clamp(2rem, 4vw, 3rem)",
-        borderColor: isHovered ? "rgba(64, 180, 166, 0.3)" : "rgba(255, 255, 255, 0.1)",
-        ...style,
-      }}
-      initial={{ scale: 1.05, opacity: 0, y: 50 }}
-      animate={
-        isInView
-          ? {
-              scale: isHovered ? 1.02 : isOtherHovered ? 1 : 1,
-              opacity: isOtherHovered ? 0.5 : 1,
-              backdropFilter: isHovered ? "blur(32px)" : "blur(24px)",
-            }
-          : {
-              scale: 1.05,
-              opacity: 0,
-              y: 50,
-            }
-      }
-      transition={{
-        duration: 0.8,
-        delay,
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      }}
-      onMouseEnter={() => onHover?.(true)}
-      onMouseLeave={() => onHover?.(false)}
-    >
-      {/* Titre géant en arrière-plan */}
-      {backgroundTitle && (
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          style={{
-            opacity: 0.08,
-          }}
-        >
-          <h2 className="text-[15rem] md:text-[20rem] font-black uppercase tracking-wider" style={{ color: "#40B4A6" }}>
-            {backgroundTitle}
-          </h2>
-        </div>
-      )}
+      className={`h-[1px] w-full ${variants[variant]} ${className}`}
+      initial={{ scaleX: 0 }}
+      animate={{ scaleX: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    />
+  );
+};
 
-      {/* Contenu */}
-      <div className="relative z-10">{children}</div>
+// Composant Icône décorative en arrière-plan
+const DecorativeIcon = ({ 
+  icon: Icon,
+  position = "top-right",
+  size = "large",
+  opacity = 0.05,
+  className = "" 
+}: { 
+  icon: React.ElementType;
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "center";
+  size?: "small" | "medium" | "large";
+  opacity?: number;
+  className?: string;
+}) => {
+  const positions = {
+    "top-right": "top-4 right-4",
+    "top-left": "top-4 left-4",
+    "bottom-right": "bottom-4 right-4",
+    "bottom-left": "bottom-4 left-4",
+    "center": "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+  };
+
+  const sizes = {
+    small: "w-12 h-12 md:w-16 md:h-16",
+    medium: "w-16 h-16 md:w-24 md:h-24",
+    large: "w-24 h-24 md:w-32 md:h-32",
+  };
+
+  return (
+    <motion.div
+      className={`absolute ${positions[position]} ${sizes[size]} pointer-events-none z-0 ${className}`}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      <Icon className="w-full h-full text-white" />
     </motion.div>
   );
 };
 
-// Composant pour le titre avec effet glitch au passage du scanner
-const GlitchTitle = ({
-  children,
-  scrollProgress,
-  blockIndex,
-  totalBlocks,
-  size = "default",
-}: {
-  children: React.ReactNode;
-  scrollProgress: MotionValue<number>;
-  blockIndex: number;
-  totalBlocks: number;
-  size?: "default" | "large";
+// Composant Forme géométrique décorative
+const GeometricShape = ({ 
+  shape = "circle",
+  size = "medium",
+  position = "top-right",
+  className = "" 
+}: { 
+  shape?: "circle" | "hexagon" | "diamond";
+  size?: "small" | "medium" | "large";
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  className?: string;
 }) => {
-  const [isGlitching, setIsGlitching] = useState(false);
+  const positions = {
+    "top-right": "top-2 right-2",
+    "top-left": "top-2 left-2",
+    "bottom-right": "bottom-2 right-2",
+    "bottom-left": "bottom-2 left-2",
+  };
 
-  useEffect(() => {
-    const unsubscribe = scrollProgress.on("change", (value) => {
-      const currentBlock = Math.floor(value * totalBlocks);
-      if (currentBlock === blockIndex) {
-        setIsGlitching(true);
-        setTimeout(() => setIsGlitching(false), 200);
-      }
-    });
+  const sizes = {
+    small: "w-2 h-2",
+    medium: "w-3 h-3",
+    large: "w-4 h-4",
+  };
 
-    return () => unsubscribe();
-  }, [scrollProgress, blockIndex, totalBlocks]);
+  const shapes = {
+    circle: Circle,
+    hexagon: Hexagon,
+    diamond: Diamond,
+  };
 
-  const sizeClass = size === "large" 
-    ? "text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
-    : "text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
-
-  return (
-    <motion.h2
-      className={`${sizeClass} font-bold uppercase tracking-tighter text-white mb-6`}
-      animate={{
-        opacity: isGlitching ? [0.2, 1, 0.2, 1] : 1,
-        x: isGlitching ? [0, -2, 2, 0] : 0,
-      }}
-      transition={{
-        duration: 0.2,
-      }}
-    >
-      {children}
-    </motion.h2>
-  );
-};
-
-// Composant pour les lianes de connexion (traversant les espaces vides)
-const ConnectionLiane = ({
-  from,
-  to,
-  isActive,
-  sectionRef,
-}: {
-  from: { x: number; y: number };
-  to: { x: number; y: number };
-  isActive: boolean;
-  sectionRef: React.RefObject<HTMLElement | null>;
-}) => {
-  const pathRef = useRef<SVGPathElement>(null);
-  const [pathLength, setPathLength] = useState(0);
-  const [path, setPath] = useState("");
-
-  useEffect(() => {
-    if (pathRef.current) {
-      setPathLength(pathRef.current.getTotalLength());
-    }
-  }, [path]);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const sectionRect = sectionRef.current.getBoundingClientRect();
-    
-    // Calculer les positions relatives à la section
-    const fromX = from.x - sectionRect.left;
-    const fromY = from.y - sectionRect.top;
-    const toX = to.x - sectionRect.left;
-    const toY = to.y - sectionRect.top;
-
-    // Point de contrôle pour une courbe organique qui traverse l'espace
-    const controlX = (fromX + toX) / 2;
-    const controlY = Math.min(fromY, toY) - 100; // Plus haut pour traverser l'espace
-
-    setPath(`M ${fromX} ${fromY} Q ${controlX} ${controlY} ${toX} ${toY}`);
-  }, [from, to, sectionRef]);
-
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ opacity: isActive ? 0.6 : 0.2 }}
-    >
-      <motion.path
-        ref={pathRef}
-        d={path}
-        fill="none"
-        stroke="#40B4A6"
-        strokeWidth="0.5"
-        strokeDasharray={pathLength}
-        strokeDashoffset={pathLength}
-        initial={{ strokeDashoffset: pathLength }}
-        animate={{
-          strokeDashoffset: isActive ? 0 : pathLength * 0.5,
-          strokeWidth: isActive ? 1 : 0.5,
-          opacity: isActive ? 0.8 : 0.2,
-        }}
-        transition={{
-          duration: 1.5,
-          ease: "easeInOut",
-        }}
-      />
-    </svg>
-  );
-};
-
-// Composant pour l'orbe guide qui suit la souris (loupe lumineuse)
-const GuidingOrb = ({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 150, damping: 15 });
-  const springY = useSpring(mouseY, { stiffness: 150, damping: 15 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      mouseX.set(e.clientX - rect.left);
-      mouseY.set(e.clientY - rect.top);
-    };
-
-    const section = sectionRef.current;
-    if (section) {
-      section.addEventListener("mousemove", handleMouseMove);
-      return () => section.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, [sectionRef, mouseX, mouseY]);
-
-  return (
-    <>
-      {/* Masque radial pour éclairer le texte sous l'orbe */}
-      <motion.div
-        className="pointer-events-none fixed z-40"
-        style={{
-          left: springX,
-          top: springY,
-          transform: "translate(-50%, -50%)",
-          width: "400px",
-          height: "400px",
-          background: "radial-gradient(circle, rgba(64, 180, 166, 0.15) 0%, transparent 70%)",
-          filter: "blur(20px)",
-        }}
-      />
-      {/* Orbe lumineuse */}
-      <motion.div
-        className="pointer-events-none fixed z-50"
-        style={{
-          left: springX,
-          top: springY,
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <motion.div
-          className="w-8 h-8 bg-[#40B4A6] rounded-full"
-          style={{
-            filter: "blur(8px)",
-            boxShadow: "0 0 40px rgba(64, 180, 166, 0.8), 0 0 80px rgba(64, 180, 166, 0.4)",
-          }}
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.7, 1, 0.7],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </motion.div>
-    </>
-  );
-};
-
-// Composant pour le scanner (orbe qui suit les bordures avec traînée longue) - DEPRECATED
-const ScannerBeam = ({
-  scrollProgress,
-  blocks,
-}: {
-  scrollProgress: MotionValue<number>;
-  blocks: Array<{ x: number; y: number; width: number; height: number }>;
-}) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [previousPosition, setPreviousPosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (blocks.length === 0) return;
-
-    const updatePosition = (value: number) => {
-      const blockIndex = Math.floor(value * blocks.length);
-      const currentBlock = Math.min(blockIndex, blocks.length - 1);
-      const block = blocks[currentBlock];
-
-      if (block) {
-        setPreviousPosition((prev) => ({ ...prev, ...position }));
-        setPosition({
-          x: block.x,
-          y: block.y,
-        });
-      }
-    };
-
-    // Initialiser la position
-    updatePosition(scrollProgress.get());
-
-    // Écouter les changements
-    const unsubscribe = scrollProgress.on("change", (value: number) => updatePosition(value));
-
-    return () => unsubscribe();
-  }, [scrollProgress, blocks, position]);
-
-  if (blocks.length === 0) return null;
-
-  // Calculer la distance pour la traînée
-  const distance = Math.sqrt(
-    Math.pow(position.x - previousPosition.x, 2) + Math.pow(position.y - previousPosition.y, 2)
-  );
-  const trailLength = Math.min(distance * 0.5, 200);
+  const ShapeIcon = shapes[shape];
 
   return (
     <motion.div
-      className="fixed pointer-events-none z-50"
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        transform: "translate(-50%, -50%)",
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      className={`absolute ${positions[position]} ${sizes[size]} pointer-events-none z-10 ${className}`}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 0.3, scale: 1 }}
+      transition={{ duration: 0.4, delay: 0.3 }}
     >
-      {/* Traînée lumineuse longue */}
+      <ShapeIcon className="w-full h-full text-[#40B4A6]" />
+    </motion.div>
+  );
+};
+
+// Composant pour une carte de la grille cinétique
+const KineticCard = ({
+  title,
+  icon: Icon,
+  content,
+  isHovered,
+  onHover,
+  onLeave,
+  isMobile,
+  isExpanded,
+  onToggle,
+  isBottomRow = false,
+  watermark,
+  cardId,
+}: {
+  title: string;
+  icon: React.ElementType;
+  content: React.ReactNode;
+  isHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+  isMobile: boolean;
+  isExpanded: boolean;
+  onToggle: () => void;
+  isBottomRow?: boolean;
+  watermark?: string;
+  cardId: string;
+}) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, {
+    once: false,
+    amount: 0.3,
+    margin: "-100px 0px -100px 0px",
+  });
+
+  // Pour mobile : effet Reveal au scroll
+  const mobileReveal = isMobile && isInView;
+  // Pour Bottom Row (Action), toujours expanded - pas d'état compact
+  const isExpandedState = isBottomRow || isHovered || isExpanded || (isMobile && mobileReveal);
+
+  return (
+            <motion.div
+              ref={cardRef}
+              className="relative h-full rounded-2xl"
+              style={{
+                overflow: isMobile ? "visible" : "hidden",
+                minHeight: 0,
+                maxHeight: isMobile ? "none" : "100%",
+                cursor: isMobile ? "pointer" : "default",
+              }}
+      initial={false}
+      layout
+      animate={{
+        flex: isMobile
+          ? undefined
+          : isHovered
+          ? 2
+          : 0.5,
+        scale: mobileReveal ? 1.02 : 1,
+        boxShadow: isMobile && isExpanded
+          ? "0 0 20px rgba(64, 180, 166, 0.4), 0 0 40px rgba(64, 180, 166, 0.2)"
+          : isMobile
+          ? "0 0 0px rgba(64, 180, 166, 0)"
+          : undefined,
+      }}
+      transition={{
+        type: "spring",
+        bounce: 0.3,
+        stiffness: 150,
+        damping: 20,
+        layout: {
+          duration: 0.6,
+          ease: [0.16, 1, 0.3, 1],
+        },
+      }}
+      onMouseEnter={!isMobile ? onHover : undefined}
+      onMouseLeave={!isMobile ? onLeave : undefined}
+      onClick={isMobile ? onToggle : undefined}
+    >
+      {/* Lens Flare pour le socle (Bottom Row) */}
+      {isBottomRow && <LensFlare />}
+
+      {/* Watermark arrière-plan */}
+      {watermark && (
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
+          animate={{
+            opacity: isExpandedState ? 0.1 : 0.05,
+          }}
+          transition={{
+            duration: 0.6,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+          <span
+            className="font-title text-[clamp(4rem,15vw,12rem)] font-black text-white uppercase tracking-[-0.04em] leading-[1.1]"
+            style={{
+              writingMode: "horizontal-tb",
+            }}
+          >
+            {watermark}
+          </span>
+        </motion.div>
+      )}
+
+      {/* Bordure dégradé "Verre de Quartz" avec shared transition */}
       <motion.div
-        className="absolute"
+        layoutId={`card-border-${cardId}`}
+        className="absolute inset-0 rounded-2xl pointer-events-none z-10"
         style={{
-          width: "4px",
-          height: `${trailLength}px`,
-          background: "linear-gradient(to bottom, rgba(64, 180, 166, 0.9), rgba(64, 180, 166, 0.3), transparent)",
-          filter: "blur(3px)",
-          boxShadow: "0 0 30px rgba(64, 180, 166, 0.8), 0 0 60px rgba(64, 180, 166, 0.4)",
-          transform: "translate(-50%, -100%)",
-          transformOrigin: "bottom center",
+          borderTop: "1px solid rgba(255, 255, 255, 0.2)",
+          borderLeft: "1px solid rgba(255, 255, 255, 0.2)",
+          borderRight: isMobile && isBottomRow ? "2px solid rgba(64, 180, 166, 0.6)" : "none",
+          borderBottom: isMobile && isBottomRow ? "2px solid rgba(64, 180, 166, 0.6)" : "none",
+          boxShadow: isExpandedState
+            ? isMobile
+              ? "inset 0 0 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(64, 180, 166, 0.4), 0 0 40px rgba(64, 180, 166, 0.2)"
+              : "inset 0 0 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(64, 180, 166, 0.3)"
+            : isMobile && isBottomRow
+            ? "inset 0 0 20px rgba(0, 0, 0, 0.2), 0 0 10px rgba(64, 180, 166, 0.3)"
+            : "inset 0 0 20px rgba(0, 0, 0, 0.2)",
         }}
         animate={{
-          opacity: [0.6, 1, 0.6],
+          opacity: isExpandedState ? 1 : 0.8,
+          borderColor: isMobile && isExpanded
+            ? "rgba(64, 180, 166, 0.5)"
+            : isMobile && isBottomRow
+            ? "rgba(64, 180, 166, 0.6)"
+            : undefined,
         }}
         transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
+          type: "spring",
+          bounce: 0.3,
+          stiffness: 150,
+          damping: 20,
+          layout: {
+            duration: 0.6,
+            ease: [0.16, 1, 0.3, 1],
+          },
         }}
       />
-      {/* Faisceau de balayage principal */}
-      <div
-        className="w-4 h-32 md:w-5 md:h-48"
-        style={{
-          background: "linear-gradient(to bottom, transparent, rgba(64, 180, 166, 0.9), transparent)",
-          filter: "blur(3px)",
-          boxShadow: "0 0 30px rgba(64, 180, 166, 0.8), 0 0 60px rgba(64, 180, 166, 0.4)",
-        }}
-      />
-      {/* Point lumineux */}
+
+      {/* Fond "Verre de Quartz" */}
       <motion.div
-        className="absolute inset-0 w-6 h-6 md:w-8 md:h-8 bg-[#40B4A6] rounded-full"
+        className="absolute inset-0 backdrop-blur-2xl"
         style={{
-          filter: "blur(6px)",
-          boxShadow: "0 0 30px rgba(64, 180, 166, 1), 0 0 60px rgba(64, 180, 166, 0.6)",
+          backgroundColor: isMobile && isBottomRow
+            ? "rgba(64, 180, 166, 0.05)"
+            : "rgba(255, 255, 255, 0.03)",
         }}
         animate={{
-          scale: [1, 1.5],
-          opacity: [0.8, 1],
+          backgroundColor: isExpandedState
+            ? isMobile && isBottomRow
+              ? "rgba(64, 180, 166, 0.08)"
+              : "rgba(255, 255, 255, 0.06)"
+            : isMobile && isBottomRow
+            ? "rgba(64, 180, 166, 0.05)"
+            : "rgba(255, 255, 255, 0.03)",
+          backdropFilter: isExpandedState ? "blur(32px)" : "blur(24px)",
         }}
         transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
+          type: "spring",
+          bounce: 0.3,
+          stiffness: 150,
+          damping: 20,
         }}
       />
+
+      {/* Formes géométriques décoratives (visibles uniquement en expanded) */}
+      {isExpandedState && (
+        <>
+          <motion.div
+            className="absolute top-4 right-4 w-2 h-2 rounded-full bg-[#40B4A6]/20 pointer-events-none z-5"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          />
+          <motion.div
+            className="absolute bottom-4 left-4 w-3 h-3 rounded-full bg-[#40B4A6]/15 pointer-events-none z-5"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+          />
+          <motion.div
+            className="absolute top-1/2 right-8 w-1 h-16 bg-gradient-to-b from-transparent via-[#40B4A6]/10 to-transparent pointer-events-none z-5"
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          />
+        </>
+      )}
+
+      {/* Contenu de la carte avec padding dynamique */}
+      <motion.div
+        className="relative z-20 h-full flex flex-col"
+        style={{
+          minHeight: 0,
+          maxHeight: "100%",
+        }}
+        animate={{
+          padding: isExpandedState
+            ? isBottomRow
+              ? "1rem 2rem"
+              : "2rem 2.5rem"
+            : "1rem",
+        }}
+        transition={{
+          duration: 0.6,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        {/* État Repos : Différent selon mobile/desktop et Bottom Row */}
+        <AnimatePresence mode="wait">
+          {!isExpandedState && !isBottomRow ? (
+            isMobile ? (
+              // État compact mobile : Titre horizontal + Icône + Plus
+              <motion.div
+                key="compact-mobile"
+                className="flex flex-row items-center justify-between h-full w-full px-4"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center gap-3">
+                  {/* Icône avec shared transition */}
+                  <motion.div
+                    layoutId={`card-icon-${cardId}`}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    transition={{
+                      type: "spring",
+                      bounce: 0.3,
+                      stiffness: 150,
+                      damping: 20,
+                      layout: {
+                        duration: 0.6,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    }}
+                  >
+                    <Icon className="w-6 h-6 text-[#40B4A6] flex-shrink-0" />
+                  </motion.div>
+
+                  {/* Titre horizontal pour mobile */}
+                  <motion.h2
+                    layoutId={`card-title-${cardId}`}
+                    className="font-title text-white font-bold uppercase tracking-tighter text-base"
+                    style={{
+                      writingMode: "horizontal-tb",
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    transition={{
+                      type: "spring",
+                      bounce: 0.3,
+                      stiffness: 150,
+                      damping: 20,
+                      layout: {
+                        duration: 0.6,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    }}
+                  >
+                    {title}
+                  </motion.h2>
+                </div>
+
+                {/* Icône Plus en Turquoise */}
+                <motion.div
+                  animate={{
+                    rotate: 0,
+                    scale: 1,
+                  }}
+                  transition={{
+                    type: "spring",
+                    bounce: 0.3,
+                    stiffness: 150,
+                    damping: 20,
+                  }}
+                >
+                  <Plus className="w-5 h-5 text-[#40B4A6] flex-shrink-0" />
+                </motion.div>
+              </motion.div>
+            ) : (
+              // État compact vertical pour desktop (cartes normales)
+              <motion.div
+                key="compact-vertical"
+                className="flex flex-col items-center justify-center h-full"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Icône avec shared transition */}
+                <motion.div
+                  layoutId={`card-icon-${cardId}`}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  transition={{
+                    type: "spring",
+                    bounce: 0.3,
+                    stiffness: 150,
+                    damping: 20,
+                    layout: {
+                      duration: 0.6,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  }}
+                >
+                  <Icon className="w-8 h-8 md:w-10 md:h-10 text-[#40B4A6] mb-4" />
+                </motion.div>
+
+                {/* Titre vertical avec shared transition */}
+                <motion.div
+                  layoutId={`card-title-${cardId}`}
+                  className="font-title writing-vertical-rl text-white font-bold uppercase tracking-wider text-base md:text-lg"
+                  style={{
+                    writingMode: "vertical-rl",
+                    textOrientation: "mixed",
+                  }}
+                  animate={{
+                    opacity: 1,
+                    rotate: 0,
+                  }}
+                  transition={{
+                    type: "spring",
+                    bounce: 0.3,
+                    stiffness: 150,
+                    damping: 20,
+                    layout: {
+                      duration: 0.6,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  }}
+                >
+                  {title}
+                </motion.div>
+              </motion.div>
+            )
+          ) : isBottomRow ? (
+            // Layout horizontal pour Bottom Row (carte Action)
+            <motion.div
+              key="expanded-horizontal"
+              className="h-full flex flex-row items-center gap-4 md:gap-6 w-full"
+              style={{ minHeight: 0, maxHeight: "100%" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {/* Zone gauche : Titre */}
+              <motion.h2
+                layoutId={`card-title-${cardId}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0,
+                  ease: [0.16, 1, 0.3, 1],
+                  layout: {
+                    duration: 0.6,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                }}
+                className="font-title text-white font-bold uppercase tracking-tighter leading-tight flex-shrink-0"
+                style={{
+                  fontSize: "clamp(1.5rem, 2vw + 1rem, 2.5rem)",
+                  writingMode: "horizontal-tb",
+                }}
+              >
+                {title}
+              </motion.h2>
+
+              {/* Zone centre : Texte descriptif (flex-grow) */}
+              <motion.div
+                className="flex-grow flex items-center min-w-0"
+                style={{
+                  overflow: "hidden",
+                }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.2,
+                      delayChildren: 0.2,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
+                  },
+                }}
+                initial="hidden"
+                animate="show"
+              >
+                {content}
+              </motion.div>
+            </motion.div>
+          ) : (
+            // Layout expanded : Vertical pour desktop, Accordion pour mobile
+            <motion.div
+              key={isMobile ? "expanded-mobile" : "expanded-vertical"}
+              className={isMobile ? "h-full flex flex-col" : "h-full flex flex-col justify-between"}
+              style={{ minHeight: 0, maxHeight: "100%" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {isMobile ? (
+                // Layout mobile accordion : Header + Contenu animé
+                <>
+                  {/* Header mobile : Titre + Icône + Minus */}
+                  <motion.div
+                    className="flex flex-row items-center justify-between px-4 py-3 border-b border-white/10"
+                    layout
+                  >
+                    <div className="flex items-center gap-3">
+                      <motion.div
+                        layoutId={`card-icon-${cardId}`}
+                        animate={{
+                          opacity: 1,
+                          scale: 1,
+                        }}
+                        transition={{
+                          type: "spring",
+                          bounce: 0.3,
+                          stiffness: 150,
+                          damping: 20,
+                          layout: {
+                            duration: 0.6,
+                            ease: [0.16, 1, 0.3, 1],
+                          },
+                        }}
+                      >
+                        <Icon className="w-6 h-6 text-[#40B4A6] flex-shrink-0" />
+                      </motion.div>
+                      <motion.h2
+                        layoutId={`card-title-${cardId}`}
+                        className="font-title text-white font-bold uppercase tracking-tighter text-base"
+                        style={{
+                          writingMode: "horizontal-tb",
+                        }}
+                        animate={{
+                          opacity: 1,
+                        }}
+                        transition={{
+                          type: "spring",
+                          bounce: 0.3,
+                          stiffness: 150,
+                          damping: 20,
+                          layout: {
+                            duration: 0.6,
+                            ease: [0.16, 1, 0.3, 1],
+                          },
+                        }}
+                      >
+                        {title}
+                      </motion.h2>
+                    </div>
+                    <motion.div
+                      animate={{
+                        rotate: 45,
+                        scale: 1,
+                      }}
+                      transition={{
+                        type: "spring",
+                        bounce: 0.3,
+                        stiffness: 150,
+                        damping: 20,
+                      }}
+                    >
+                      <Minus className="w-5 h-5 text-[#40B4A6] flex-shrink-0" />
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Contenu mobile avec animation fade + slide - Expansion naturelle sans scroll interne */}
+                  <motion.div
+                    className="flex-grow px-6 py-8"
+                    style={{
+                      overflow: "visible",
+                      minHeight: 0,
+                    }}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: {
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          staggerChildren: 0.1,
+                          delayChildren: 0.1,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
+                      },
+                    }}
+                    initial="hidden"
+                    animate="show"
+                    exit={{ opacity: 0, y: 20 }}
+                  >
+                    {content}
+                  </motion.div>
+                </>
+              ) : (
+                // Layout desktop vertical (existant)
+                <>
+                  {/* Ligne de séparation SVG supérieure */}
+                  <motion.svg
+                    className="absolute top-16 left-0 right-0 h-[0.5px]"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.1,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    <line
+                      x1="0%"
+                      y1="0"
+                      x2="100%"
+                      y2="0"
+                      stroke="rgba(255, 255, 255, 0.15)"
+                      strokeWidth="0.5"
+                    />
+                  </motion.svg>
+
+                  {/* Titre horizontal en haut avec shared transition */}
+                  <motion.h2
+                    layoutId={`card-title-${cardId}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0,
+                      ease: [0.16, 1, 0.3, 1],
+                      layout: {
+                        duration: 0.6,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
+                    }}
+                    className="font-title mb-4 md:mb-5 text-white font-bold uppercase tracking-tighter leading-tight"
+                    style={{
+                      fontSize: "clamp(1.75rem, 2.5vw + 1.25rem, 3rem)",
+                      writingMode: "horizontal-tb",
+                    }}
+                  >
+                    {title}
+                  </motion.h2>
+
+                  {/* Contenu central avec flex-grow - optimisé pour éviter overflow */}
+                  <motion.div
+                    className="flex-grow flex flex-col justify-center scrollbar-hide"
+                    style={{
+                      minHeight: 0,
+                      maxHeight: "100%",
+                      overflow: "hidden",
+                      alignItems: "stretch",
+                    }}
+                    variants={{
+                      hidden: { opacity: 0 },
+                      show: {
+                        opacity: 1,
+                        transition: {
+                          staggerChildren: 0.2,
+                          delayChildren: 0.2,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
+                      },
+                    }}
+                    initial="hidden"
+                    animate="show"
+                  >
+                    <style jsx>{`
+                      div::-webkit-scrollbar {
+                        display: none;
+                      }
+                    `}</style>
+                    {content}
+                  </motion.div>
+
+                  {/* Ligne de séparation SVG inférieure */}
+                  <motion.svg
+                    className="absolute bottom-12 left-0 right-0 h-[0.5px]"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.3,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  >
+                    <line
+                      x1="0%"
+                      y1="0"
+                      x2="100%"
+                      y2="0"
+                      stroke="rgba(255, 255, 255, 0.15)"
+                      strokeWidth="0.5"
+                    />
+                  </motion.svg>
+                </>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </motion.div>
   );
 };
 
 const ManifesteSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const cardRef0 = useRef<HTMLDivElement>(null);
+  const cardRef1 = useRef<HTMLDivElement>(null);
+  const cardRef2 = useRef<HTMLDivElement>(null);
+  const cardRef3 = useRef<HTMLDivElement>(null);
+  const cardRefs = [cardRef0, cardRef1, cardRef2, cardRef3];
+  const isClient = typeof window !== "undefined";
 
+  // Contenu des 4 cartes
+  const cardsData = [
+    {
+      title: "Vision",
+      number: "01",
+      icon: Eye,
+      watermark: "VISION",
+      content: (
+        <>
+          {/* Icônes décoratives en arrière-plan */}
+          <DecorativeIcon icon={Sparkles} position="top-right" size="medium" opacity={0.08} />
+          <DecorativeIcon icon={Globe} position="bottom-left" size="small" opacity={0.06} />
+          <GeometricShape shape="hexagon" size="small" position="top-left" />
+          <GeometricShape shape="diamond" size="small" position="bottom-right" />
+
+          {/* Paragraphe principal enrichi - delay 0.2s */}
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="text-sm md:text-base text-white font-light leading-snug mb-4 relative z-10"
+          >
+            L&apos;innovation n&apos;est pas une destination, c&apos;est une architecture. Chez Lianet, nous ne nous contentons pas de suivre le flux technologique ; nous forgeons les connexions invisibles entre vos talents, votre stratégie et les outils de demain.
+          </motion.p>
+
+          {/* Points clés avec icônes - delay 0.3s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="space-y-3 mb-4 relative z-10"
+          >
+            <div className="relative flex items-start gap-3 bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <Sparkles className="w-5 h-5 text-[#40B4A6] mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm md:text-base text-white font-semibold mb-1">Architecture Technologique</p>
+                <p className="text-xs md:text-sm text-white/80 font-light leading-snug">Conception de systèmes évolutifs et performants qui s&apos;adaptent à vos besoins croissants.</p>
+              </div>
+            </div>
+            <div className="relative flex items-start gap-3 bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <Globe className="w-5 h-5 text-[#40B4A6] mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm md:text-base text-white font-semibold mb-1">Vision Globale</p>
+                <p className="text-xs md:text-sm text-white/80 font-light leading-snug">Pensée stratégique à l&apos;échelle internationale avec une compréhension approfondie des marchés.</p>
+              </div>
+            </div>
+            <div className="relative flex items-start gap-3 bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <Code className="w-5 h-5 text-[#40B4A6] mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm md:text-base text-white font-semibold mb-1">Excellence Technique</p>
+                <p className="text-xs md:text-sm text-white/80 font-light leading-snug">Maîtrise des technologies de pointe avec une approche pragmatique et orientée résultats.</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Citation - delay 0.4s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="relative z-10 border-l-2 border-[#40B4A6]/50 pl-4 pt-2"
+          >
+            <p className="text-sm md:text-base text-[#40B4A6] italic font-serif leading-snug">
+              &quot;Penser global, agir précis.&quot;
+            </p>
+          </motion.div>
+        </>
+      ),
+    },
+    {
+      title: "Méthode",
+      number: "02",
+      icon: Lightbulb,
+      watermark: "STRATEGY",
+      content: (
+        <>
+          {/* Icônes décoratives en arrière-plan */}
+          <DecorativeIcon icon={Lightbulb} position="top-right" size="medium" opacity={0.08} />
+          <DecorativeIcon icon={Target} position="bottom-left" size="small" opacity={0.06} />
+          <GeometricShape shape="circle" size="small" position="top-left" />
+          <GeometricShape shape="hexagon" size="small" position="bottom-right" />
+
+          {/* Introduction avec badge - delay 0.2s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="mb-4 relative z-10"
+          >
+            <p className="text-sm md:text-base text-white font-light leading-snug">
+              Notre approche repose sur trois piliers fondamentaux qui se renforcent mutuellement pour créer un impact durable.
+            </p>
+          </motion.div>
+
+          {/* Piliers développés - delay 0.3s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="space-y-3 mb-4 relative z-10"
+          >
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <Users className="w-5 h-5 text-[#40B4A6] flex-shrink-0" />
+                <span className="text-sm md:text-base font-bold text-white">Talent</span>
+              </div>
+              <p className="text-xs md:text-sm text-white/90 font-light leading-snug ml-8">
+                Mobilisation de l&apos;intelligence humaine et des compétences expertes pour transformer vos idées en réalité.
+              </p>
+            </div>
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <Target className="w-5 h-5 text-[#40B4A6] flex-shrink-0" />
+                <span className="text-sm md:text-base font-bold text-white">Stratégie</span>
+              </div>
+              <p className="text-xs md:text-sm text-white/90 font-light leading-snug ml-8">
+                Vision marché rigoureuse et cadrage stratégique pour aligner chaque décision sur vos objectifs business.
+              </p>
+            </div>
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <FlaskConical className="w-5 h-5 text-[#40B4A6] flex-shrink-0" />
+                <span className="text-sm md:text-base font-bold text-white">Lab</span>
+              </div>
+              <p className="text-xs md:text-sm text-white/90 font-light leading-snug ml-8">
+                Épreuve et validation dans notre laboratoire d&apos;innovation pour garantir une exécution sans faille.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Tagline - delay 0.4s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="flex items-center gap-2 pt-2 relative z-10"
+          >
+            <CheckCircle2 className="w-5 h-5 text-[#40B4A6]" />
+            <p className="text-sm md:text-base text-white font-semibold">
+              Trois forces, un seul impact.
+            </p>
+          </motion.div>
+        </>
+      ),
+    },
+    {
+      title: "Impact",
+      number: "03",
+      icon: TrendingUp,
+      watermark: "IMPACT",
+      content: (
+        <>
+          {/* Icônes décoratives en arrière-plan */}
+          <DecorativeIcon icon={TrendingUp} position="top-right" size="medium" opacity={0.08} />
+          <DecorativeIcon icon={Award} position="bottom-left" size="small" opacity={0.06} />
+          <GeometricShape shape="diamond" size="small" position="top-left" />
+          <GeometricShape shape="circle" size="small" position="bottom-right" />
+
+          {/* Introduction avec badge - delay 0.2s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="mb-2 relative z-10"
+          >
+            <p className="text-xs md:text-sm text-white font-light leading-tight">
+              Notre obsession : la transformation concrète. Chaque ligne de code, chaque conseil stratégique est une brique posée vers votre leadership de marché.
+            </p>
+          </motion.div>
+
+          {/* Grille de métriques - delay 0.3s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="grid grid-cols-2 gap-3 mb-4 relative z-10"
+          >
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div
+                className="text-3xl md:text-4xl font-black mb-2"
+                style={{
+                  color: "#40B4A6",
+                  filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.6))",
+                }}
+              >
+                +10 ans
+              </div>
+              <p className="text-xs md:text-sm text-white font-semibold mb-1">Expertise hybride</p>
+              <p className="text-xs text-white/70 font-light">Technologie & Stratégie</p>
+            </div>
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div
+                className="text-3xl md:text-4xl font-black mb-2"
+                style={{
+                  color: "#40B4A6",
+                  filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.6))",
+                }}
+              >
+                100%
+              </div>
+              <p className="text-xs md:text-sm text-white font-semibold mb-1">Focus Solutions</p>
+              <p className="text-xs text-white/70 font-light">Pas de remplissage</p>
+            </div>
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div
+                className="text-3xl md:text-4xl font-black mb-2"
+                style={{
+                  color: "#40B4A6",
+                  filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.6))",
+                }}
+              >
+                50+
+              </div>
+              <p className="text-xs md:text-sm text-white font-semibold mb-1">Projets livrés</p>
+              <p className="text-xs text-white/70 font-light">Réussis & déployés</p>
+            </div>
+            <div className="relative bg-white/5 rounded-lg p-3 border border-white/10 hover:border-[#40B4A6]/30 transition-colors">
+              <div
+                className="text-3xl md:text-4xl font-black mb-2"
+                style={{
+                  color: "#40B4A6",
+                  filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.6))",
+                }}
+              >
+                24/7
+              </div>
+              <p className="text-xs md:text-sm text-white font-semibold mb-1">Support</p>
+              <p className="text-xs text-white/70 font-light">Disponibilité totale</p>
+            </div>
+          </motion.div>
+
+          {/* Métriques supplémentaires - delay 0.35s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              show: { opacity: 1, y: 0 },
+            }}
+            className="grid grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6 relative z-10"
+          >
+            <div className="text-center bg-white/3 rounded-lg p-4 border border-white/5">
+              <div className="text-2xl md:text-3xl font-bold text-[#40B4A6] mb-1">98%</div>
+              <p className="text-xs md:text-sm text-white/70">Satisfaction</p>
+            </div>
+            <div className="text-center bg-white/3 rounded-lg p-4 border border-white/5">
+              <div className="text-2xl md:text-3xl font-bold text-[#40B4A6] mb-1">15+</div>
+              <p className="text-xs md:text-sm text-white/70">Pays</p>
+            </div>
+            <div className="text-center bg-white/3 rounded-lg p-4 border border-white/5">
+              <div className="text-2xl md:text-3xl font-bold text-[#40B4A6] mb-1">200+</div>
+              <p className="text-xs md:text-sm text-white/70">Clients</p>
+            </div>
+          </motion.div>
+
+          {/* Séparateur décoratif */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              show: { opacity: 1 },
+            }}
+            className="mb-4 md:mb-6"
+          >
+            <DecorativeSeparator variant="default" />
+          </motion.div>
+
+          {/* Badge de confiance enrichi - delay 0.4s */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              show: { opacity: 1, x: 0 },
+            }}
+            className="flex items-center gap-3 md:gap-4 pt-2 relative z-10 flex-wrap"
+          >
+            <Award className="w-5 h-5 text-[#40B4A6] flex-shrink-0" />
+            <p className="text-xs md:text-sm text-white font-light">
+              <span className="font-semibold text-[#40B4A6]">Excellence certifiée</span> dans l&apos;exécution de projets complexes
+            </p>
+            <Badge variant="highlight" icon={Award}>Certifié</Badge>
+          </motion.div>
+        </>
+      ),
+    },
+    {
+      title: "Action",
+      number: "04",
+      icon: Zap,
+      watermark: "ACTION",
+      content: (
+        <>
+          {/* Icônes décoratives en arrière-plan */}
+          <DecorativeIcon icon={Zap} position="top-right" size="medium" opacity={0.08} />
+          <DecorativeIcon icon={Rocket} position="bottom-left" size="small" opacity={0.06} />
+          <GeometricShape shape="hexagon" size="small" position="top-left" />
+          <GeometricShape shape="diamond" size="small" position="bottom-right" />
+
+          {/* Conteneur horizontal pour texte + bouton */}
+          <div className="flex items-center gap-4 md:gap-6 w-full min-w-0 relative z-10">
+            {/* Texte descriptif enrichi - flex-grow pour occuper l'espace */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, x: -20 },
+                show: { opacity: 1, x: 0 },
+              }}
+              className="flex-grow min-w-0"
+            >
+              <div className="mb-3">
+                <Badge variant="default" icon={Zap}>Action</Badge>
+              </div>
+              <p className="text-sm md:text-base text-white font-light leading-snug mb-3">
+                Votre vision mérite une exécution d&apos;exception. Collaborons pour transformer vos défis en actifs stratégiques.
+              </p>
+              <div className="flex items-center gap-3 text-xs md:text-sm text-white/70 flex-wrap">
+                <Badge variant="accent" icon={Briefcase}>Consultation gratuite</Badge>
+                <Badge variant="accent" icon={Rocket}>Déploiement rapide</Badge>
+              </div>
+            </motion.div>
+            {/* Séparateur vertical décoratif */}
+            <DecorativeSeparator orientation="vertical" variant="accent" className="hidden md:block" />
+            {/* Bouton CTA - fixe à droite */}
+            <motion.button
+              variants={{
+                hidden: { opacity: 0, x: -20, scale: 0.9 },
+                show: { opacity: 1, x: 0, scale: 1 },
+              }}
+              className="group relative px-4 md:px-6 py-2 md:py-3 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-xs md:text-sm flex-shrink-0"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{
+                type: "spring",
+                bounce: 0.3,
+                stiffness: 150,
+                damping: 20,
+              }}
+            >
+              <span className="relative z-10 flex items-center gap-1 md:gap-2 uppercase tracking-tighter">
+                Initier le mouvement
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-[#8FD6CC]"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: 0 }}
+                transition={{
+                  type: "spring",
+                  bounce: 0.3,
+                  stiffness: 150,
+                  damping: 20,
+                }}
+              />
+            </motion.button>
+          </div>
+        </>
+      ),
+    },
+  ];
+
+  const handleCardHover = (index: number) => {
+    setHoveredCard(index);
+  };
+
+  const handleCardLeave = () => {
+    setHoveredCard(null);
+  };
+
+  const handleCardToggle = (index: number) => {
+    setExpandedCard(expandedCard === index ? null : index);
+  };
+
+  // Séparer les cartes : Top Row (0-2) et Bottom Row (3)
+  const topRowCards = cardsData.slice(0, 3);
+  const bottomRowCard = cardsData[3];
 
   return (
     <section
-      ref={sectionRef}
       id="manifeste"
-      className="relative h-screen sm:h-auto sm:min-h-screen w-full lg:w-[calc(100%-5rem)] lg:ml-20 snap-start snap-always flex-shrink-0 overflow-hidden sm:overflow-y-auto"
+      className="relative h-auto min-h-screen md:h-auto lg:h-screen w-full lg:w-[calc(100%-5rem)] lg:ml-20 snap-start snap-always flex-shrink-0 overflow-visible lg:overflow-hidden"
       style={{
         background: "#1B365D",
+        paddingTop: "calc(8vh + 4rem)",
+        paddingBottom: "8vh",
+        paddingLeft: "1.5rem",
+        paddingRight: "1.5rem",
       }}
-      aria-label="Manifeste Lianet - Strategic Monolith"
+      aria-label="Manifeste Lianet - Triptyque Vertical"
     >
-      {/* Texture de grain cinématographique (réduite pour la lisibilité) */}
-      <div
-        className="absolute inset-0 z-0 grain-bg pointer-events-none"
-        style={{
-          opacity: 0.05,
-          filter: "contrast(150%) brightness(90%)",
-        }}
-        aria-hidden="true"
-      />
+      {/* Texture de grain */}
 
-
-      {/* Orbe Guide (Desktop uniquement) */}
-      <div className="hidden lg:block">
-        <GuidingOrb sectionRef={sectionRef} />
-      </div>
-
-      {/* Contenu principal - Desktop: Grid fixe 100vh, Mobile: Stack fluide */}
-      <div className="relative z-20 h-full sm:h-auto">
-        {/* Desktop: Grid 12x6 pour 100vh */}
-        <div className="hidden lg:grid lg:grid-cols-12 lg:grid-rows-6 h-full gap-6 p-8">
-          {/* Bloc 1: La Vision (Le Manifeste) - col-span-7 row-span-4 */}
-          <MonolithBlock
-            backgroundTitle="VISION"
-            delay={0}
-            className="col-span-7 row-span-4 border-r border-white/10"
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 0 : null)}
-            isHovered={hoveredBlock === 0}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 0}
-          >
-            <div className="flex flex-col items-center justify-center h-full text-center px-8 py-6">
-              <motion.h2
-                className="text-4xl md:text-5xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                L&apos;Audace du Lien
-              </motion.h2>
-              <motion.p
-                className="text-base md:text-lg text-white font-light leading-snug mb-6 max-w-2xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                L&apos;innovation n&apos;est pas une destination, c&apos;est une architecture. Chez Lianet, nous ne nous contentons pas de suivre le flux technologique ; nous forgeons les connexions invisibles entre vos talents, votre stratégie et les outils de demain. Nous créons la clarté là où règne la complexité.
-              </motion.p>
-              <motion.p
-                className="text-sm md:text-base text-[#40B4A6] italic font-serif"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                Penser global, agir précis.
-              </motion.p>
+      {/* Layout Principal : Triptyque + Socle */}
+      {!isClient ? (
+        // Pendant le SSR, rendre une version simple avec toutes les versions pour éviter l'hydratation mismatch
+        <>
+          {/* Desktop: Triptyque Vertical + Socle Horizontal */}
+          <div className="hidden lg:flex flex-col h-full gap-4 md:gap-6" style={{ minHeight: 0 }}>
+            <div className="flex-grow flex gap-4 md:gap-6" style={{ minHeight: 0 }}>
+              {topRowCards.map((card, index) => (
+                <KineticCard
+                  key={index}
+                  title={card.title}
+                  icon={card.icon}
+                  content={card.content}
+                  isHovered={false}
+                  onHover={() => {}}
+                  onLeave={() => {}}
+                  isMobile={false}
+                  isExpanded={false}
+                  onToggle={() => {}}
+                  isBottomRow={false}
+                  watermark={card.watermark}
+                  cardId={`card-${index}`}
+                />
+              ))}
             </div>
-          </MonolithBlock>
-
-          {/* Bloc 2: L'Équation (La Méthode) - col-span-5 row-span-2 */}
-          <MonolithBlock
-            backgroundTitle="METHOD"
-            delay={0.2}
-            className="col-span-5 row-span-2"
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 1 : null)}
-            isHovered={hoveredBlock === 1}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 1}
-          >
-            <div className="flex flex-col h-full justify-center px-4 py-6">
-              <motion.h2
-                className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                L&apos;Équation
-              </motion.h2>
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center gap-4">
-                  <Users className="w-7 h-7 text-[#40B4A6]" />
-                  <span className="text-xl md:text-2xl font-bold text-white">Talent</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Target className="w-7 h-7 text-[#40B4A6]" />
-                  <span className="text-xl md:text-2xl font-bold text-white">Stratégie</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <FlaskConical className="w-7 h-7 text-[#40B4A6]" />
-                  <span className="text-xl md:text-2xl font-bold text-white">Lab</span>
-                </div>
-              </div>
-              <motion.p
-                className="text-sm md:text-base text-white font-light leading-snug"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-              >
-                Trois forces, un seul impact.
-              </motion.p>
+            <div className="h-[15vh] w-full relative">
+              <KineticCard
+                title={bottomRowCard.title}
+                icon={bottomRowCard.icon}
+                content={bottomRowCard.content}
+                isHovered={false}
+                onHover={() => {}}
+                onLeave={() => {}}
+                isMobile={false}
+                isExpanded={false}
+                onToggle={() => {}}
+                isBottomRow={true}
+                watermark={bottomRowCard.watermark}
+                cardId="card-3"
+              />
             </div>
-          </MonolithBlock>
-
-          {/* Bloc 3: L'Impact (Preuve de Valeur) - col-span-5 row-span-2 */}
-          <MonolithBlock
-            backgroundTitle="IMPACT"
-            delay={0.4}
-            className="col-span-5 row-span-2"
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 2 : null)}
-            isHovered={hoveredBlock === 2}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 2}
-          >
-            <div className="flex flex-col h-full justify-center px-4 py-6">
-              <motion.h2
-                className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                L&apos;Impact
-              </motion.h2>
-              <div className="space-y-6">
+          </div>
+          {/* Tablette: Layout 2x2 ou 3+1 - Rendu mais caché en SSR */}
+          <div className="hidden md:flex lg:hidden flex-col h-full gap-4 md:gap-6" style={{ minHeight: 0 }}>
+            {/* Top Row : 3 cartes */}
+            <div className="flex-grow grid grid-cols-3 gap-4 md:gap-6" style={{ minHeight: 0 }}>
+              {topRowCards.map((card, index) => (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
+                  key={index}
+                  className="relative rounded-2xl"
+                  style={{
+                    overflow: "hidden",
+                    minHeight: 0,
+                    maxHeight: "100%",
+                    height: "100%",
+                  }}
+                  initial={false}
+                  animate={{
+                    height: "100%",
+                  }}
                 >
-                  <div
-                    className="text-3xl md:text-4xl font-black mb-2"
-                    style={{
-                      color: "#40B4A6",
-                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
-                    }}
-                  >
-                    +10 ans
-                  </div>
-                  <p className="text-xs md:text-sm text-white">d&apos;expertise hybride</p>
+                  <KineticCard
+                    title={card.title}
+                    icon={card.icon}
+                    content={card.content}
+                    isHovered={false}
+                    onHover={() => {}}
+                    onLeave={() => {}}
+                    isMobile={true}
+                    isExpanded={false}
+                    onToggle={() => {}}
+                    isBottomRow={false}
+                    watermark={card.watermark}
+                    cardId={`card-${index}`}
+                  />
                 </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                >
-                  <div
-                    className="text-3xl md:text-4xl font-black mb-2"
-                    style={{
-                      color: "#40B4A6",
-                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
-                    }}
-                  >
-                    100%
-                  </div>
-                  <p className="text-xs md:text-sm text-white">Focus Solutions</p>
-                </motion.div>
-              </div>
+              ))}
             </div>
-          </MonolithBlock>
+            {/* Bottom Row : 1 carte */}
+            <div className="h-[15vh] w-full">
+              <KineticCard
+                title={bottomRowCard.title}
+                icon={bottomRowCard.icon}
+                content={bottomRowCard.content}
+                isHovered={false}
+                onHover={() => {}}
+                onLeave={() => {}}
+                isMobile={true}
+                isExpanded={false}
+                onToggle={() => {}}
+                isBottomRow={true}
+                watermark={bottomRowCard.watermark}
+                cardId="card-3"
+              />
+            </div>
+          </div>
+          {/* Mobile: Cartes empilées verticalement - Rendu mais caché en SSR */}
+          <div className="md:hidden flex flex-col gap-6 md:gap-8 pb-8">
+            {cardsData.map((card, index) => (
+              <div key={index} className="relative rounded-2xl" style={{ minHeight: "200px", height: "200px", overflow: "hidden" }}>
+                <KineticCard
+                  title={card.title}
+                  icon={card.icon}
+                  content={card.content}
+                  isHovered={false}
+                  onHover={() => {}}
+                  onLeave={() => {}}
+                  isMobile={true}
+                  isExpanded={false}
+                  onToggle={() => {}}
+                  isBottomRow={index === 3}
+                  watermark={card.watermark}
+                  cardId={`card-${index}`}
+                />
+              </div>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Desktop: Triptyque Vertical + Socle Horizontal */}
+          <div className="hidden lg:flex flex-col h-full gap-4 md:gap-6" style={{ minHeight: 0 }}>
+            {/* Top Row : Les 3 Piliers */}
+            <div className="flex-grow flex gap-4 md:gap-6" style={{ minHeight: 0 }}>
+              {topRowCards.map((card, index) => (
+                <KineticCard
+                  key={index}
+                  title={card.title}
+                  icon={card.icon}
+                  content={card.content}
+                  isHovered={hoveredCard === index}
+                  onHover={() => handleCardHover(index)}
+                  onLeave={handleCardLeave}
+                  isMobile={false}
+                  isExpanded={false}
+                  onToggle={() => {}}
+                  isBottomRow={false}
+                  watermark={card.watermark}
+                  cardId={`card-${index}`}
+                />
+              ))}
+            </div>
 
-          {/* Bloc 4: L'Engagement (CTA) - col-span-12 row-span-2 */}
-          <MonolithBlock
-            backgroundTitle="ACTION"
-            delay={0.6}
-            className="col-span-12 row-span-2"
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 3 : null)}
-            isHovered={hoveredBlock === 3}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 3}
-          >
-            <div className="flex flex-col md:flex-row items-center justify-between h-full gap-6 px-6 py-4">
+            {/* Bottom Row : Le Socle (Action) */}
+            <div className="h-[15vh] w-full relative">
+              <KineticCard
+                title={bottomRowCard.title}
+                icon={bottomRowCard.icon}
+                content={bottomRowCard.content}
+                isHovered={hoveredCard === 3}
+                onHover={() => handleCardHover(3)}
+                onLeave={handleCardLeave}
+                isMobile={false}
+                isExpanded={false}
+                onToggle={() => {}}
+                isBottomRow={true}
+                watermark={bottomRowCard.watermark}
+                cardId="card-3"
+              />
+            </div>
+          </div>
+
+          {/* Tablette: Layout 2x2 ou 3+1 */}
+          <div className="hidden md:flex lg:hidden flex-col h-full gap-4 md:gap-6" style={{ minHeight: 0 }}>
+            {/* Top Row : 3 cartes */}
+            <div className="flex-grow grid grid-cols-3 gap-4 md:gap-6" style={{ minHeight: 0 }}>
+              {topRowCards.map((card, index) => (
+                <motion.div
+                  key={index}
+                  ref={cardRefs[index]}
+                  className="relative rounded-2xl"
+                  style={{
+                    overflow: "hidden",
+                    minHeight: 0,
+                    maxHeight: "100%",
+                    height: "100%",
+                  }}
+                  initial={false}
+                  animate={{
+                    height: expandedCard === index ? "auto" : "100%",
+                  }}
+                  transition={{
+                    type: "spring",
+                    bounce: 0.3,
+                    stiffness: 150,
+                    damping: 20,
+                  }}
+                  onClick={() => handleCardToggle(index)}
+                >
+                  <KineticCard
+                    title={card.title}
+                    icon={card.icon}
+                    content={card.content}
+                    isHovered={false}
+                    onHover={() => {}}
+                    onLeave={() => {}}
+                    isMobile={true}
+                    isExpanded={expandedCard === index}
+                    onToggle={() => handleCardToggle(index)}
+                    isBottomRow={false}
+                    watermark={card.watermark}
+                    cardId={`card-${index}`}
+                  />
+                </motion.div>
+              ))}
+            </div>
+            {/* Bottom Row : 1 carte */}
+            <div className="h-[15vh] w-full">
+              <KineticCard
+                title={bottomRowCard.title}
+                icon={bottomRowCard.icon}
+                content={bottomRowCard.content}
+                isHovered={false}
+                onHover={() => {}}
+                onLeave={() => {}}
+                isMobile={true}
+                isExpanded={expandedCard === 3}
+                onToggle={() => handleCardToggle(3)}
+                isBottomRow={true}
+                watermark={bottomRowCard.watermark}
+                cardId="card-3"
+              />
+            </div>
+          </div>
+
+          {/* Mobile: Cartes empilées verticalement - Inspiré de ExpertiseSection avec hauteur libre */}
+          <div className="md:hidden flex flex-col gap-6 md:gap-8 pb-8">
+            {cardsData.map((card, index) => (
               <motion.div
-                className="flex-1"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
+                key={index}
+                ref={cardRefs[index]}
+                className="relative rounded-2xl"
+                style={{
+                  minHeight: expandedCard === index ? "auto" : "200px",
+                  height: expandedCard === index ? "auto" : "200px",
+                  overflow: "hidden",
+                }}
+                initial={false}
+                animate={{
+                  minHeight: expandedCard === index ? "auto" : "200px",
+                  height: expandedCard === index ? "auto" : "200px",
+                }}
+                transition={{
+                  type: "spring",
+                  bounce: 0.3,
+                  stiffness: 150,
+                  damping: 20,
+                  layout: {
+                    duration: 0.6,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                }}
+                layout
+                onClick={() => handleCardToggle(index)}
               >
-                <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-white mb-3 leading-snug">
-                  Prêt pour l&apos;ascension ?
-                </h2>
-                <p className="text-sm md:text-base text-white font-light leading-snug">
-                  Votre vision mérite une exécution d&apos;exception. Collaborons pour transformer vos défis en actifs stratégiques.
-                </p>
+                <KineticCard
+                  title={card.title}
+                  icon={card.icon}
+                  content={card.content}
+                  isHovered={false}
+                  onHover={() => {}}
+                  onLeave={() => {}}
+                  isMobile={true}
+                  isExpanded={expandedCard === index}
+                  onToggle={() => handleCardToggle(index)}
+                  isBottomRow={index === 3}
+                  watermark={card.watermark}
+                  cardId={`card-${index}`}
+                />
               </motion.div>
-              <motion.button
-                className="group relative px-8 py-4 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-sm md:text-base"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.9, type: "spring", stiffness: 200 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="relative z-10 flex items-center gap-2 uppercase tracking-tighter">
-                  Initier le mouvement
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-[#8FD6CC]"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.button>
-            </div>
-          </MonolithBlock>
-        </div>
-
-        {/* Mobile: Stack fluide avec scroll */}
-        <div className="lg:hidden space-y-8 p-8">
-          {/* Bloc 1 Mobile */}
-          <MonolithBlock
-            backgroundTitle="VISION"
-            delay={0}
-            className=""
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 0 : null)}
-            isHovered={hoveredBlock === 0}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 0}
-          >
-            <div className="flex flex-col items-center justify-center text-center py-8">
-              <motion.h2
-                className="text-4xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                L&apos;Audace du Lien
-              </motion.h2>
-              <motion.p
-                className="text-base text-white font-light leading-snug mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                L&apos;innovation n&apos;est pas une destination, c&apos;est une architecture. Chez Lianet, nous ne nous contentons pas de suivre le flux technologique ; nous forgeons les connexions invisibles entre vos talents, votre stratégie et les outils de demain. Nous créons la clarté là où règne la complexité.
-              </motion.p>
-              <motion.p
-                className="text-sm text-[#40B4A6] italic font-serif"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                Penser global, agir précis.
-              </motion.p>
-            </div>
-          </MonolithBlock>
-
-          {/* Bloc 2 Mobile */}
-          <MonolithBlock
-            backgroundTitle="METHOD"
-            delay={0.2}
-            className=""
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 1 : null)}
-            isHovered={hoveredBlock === 1}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 1}
-          >
-            <div className="flex flex-col py-8">
-              <motion.h2
-                className="text-3xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                L&apos;Équation
-              </motion.h2>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <Users className="w-6 h-6 text-[#40B4A6]" />
-                  <span className="text-xl font-bold text-white">Talent</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Target className="w-6 h-6 text-[#40B4A6]" />
-                  <span className="text-xl font-bold text-white">Stratégie</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <FlaskConical className="w-6 h-6 text-[#40B4A6]" />
-                  <span className="text-xl font-bold text-white">Lab</span>
-                </div>
-              </div>
-            </div>
-          </MonolithBlock>
-
-          {/* Bloc 3 Mobile */}
-          <MonolithBlock
-            backgroundTitle="IMPACT"
-            delay={0.4}
-            className=""
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 2 : null)}
-            isHovered={hoveredBlock === 2}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 2}
-          >
-            <div className="flex flex-col py-8">
-              <motion.h2
-                className="text-3xl font-bold uppercase tracking-tighter text-white mb-6 leading-snug"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                L&apos;Impact
-              </motion.h2>
-              <div className="space-y-6">
-                <div>
-                  <div
-                    className="text-4xl font-black mb-2"
-                    style={{
-                      color: "#40B4A6",
-                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
-                    }}
-                  >
-                    +10 ans
-                  </div>
-                  <p className="text-sm text-white/80">d&apos;expertise hybride</p>
-                </div>
-                <div>
-                  <div
-                    className="text-4xl font-black mb-2"
-                    style={{
-                      color: "#40B4A6",
-                      filter: "drop-shadow(0 0 10px rgba(64, 180, 166, 0.6))",
-                    }}
-                  >
-                    100%
-                  </div>
-                  <p className="text-sm text-white/80">Focus Solutions</p>
-                </div>
-              </div>
-            </div>
-          </MonolithBlock>
-
-          {/* Bloc 4 Mobile */}
-          <MonolithBlock
-            backgroundTitle="ACTION"
-            delay={0.6}
-            className=""
-            data-monolith-block
-            onHover={(hovered) => setHoveredBlock(hovered ? 3 : null)}
-            isHovered={hoveredBlock === 3}
-            isOtherHovered={hoveredBlock !== null && hoveredBlock !== 3}
-          >
-            <div className="flex flex-col items-center text-center py-8">
-              <motion.h2
-                className="text-3xl font-bold uppercase tracking-tighter text-white mb-4 leading-snug"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-              >
-                Prêt pour l&apos;ascension ?
-              </motion.h2>
-              <p className="text-base text-white font-light leading-snug mb-6">
-                Votre vision mérite une exécution d&apos;exception. Collaborons pour transformer vos défis en actifs stratégiques.
-              </p>
-              <motion.button
-                className="group relative px-8 py-4 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-base"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.9, type: "spring", stiffness: 200 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="relative z-10 flex items-center gap-2 uppercase tracking-tighter">
-                  Initier le mouvement
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-[#8FD6CC]"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.button>
-            </div>
-          </MonolithBlock>
-        </div>
-      </div>
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 };
