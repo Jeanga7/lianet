@@ -3,7 +3,8 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { HeroPrimaryButton, HeroSecondaryButton, PageWipe, InteractiveLottie } from "@/components/ui";
+import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
+import InteractiveLottie from "@/components/ui/molecules/InteractiveLottie";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import OrganicBackground from "./OrganicBackground";
 
@@ -119,15 +120,7 @@ const HeroSection = () => {
             >
               Connecting
               <br className="hidden sm:block" />
-              <span className="inline-flex items-center whitespace-nowrap font-inherit">
-                the Future
-                <InteractiveLottie
-                  src="https://lottie.host/bbbdb663-2443-4e12-a9b1-09abd36b5768/SG4lGYFvFC.lottie"
-                  className="ml-4"
-                  size={{ base: "1em", sm: "1.05em" }}
-                  radius={240}
-                />
-              </span>
+              the Future
             </motion.h1>
 
             {/* Paragraphe avec effet reveal */}
@@ -292,6 +285,16 @@ const HeroSection = () => {
           }}
         />
       </motion.div>
+
+      {/* Lottie en bas à gauche */}
+      <div className="absolute bottom-6 left-6 z-20 lg:bottom-8 lg:left-16">
+        <InteractiveLottie
+          src="https://lottie.host/bbbdb663-2443-4e12-a9b1-09abd36b5768/SG4lGYFvFC.lottie"
+          className=""
+          size={{ base: "3rem", sm: "4rem" }}
+          radius={600}
+        />
+      </div>
 
       {/* PageWipe Transition */}
       <PageWipe

@@ -82,125 +82,63 @@ const InteractiveLottie = ({
 
   const pauseOnly = useCallback(() => {
     const instance = lottieRef.current;
-    if (!instance) return;
+    if (!instance || !instance.dotLottie) return;
     
-    // #region agent log
-    const instanceKeys = Object.keys(instance).filter(k => !k.startsWith('_'));
-    const dotLottieKeys = instance.dotLottie ? Object.keys(instance.dotLottie).filter(k => !k.startsWith('_')) : [];
-    const dotLottieMethods = instance.dotLottie ? dotLottieKeys.filter(k => typeof (instance.dotLottie as any)[k] === 'function') : [];
-    fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:83',message:'pauseOnly called - inspecting instance and dotLottie',data:{hasSeek:typeof instance.seek==='function',hasStop:typeof instance.stop==='function',hasPause:typeof instance.pause==='function',hasDotLottie:!!instance.dotLottie,dotLottieKeys,dotLottieMethods,hasShadowRoot:!!instance.shadowRoot,segment:(instance as any).segment,mode:(instance as any).mode},timestamp:Date.now(),runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-    // #endregion
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dotLottie = instance.dotLottie as any;
     
-    // Try multiple approaches to reset to first frame
-    let seeked = false;
+    // Smooth transition: gradually decelerate speed to 0, then reset to frame 0
+    // This creates a smooth deceleration effect before stopping
     
-    // Approach 1: Direct seek method
-    if (typeof instance.seek === "function") {
-      instance.seek(0);
-      seeked = true;
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:95',message:'seek(0) called directly',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
-    }
-    // Approach 2: Via dotLottie property - try multiple methods
-    else if (instance.dotLottie) {
-      const dotLottie = instance.dotLottie as any;
-      if (typeof dotLottie.seek === "function") {
-        dotLottie.seek(0);
-        seeked = true;
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:100',message:'seek(0) called via dotLottie.seek',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-      } else if (typeof dotLottie.goToAndStop === "function") {
-        dotLottie.goToAndStop(0);
-        seeked = true;
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:105',message:'goToAndStop(0) called via dotLottie',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-      } else if (typeof dotLottie.stop === "function") {
-        dotLottie.stop();
-        seeked = true;
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:110',message:'stop() called via dotLottie',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-      } else if (typeof dotLottie.setFrame === "function") {
-        dotLottie.setFrame(0);
-        seeked = true;
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:115',message:'setFrame(0) called via dotLottie',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-      }
-    }
-    // Approach 3: Stop method (usually resets to first frame)
-    else if (typeof instance.stop === "function") {
-      instance.stop();
-      seeked = true;
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:106',message:'stop() called',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
-    }
-    // Approach 4: Set currentFrame property directly
-    else if ('currentFrame' in instance) {
-      (instance as any).currentFrame = 0;
-      seeked = true;
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:115',message:'currentFrame set to 0',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
-    }
-    // Approach 5: Try to set segment to [0, 0] to reset to first frame
-    if (!seeked && 'segment' in instance) {
-      (instance as any).segment = [0, 0];
-      seeked = true;
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:125',message:'segment set to [0,0]',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
-    }
-    // Approach 6: Try to access via shadowRoot
-    if (!seeked && instance.shadowRoot) {
-      const player = (instance.shadowRoot as any).querySelector?.('[data-player]') || (instance.shadowRoot as any).firstElementChild;
-      if (player && typeof player.seek === "function") {
-        player.seek(0);
-        seeked = true;
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:135',message:'seek(0) called via shadowRoot player',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-      }
-    }
-    // Approach 7: Try setAttribute with different values
-    if (!seeked) {
-      instance.setAttribute("frame", "0");
-      instance.setAttribute("currentframe", "0");
-      instance.setAttribute("seek", "0");
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:135',message:'setAttribute frame/currentframe/seek=0 called',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-      // #endregion
-    }
+    // Get current speed (default to 1 if not available)
+    const currentSpeed = dotLottie.speed || instance.speed || hoverSpeed || nearSpeed || 1;
     
-    // Wait a bit for seek to complete, then pause
-    if (seeked) {
-      requestAnimationFrame(() => {
-        // #region agent log
-        fetch('http://127.0.0.1:7243/ingest/f912a8d0-3f55-44fd-93ad-b10eddd38a8d',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'InteractiveLottie.tsx:142',message:'About to pause after seek',data:{},timestamp:Date.now(),runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
-        if (typeof instance.pause === "function") {
-          instance.pause();
-        } else if (instance.dotLottie && typeof instance.dotLottie.pause === "function") {
-          instance.dotLottie.pause();
-        } else {
-          instance.removeAttribute("autoplay");
-        }
-      });
-    } else {
-      // If seek didn't work, just pause
-      if (typeof instance.pause === "function") {
-        instance.pause();
-      } else if (instance.dotLottie && typeof instance.dotLottie.pause === "function") {
-        instance.dotLottie.pause();
+    // Gradually reduce speed to create smooth deceleration
+    let speed = currentSpeed;
+    const decelerate = () => {
+      speed = Math.max(0, speed - 0.15); // Reduce speed by 0.15 each frame for smooth deceleration
+      
+      if (typeof dotLottie.setSpeed === "function") {
+        dotLottie.setSpeed(speed);
+      } else if (typeof instance.setSpeed === "function") {
+        instance.setSpeed(speed);
       } else {
-        instance.removeAttribute("autoplay");
+        instance.setAttribute("speed", speed.toString());
       }
-    }
-  }, []);
+      
+      if (speed > 0) {
+        requestAnimationFrame(decelerate);
+      } else {
+        // Speed is now 0, wait a bit then reset to frame 0
+        setTimeout(() => {
+          if (typeof dotLottie.stop === "function") {
+            dotLottie.stop();
+          } else if (typeof instance.stop === "function") {
+            instance.stop();
+          }
+          
+          // Reset speed to normal
+          if (typeof dotLottie.setSpeed === "function") {
+            dotLottie.setSpeed(1);
+          } else if (typeof instance.setSpeed === "function") {
+            instance.setSpeed(1);
+          }
+          
+          // Pause
+          if (typeof dotLottie.pause === "function") {
+            dotLottie.pause();
+          } else if (typeof instance.pause === "function") {
+            instance.pause();
+          } else {
+            instance.removeAttribute("autoplay");
+          }
+        }, 150);
+      }
+    };
+    
+    // Start deceleration
+    requestAnimationFrame(decelerate);
+  }, [hoverSpeed, nearSpeed]);
 
   const handleMove = useCallback(
     (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -270,6 +208,7 @@ const InteractiveLottie = ({
         const checkReady = () => {
           const hasMethods = typeof instance.play === "function" || 
                             typeof instance.pause === "function" ||
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             (instance as any).dotLottie;
           
           if (hasMethods) {
@@ -286,7 +225,7 @@ const InteractiveLottie = ({
         
         // Start checking after a small delay
         setTimeout(checkReady, 50);
-      } catch (error) {
+      } catch {
         // Silently handle error
       }
     };
@@ -360,6 +299,7 @@ const InteractiveLottie = ({
         transformOrigin: "50% 50%",
       }}
     >
+      {/* @ts-expect-error - dotlottie-wc is a custom web component */}
       <dotlottie-wc
         ref={lottieRef}
         src={src}

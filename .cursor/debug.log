@@ -83,3 +83,6 @@
 {"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770842370241,"runId":"run1","hypothesisId":"A"}
 {"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770842370242,"runId":"run1","hypothesisId":"B"}
 {"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770842370250,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770844237995,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770844238000,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770844237997,"runId":"run1","hypothesisId":"B"}
