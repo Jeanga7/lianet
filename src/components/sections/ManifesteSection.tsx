@@ -2,7 +2,8 @@
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ArrowRight, Users, Target, FlaskConical, TrendingUp, Eye, Lightbulb, Zap, Sparkles, CheckCircle2, Award, Globe, Code, Briefcase, Rocket, Hexagon, Circle, Diamond, Plus, Minus } from "lucide-react";
+import { Users, Target, FlaskConical, TrendingUp, Eye, Lightbulb, Zap, Sparkles, CheckCircle2, Award, Globe, Code, Briefcase, Rocket, Hexagon, Circle, Diamond, Plus, Minus } from "lucide-react";
+import { HeroPrimaryButton } from "@/components/ui/HeroButtons";
 
 // Composant Lens Flare pour le socle
 const LensFlare = () => {
@@ -1135,37 +1136,14 @@ const ManifesteSection = () => {
             {/* Séparateur vertical décoratif */}
             <DecorativeSeparator orientation="vertical" variant="accent" className="hidden md:block" />
             {/* Bouton CTA - fixe à droite */}
-            <motion.button
+            <HeroPrimaryButton
               variants={{
                 hidden: { opacity: 0, x: -20, scale: 0.9 },
                 show: { opacity: 1, x: 0, scale: 1 },
               }}
-              className="group relative px-4 md:px-6 py-2 md:py-3 bg-[#40B4A6] text-white font-semibold rounded-full overflow-hidden whitespace-nowrap text-xs md:text-sm flex-shrink-0"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{
-                type: "spring",
-                bounce: 0.3,
-                stiffness: 150,
-                damping: 20,
-              }}
-            >
-              <span className="relative z-10 flex items-center gap-1 md:gap-2 uppercase tracking-tighter">
-                Initier le mouvement
-                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-              <motion.div
-                className="absolute inset-0 bg-[#8FD6CC]"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: 0 }}
-                transition={{
-                  type: "spring",
-                  bounce: 0.3,
-                  stiffness: 150,
-                  damping: 20,
-                }}
-              />
-            </motion.button>
+              label="Initier le mouvement"
+              className="px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm flex-shrink-0 uppercase tracking-tighter"
+            />
           </div>
         </>
       ),
