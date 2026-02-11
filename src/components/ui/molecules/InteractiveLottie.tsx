@@ -32,8 +32,8 @@ const InteractiveLottie = ({
   className,
   size = { base: "1em", sm: "1.05em" },
   radius = 260,
-  nearSpeed = 0.6,
-  hoverSpeed = 1.6,
+  nearSpeed = 0.8,
+  hoverSpeed = 1.2,
   glowColor = "rgba(64, 180, 166, 0.4)",
 }: InteractiveLottieProps) => {
   const wrapperRef = useRef<HTMLSpanElement | null>(null);
