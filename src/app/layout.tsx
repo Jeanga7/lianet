@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Lato, Nunito } from "next/font/google";
 import "./globals.css";
-import SiteLayout from "@/components/layout/SiteLayout";
+import { SiteLayout } from "@/components/layout";
 
 const nunito = Nunito({
   variable: "--font-nunito",

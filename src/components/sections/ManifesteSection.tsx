@@ -3,7 +3,7 @@
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Users, Target, FlaskConical, TrendingUp, Eye, Lightbulb, Zap, Sparkles, CheckCircle2, Award, Globe, Code, Briefcase, Rocket, Hexagon, Circle, Diamond, Plus, Minus } from "lucide-react";
-import { HeroPrimaryButton } from "@/components/ui/HeroButtons";
+import { HeroPrimaryButton } from "@/components/ui";
 
 // Composant Lens Flare pour le socle
 const LensFlare = () => {

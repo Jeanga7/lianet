@@ -3,8 +3,7 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { HeroPrimaryButton, HeroSecondaryButton } from "@/components/ui/HeroButtons";
-import PageWipe from "@/components/ui/PageWipe";
+import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import OrganicBackground from "./OrganicBackground";
 

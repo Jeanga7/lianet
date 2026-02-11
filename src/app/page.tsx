@@ -1,7 +1,6 @@
-import HeroSection from "@/components/hero/HeroSection";
-import ExpertiseSection from "@/components/sections/ExpertiseSection";
-import ManifesteSection from "@/components/sections/ManifesteSection";
-import ScrollZone from "@/components/ui/ScrollZone";
+import { HeroSection } from "@/components/hero";
+import { ExpertiseSection, ManifesteSection } from "@/components/sections";
+import { ScrollZone } from "@/components/ui";
 
 export default function Home() {
   return (

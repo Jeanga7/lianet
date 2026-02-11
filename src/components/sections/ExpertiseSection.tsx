@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence, Variants, useMotionValue, useSpring, useScroll, useTransform, useInView } from "framer-motion";
 import { Users, Target, FlaskConical, ArrowRight } from "lucide-react";
-import PageWipe from "@/components/ui/PageWipe";
+import { PageWipe } from "@/components/ui";
 import BackgroundEffects from "./BackgroundEffects";
 import FilmGrain from "./FilmGrain";
 

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Search } from "lucide-react";
-import Magnetic from "@/components/ui/Magnetic";
+import { Magnetic } from "@/components/ui";
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);

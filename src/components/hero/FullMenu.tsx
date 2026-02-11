@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import { X, Linkedin, Twitter, Instagram, Mail, MapPin, ChevronDown } from "lucide-react";
-import { HeroSecondaryButton } from "@/components/ui/HeroButtons";
+import { HeroSecondaryButton } from "@/components/ui";
 
 interface FullMenuProps {
   isOpen: boolean;

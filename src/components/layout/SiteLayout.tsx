@@ -1,12 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "@/components/hero/Sidebar";
-import Navigation from "@/components/hero/Navigation";
-import FullMenu from "@/components/hero/FullMenu";
-import ScrollProgressBar from "@/components/hero/ScrollProgressBar";
-import MobileMenuButton from "@/components/hero/MobileMenuButton";
-import CustomCursor from "@/components/ui/CustomCursor";
+import { Sidebar, Navigation, FullMenu, ScrollProgressBar, MobileMenuButton } from "@/components/hero";
+import { CustomCursor } from "@/components/ui";
 
 interface SiteLayoutProps {
   children: React.ReactNode;
