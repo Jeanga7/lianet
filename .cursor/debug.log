@@ -1,49 +1,20 @@
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":0.30000000000000004},"timestamp":1770826767062,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":0.30000000000000004},"timestamp":1770826767410,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":1},"timestamp":1770826844801,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation complete","data":{"computedColor":"rgb(27, 54, 93)","opacity":0.30000000000000004},"timestamp":1770826845840,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":0.30000000000000004},"timestamp":1770826846426,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":0.30000000000000004},"timestamp":1770826846764,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":0.30000000000000004},"timestamp":1770826848208,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":0.30000000000000004},"timestamp":1770826848398,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":0.30000000000000004},"timestamp":1770826848799,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":0.30000000000000004},"timestamp":1770826849893,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":0.30000000000000004},"timestamp":1770826851078,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":0.30000000000000004},"timestamp":1770826851810,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":0.30000000000000004},"timestamp":1770826852401,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":0.30000000000000004},"timestamp":1770826853294,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":0},"timestamp":1770826896531,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":0},"timestamp":1770826898562,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation complete","data":{"computedColor":"rgb(27, 54, 93)","opacity":0.30000000000000004},"timestamp":1770826899565,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":0},"timestamp":1770826914825,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation complete","data":{"computedColor":"rgb(27, 54, 93)","opacity":0.30000000000000004},"timestamp":1770826915837,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827123034,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827123884,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":0},"timestamp":1770827126902,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation complete","data":{"computedColor":"rgb(27, 54, 93)","opacity":1},"timestamp":1770827127918,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827145914,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827146960,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827146989,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827148194,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827148231,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827149294,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":0},"timestamp":1770827153675,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation complete","data":{"computedColor":"rgb(27, 54, 93)","opacity":1},"timestamp":1770827154676,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827155101,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827156194,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827156859,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827158590,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:116","message":"title animation start","data":{"computedColor":"rgb(27, 54, 93)","opacity":1},"timestamp":1770827162829,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:116","message":"title animation complete","data":{"computedColor":"rgb(27, 54, 93)","opacity":1},"timestamp":1770827163862,"runId":"run1","hypothesisId":"G"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827176077,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827177375,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827178302,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827179304,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:145","message":"primary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827183008,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:151","message":"primary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827183755,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827188808,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827189877,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827190784,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827191398,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:252","message":"secondary button hover enter","data":{"isHovered":true,"titleOpacity":1},"timestamp":1770827202463,"runId":"run1","hypothesisId":"E"}
-{"location":"HeroSection.tsx:258","message":"secondary button hover leave","data":{"isHovered":false,"titleOpacity":1},"timestamp":1770827202579,"runId":"run1","hypothesisId":"E"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":false,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":false},"timestamp":1770841472589,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:135","message":"setAttribute frame/currentframe/seek=0 called","data":{},"timestamp":1770841472590,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770841481632,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770841481633,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770841481643,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770841485348,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770841485348,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770841485359,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770841487799,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770841487800,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770841487808,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770841491237,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770841491238,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770841491242,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770841501647,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770841501647,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770841501658,"runId":"run1","hypothesisId":"C"}
+{"location":"InteractiveLottie.tsx:83","message":"pauseOnly called - inspecting instance and dotLottie","data":{"hasSeek":false,"hasStop":false,"hasPause":false,"hasDotLottie":true,"dotLottieKeys":[],"dotLottieMethods":[],"hasShadowRoot":true},"timestamp":1770841503829,"runId":"run1","hypothesisId":"A"}
+{"location":"InteractiveLottie.tsx:110","message":"stop() called via dotLottie","data":{},"timestamp":1770841503830,"runId":"run1","hypothesisId":"B"}
+{"location":"InteractiveLottie.tsx:142","message":"About to pause after seek","data":{},"timestamp":1770841503840,"runId":"run1","hypothesisId":"C"}
