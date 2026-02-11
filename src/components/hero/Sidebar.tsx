@@ -100,8 +100,6 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     const startTime = performance.now();
 
     const cubicBezier = (t: number) => {
-      const p0 = 0;
-      const p1 = 1;
       const cx = 3 * 0.22;
       const bx = 3 * (0.36 - 0.22) - cx;
       const ax = 1 - cx - bx;

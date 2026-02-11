@@ -5,13 +5,20 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 import { ArrowRight, Grid3x3, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+type HeroButtonSize = "hero" | "compact";
+
 type HeroButtonBaseProps = Omit<HTMLMotionProps<"button">, "children"> & {
   label: string;
+  size?: HeroButtonSize;
 };
 
 export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseProps>(
-  ({ label, className, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
+  ({ label, size = "hero", className, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
     const [isHovered, setIsHovered] = useState(false);
+    const sizeClassName =
+      size === "compact"
+        ? "px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter"
+        : "px-12 py-4.5 text-sm font-bold";
 
     return (
       <motion.button
@@ -26,7 +33,8 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full px-12 py-4.5 text-sm font-bold text-white bg-[#40B4A6] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 overflow-hidden group",
+          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full text-white bg-[#40B4A6] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 overflow-hidden group",
+          sizeClassName,
           className
         )}
         style={{
@@ -108,8 +116,12 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
 HeroPrimaryButton.displayName = "HeroPrimaryButton";
 
 export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseProps>(
-  ({ label, className, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
+  ({ label, size = "hero", className, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
     const [isHovered, setIsHovered] = useState(false);
+    const sizeClassName =
+      size === "compact"
+        ? "px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter"
+        : "px-12 py-4.5 text-sm font-bold";
 
     return (
       <motion.button
@@ -124,7 +136,8 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full px-12 py-4.5 text-sm font-bold transition-all duration-500 bg-white/5 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden",
+          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-white/5 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden",
+          sizeClassName,
           className
         )}
         style={{

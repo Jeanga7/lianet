@@ -371,7 +371,8 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                         <HeroSecondaryButton
                           onClick={onClose}
                           label="Start a Project"
-                          className="w-full sm:w-full px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter bg-[#40B4A6]/20 hover:bg-[#40B4A6]/30 backdrop-blur-md border border-[#40B4A6]/30"
+                          size="compact"
+                          className="w-full sm:w-full bg-[#40B4A6]/20 hover:bg-[#40B4A6]/30 backdrop-blur-md border border-[#40B4A6]/30"
                         />
                       </div>
                     </div>
@@ -700,7 +701,8 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     <HeroSecondaryButton
                       onClick={onClose}
                       label="Start a Project"
-                      className="w-full sm:w-full px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter bg-[#40B4A6]/15 hover:bg-[#40B4A6]/25 backdrop-blur-md border border-[#40B4A6]/25"
+                      size="compact"
+                      className="w-full sm:w-full bg-[#40B4A6]/15 hover:bg-[#40B4A6]/25 backdrop-blur-md border border-[#40B4A6]/25"
                     />
                   </div>
                 </div>

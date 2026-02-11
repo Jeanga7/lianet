@@ -834,7 +834,7 @@ const ExpertiseSection = () => {
 
   const handleSubServiceClick = useCallback((service: string) => {
     // Action à définir : pourrait ouvrir un modal, scroll vers une section, etc.
-    console.log(`Service sélectionné: ${service}`);
+    void service;
   }, []);
 
   const currentPole = useMemo(() => poles.find((p) => p.id === activePole) || poles[0], [activePole]);

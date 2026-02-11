@@ -151,13 +151,7 @@ const HeroSection = () => {
               />
               
               {/* CTA Secondaire - Glassmorphism premium avec barre de scan */}
-              <HeroSecondaryButton
-                onClick={() => {
-                  // Action pour le secondaire (à définir)
-                  console.log("Start Project");
-                }}
-                label="Start Project"
-              />
+              <HeroSecondaryButton label="Start Project" />
             </motion.div>
           </motion.div>
         </div>

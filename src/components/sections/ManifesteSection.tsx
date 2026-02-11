@@ -1142,7 +1142,8 @@ const ManifesteSection = () => {
                 show: { opacity: 1, x: 0, scale: 1 },
               }}
               label="Initier le mouvement"
-              className="px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm flex-shrink-0 uppercase tracking-tighter"
+              size="compact"
+              className="flex-shrink-0"
             />
           </div>
         </>
