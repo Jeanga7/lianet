@@ -648,7 +648,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
             className="absolute pointer-events-none flex flex-col items-center justify-center gap-1"
             style={{
               transform: scrollTransform,
-              fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+              fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 

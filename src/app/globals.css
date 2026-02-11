@@ -71,7 +71,7 @@
   --color-destructive-foreground: rgb(var(--destructive-foreground));
   
   /* Polices */
-  --font-title: var(--font-nunito);
+  --font-title: var(--font-varela);
   --font-body: var(--font-lato);
   --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
@@ -97,7 +97,6 @@ body {
 }
 
 p,
-span,
 li {
   font-family: var(--font-body), sans-serif;
   font-weight: 300;
@@ -107,8 +106,21 @@ li {
 h1,
 h2,
 h3,
+h4,
+h5,
+h6,
 .font-title {
   font-family: var(--font-title), sans-serif;
+}
+
+h1 span,
+h2 span,
+h3 span,
+h4 span,
+h5 span,
+h6 span {
+  font-family: inherit;
+  font-weight: inherit;
 }
 
 /* Hide scrollbar but keep functionality */

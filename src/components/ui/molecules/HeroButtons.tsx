@@ -38,7 +38,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
           className
         )}
         style={{
-          fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+          fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
           letterSpacing: "0.1em",
           isolation: "isolate",
           zIndex: 1,
@@ -141,7 +141,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
           className
         )}
         style={{
-          fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+          fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
           letterSpacing: "0.1em",
           isolation: "isolate",
           backdropFilter: "none",

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, type MouseEvent } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import OrganicBackground from "./OrganicBackground";
@@ -18,6 +18,19 @@ const HeroSection = () => {
   const titleTracking = useTransform(scrollYProgress, [0, 0.1], [-0.04, -0.08], { clamp: true });
   // Keep title color true (#1B365D) by avoiding opacity fade on scroll.
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 1], { clamp: true });
+
+  type DotLottieElement = HTMLElement & {
+    setSpeed?: (speed: number) => void;
+    speed?: number;
+  };
+
+  const lottieRef = useRef<DotLottieElement | null>(null);
+  const lottieRotate = useMotionValue(0);
+  const lottieX = useMotionValue(0);
+  const lottieY = useMotionValue(0);
+  const lottieRotateSpring = useSpring(lottieRotate, { stiffness: 300, damping: 22 });
+  const lottieXSpring = useSpring(lottieX, { stiffness: 300, damping: 22 });
+  const lottieYSpring = useSpring(lottieY, { stiffness: 300, damping: 22 });
   
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetUrl, setTargetUrl] = useState<string | null>(null);
@@ -26,6 +39,33 @@ const HeroSection = () => {
     setIsTransitioning(true);
     setTargetUrl("/solutions");
   }, []);
+
+  const setLottieSpeed = useCallback((speed: number) => {
+    const instance = lottieRef.current;
+    if (!instance) return;
+    if (typeof instance.setSpeed === "function") {
+      instance.setSpeed(speed);
+    } else {
+      instance.speed = speed;
+    }
+  }, []);
+
+  const handleLottieMove = useCallback((event: MouseEvent<HTMLSpanElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left - rect.width / 2;
+    const y = event.clientY - rect.top - rect.height / 2;
+    const nx = x / rect.width;
+    const ny = y / rect.height;
+    lottieRotate.set(nx * 10);
+    lottieX.set(nx * 6);
+    lottieY.set(ny * 6);
+  }, [lottieRotate, lottieX, lottieY]);
+
+  const resetLottieTransform = useCallback(() => {
+    lottieRotate.set(0);
+    lottieX.set(0);
+    lottieY.set(0);
+  }, [lottieRotate, lottieX, lottieY]);
 
   return (
     <div className="relative flex h-full w-full overflow-hidden bg-white grid-pattern lg:bg-transparent lg:grid-pattern-none">
@@ -80,7 +120,7 @@ const HeroSection = () => {
             {/* Eyebrow text */}
             <motion.p
               className="text-[10px] tracking-[0.4em] text-[#1B365D]/40 uppercase"
-              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+              style={{ fontFamily: "var(--font-varela), 'Varela Round', sans-serif" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -113,7 +153,45 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              Connecting the Future.
+              Connecting
+              <br className="hidden sm:block" />
+              <span className="inline-flex items-center whitespace-nowrap font-inherit">
+                the Future
+                <motion.span
+                  className="inline-block align-baseline ml-4 w-[1.1em] h-[1em] sm:w-[1.15em] sm:h-[1.05em] shrink-0"
+                  aria-hidden="true"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{
+                    delay: 0.4,
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 18,
+                  }}
+                  whileHover={{
+                    filter: "drop-shadow(0 0 15px rgba(64, 180, 166, 0.4))",
+                  }}
+                  onHoverStart={() => setLottieSpeed(1.6)}
+                  onHoverEnd={() => setLottieSpeed(1)}
+                  onMouseMove={handleLottieMove}
+                  onMouseLeave={resetLottieTransform}
+                  style={{
+                    rotate: lottieRotateSpring,
+                    x: lottieXSpring,
+                    y: lottieYSpring,
+                    transformOrigin: "50% 50%",
+                  }}
+                >
+                  <dotlottie-wc
+                    ref={lottieRef}
+                    src="https://lottie.host/bbbdb663-2443-4e12-a9b1-09abd36b5768/SG4lGYFvFC.lottie"
+                    autoplay
+                    loop
+                    className="block w-full h-full"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </motion.span>
+              </span>
             </motion.h1>
 
             {/* Paragraphe avec effet reveal */}

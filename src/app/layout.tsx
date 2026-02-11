@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Lato, Nunito } from "next/font/google";
+import Script from "next/script";
+import { Geist_Mono, Lato, Varela_Round } from "next/font/google";
 import "./globals.css";
 import { SiteLayout } from "@/components/layout";
 
-const nunito = Nunito({
-  variable: "--font-nunito",
+const varelaRound = Varela_Round({
+  variable: "--font-varela",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["400"],
 });
 
 const lato = Lato({
@@ -40,8 +41,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <Script
+          src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"
+          type="module"
+        />
+      </head>
       <body
-        className={`${nunito.variable} ${lato.variable} ${geistMono.variable} antialiased`}
+        className={`${varelaRound.variable} ${lato.variable} ${geistMono.variable} antialiased`}
       >
         <SiteLayout>{children}</SiteLayout>
       </body>
