@@ -22,7 +22,7 @@ const MobileMenuButton = ({ onMenuClick }: MobileMenuButtonProps) => {
 
   return (
     <>
-      {/* Bouton fixe en haut à droite (quand pas de scroll) */}
+      {/* Bouton fixe en haut à droite (quand pas de scroll) - Aligné avec le logo */}
       <motion.button
         type="button"
         onClick={onMenuClick}
@@ -40,11 +40,11 @@ const MobileMenuButton = ({ onMenuClick }: MobileMenuButtonProps) => {
         <Menu className="h-5 w-5 text-[#1B365D]" strokeWidth={1.5} />
       </motion.button>
 
-      {/* Bouton flottant discret (quand scroll) */}
+      {/* Bouton flottant discret (quand scroll) - Aligné avec le logo */}
       <motion.button
         type="button"
         onClick={onMenuClick}
-        className="fixed right-6 top-6 z-[70] flex h-11 w-11 items-center justify-center rounded-full bg-[#1B365D]/90 backdrop-blur-md shadow-lg transition-all lg:hidden"
+        className="fixed right-6 top-6 z-[70] flex h-12 w-12 items-center justify-center rounded-full bg-[#1B365D]/90 backdrop-blur-md shadow-lg transition-all lg:hidden"
         aria-label="Ouvrir le menu"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{
