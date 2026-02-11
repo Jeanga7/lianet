@@ -259,7 +259,7 @@ const HeroSection = () => {
               >
                 {/* Couche de verre avec bordure intérieure */}
                 <div 
-                  className="absolute inset-[2px] rounded-full pointer-events-none"
+                  className="absolute inset-[3px] z-0 rounded-full pointer-events-none"
                   style={{
                     background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
                     boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.05)",
@@ -267,7 +267,7 @@ const HeroSection = () => {
                 />
                 
                 {/* Barre de scan - Passe de gauche à droite au hover */}
-                <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+                <div className="absolute inset-[3px] z-10 rounded-full overflow-hidden pointer-events-none">
                   <motion.div
                     className="absolute inset-y-0 w-1/4"
                     key={isSecondaryHovered ? 'scan' : 'idle'}
@@ -292,9 +292,16 @@ const HeroSection = () => {
                 </div>
 
                 {/* Bordure bleue dédiée pour éviter tout grisage visuel */}
-                <span className="absolute inset-0 z-20 rounded-full pointer-events-none ring-[3px] ring-[#1B365D]" />
+                <span
+                  className="absolute inset-0 z-30 rounded-full pointer-events-none mix-blend-normal transition-[border-color,box-shadow] duration-300 [--border:#1B365D] group-hover:[--border:#40B4A6]"
+                  style={{
+                    border: "2px solid var(--border)",
+                    boxShadow: "0 0 0 2px var(--border)",
+                    filter: "none",
+                  }}
+                />
                 
-                <span className="relative z-10 flex items-center gap-2">
+                <span className="relative z-40 flex items-center gap-2">
                   <Rocket className="w-4 h-4" />
                   Start Project
                 </span>
