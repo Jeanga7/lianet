@@ -95,6 +95,7 @@ const ScrollZone = ({ targetSectionId }: ScrollZoneProps) => {
   return (
     <div
       ref={zoneRef}
+      data-cursor="scroll-zone"
       className="fixed bottom-0 left-0 right-0 h-[6vh] pointer-events-auto cursor-none z-40 w-full lg:w-[calc(100%-5rem)] lg:ml-20"
       aria-hidden="true"
     />

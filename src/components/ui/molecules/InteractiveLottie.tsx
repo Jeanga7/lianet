@@ -25,6 +25,9 @@ interface InteractiveLottieProps {
   nearSpeed?: number;
   hoverSpeed?: number;
   glowColor?: string;
+  pauseWhenIdle?: boolean;
+  idleSpeed?: number;
+  hideWhenIdle?: boolean;
 }
 
 const InteractiveLottie = ({
@@ -35,6 +38,9 @@ const InteractiveLottie = ({
   nearSpeed = 0.8,
   hoverSpeed = 1.2,
   glowColor = "rgba(64, 180, 166, 0.4)",
+  pauseWhenIdle = false,
+  idleSpeed = 0.6,
+  hideWhenIdle = false,
 }: InteractiveLottieProps) => {
   const wrapperRef = useRef<HTMLSpanElement | null>(null);
   const lottieRef = useRef<DotLottieElement | null>(null);
@@ -43,6 +49,8 @@ const InteractiveLottie = ({
   const prevActiveRef = useRef(false);
   const isReadyRef = useRef(false);
   const pendingPlayRef = useRef(false);
+  const pauseWhenIdleRef = useRef(pauseWhenIdle);
+  const idleSpeedRef = useRef(idleSpeed);
 
   const rotate = useMotionValue(0);
   const x = useMotionValue(0);
@@ -50,6 +58,7 @@ const InteractiveLottie = ({
   const rotateSpring = useSpring(rotate, { stiffness: 300, damping: 22 });
   const xSpring = useSpring(x, { stiffness: 300, damping: 22 });
   const ySpring = useSpring(y, { stiffness: 300, damping: 22 });
+  const isActive = isHover || isNear;
 
   const setSpeed = useCallback((speed: number) => {
     const instance = lottieRef.current;
@@ -161,6 +170,11 @@ const InteractiveLottie = ({
   }, [rotate, x, y]);
 
   useEffect(() => {
+    pauseWhenIdleRef.current = pauseWhenIdle;
+    idleSpeedRef.current = idleSpeed;
+  }, [pauseWhenIdle, idleSpeed]);
+
+  useEffect(() => {
     let rafId = 0;
     const onMove = (event: MouseEvent) => {
       if (!wrapperRef.current) return;
@@ -255,7 +269,6 @@ const InteractiveLottie = ({
   }, []);
 
   useEffect(() => {
-    const isActive = isHover || isNear;
     const wasActive = prevActiveRef.current;
     prevActiveRef.current = isActive;
 
@@ -274,8 +287,15 @@ const InteractiveLottie = ({
       return;
     }
 
-    pauseOnly();
-  }, [isHover, isNear, hoverSpeed, nearSpeed, pauseOnly, play, setSpeed]);
+    if (pauseWhenIdleRef.current) {
+      pauseOnly();
+      return;
+    }
+
+    // Keep Lottie visible by default with a subtle idle motion.
+    setSpeed(idleSpeedRef.current);
+    play();
+  }, [isActive, hoverSpeed, isHover, nearSpeed, pauseOnly, play, setSpeed]);
 
   return (
     <motion.span
@@ -294,6 +314,7 @@ const InteractiveLottie = ({
         height: size.base,
         ...(size.sm ? { ["--lottie-sm" as const]: size.sm } : {}),
         ...(size.md ? { ["--lottie-md" as const]: size.md } : {}),
+        opacity: hideWhenIdle ? (isActive ? 1 : 0) : 1,
         rotate: rotateSpring,
         x: xSpring,
         y: ySpring,
@@ -304,6 +325,7 @@ const InteractiveLottie = ({
       <dotlottie-wc
         ref={lottieRef}
         src={src}
+        autoplay
         loop
         className="block w-full h-full sm:[width:var(--lottie-sm)] sm:[height:var(--lottie-sm)] md:[width:var(--lottie-md)] md:[height:var(--lottie-md)]"
         style={{ width: "100%", height: "100%" }}

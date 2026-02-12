@@ -80,6 +80,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
   const [backgroundType, setBackgroundType] = useState<"blue" | "turquoise" | "white" | "dark" | "light">("light");
   const lastPositionRef = useRef({ x: 0, y: 0 });
   const lastTimeRef = useRef(0);
+  const isInScrollZoneRef = useRef(false);
 
   // Position du curseur (suivi direct, latence zéro pour le Dot)
   const cursorX = useMotionValue(0);
@@ -211,13 +212,11 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
 
     const handleScrollZoneHover = (e: CustomEvent) => {
       const { isHovered } = e.detail;
+      isInScrollZoneRef.current = Boolean(isHovered);
       if (isHovered) {
         setCursorState("scroll");
       } else {
-        // Ne pas réinitialiser si on est déjà dans un autre état
-        if (cursorState === "scroll") {
-          setCursorState("default");
-        }
+        setCursorState("default");
       }
     };
 
@@ -226,7 +225,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
     return () => {
       window.removeEventListener("scrollZoneHover", handleScrollZoneHover as EventListener);
     };
-  }, [enabled, cursorState]);
+  }, [enabled]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -320,6 +319,14 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
+
+      // Priorité absolue à la zone de scroll desktop (bas de page)
+      if (target.closest('[data-cursor="scroll-zone"]') || isInScrollZoneRef.current) {
+        setCursorState("scroll");
+        setIsHovering(false);
+        setHoverTarget(null);
+        return;
+      }
 
       // Vérifier d'abord les attributs data-cursor spécifiques
       const glowElement = target.closest('[data-cursor="glow"]');

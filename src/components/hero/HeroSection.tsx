@@ -1,14 +1,16 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
 import InteractiveLottie from "@/components/ui/molecules/InteractiveLottie";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import OrganicBackground from "./OrganicBackground";
 
 const HeroSection = () => {
+  const heroParagraph =
+    "Lianet connects African businesses with top digital talents to build impactful, scalable solutions.";
   const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll();
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
@@ -24,11 +26,64 @@ const HeroSection = () => {
   
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetUrl, setTargetUrl] = useState<string | null>(null);
+  const [typedChars, setTypedChars] = useState(0);
+  const [typingDone, setTypingDone] = useState(false);
+  const mapScale = useMotionValue(1);
+  const mapScaleSpring = useSpring(mapScale, { stiffness: 140, damping: 20, mass: 0.8 });
 
   const handleButtonClick = useCallback(() => {
     setIsTransitioning(true);
     setTargetUrl("/solutions");
   }, []);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      const rafId = window.requestAnimationFrame(() => {
+        setTypedChars(heroParagraph.length);
+        setTypingDone(true);
+      });
+      return () => window.cancelAnimationFrame(rafId);
+    }
+
+    let startTimeout: number | null = null;
+    let typingInterval: number | null = null;
+
+    const startTyping = () => {
+      startTimeout = window.setTimeout(() => {
+        typingInterval = window.setInterval(() => {
+          setTypedChars((previous) => {
+            if (previous >= heroParagraph.length) {
+              if (typingInterval) window.clearInterval(typingInterval);
+              setTypingDone(true);
+              return heroParagraph.length;
+            }
+            return previous + 1;
+          });
+        }, 22);
+      }, 260);
+    };
+
+    if (document.readyState === "complete") {
+      startTyping();
+    } else {
+      window.addEventListener("load", startTyping, { once: true });
+    }
+
+    return () => {
+      if (startTimeout) window.clearTimeout(startTimeout);
+      if (typingInterval) window.clearInterval(typingInterval);
+      window.removeEventListener("load", startTyping);
+    };
+  }, [heroParagraph]);
+
+  const handleMapMouseEnter = useCallback(() => {
+    mapScale.set(1.015);
+  }, [mapScale]);
+
+  const handleMapMouseLeave = useCallback(() => {
+    mapScale.set(1);
+  }, [mapScale]);
 
   
 
@@ -126,9 +181,12 @@ const HeroSection = () => {
                 delay: 0.4,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
+              aria-label={heroParagraph}
             >
-              Lianet connects African businesses with top digital talents to
-              build impactful, scalable solutions.
+              {heroParagraph.slice(0, typedChars)}
+              {!typingDone && (
+                <span className="ml-0.5 inline-block h-[1em] w-[1px] animate-pulse bg-[#1B365D]/60 align-[-0.1em]" />
+              )}
             </motion.p>
 
             {/* Duo CTA avec effet reveal - Conteneur séparé pour isolation */}
@@ -162,13 +220,18 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onMouseEnter={handleMapMouseEnter}
+            onMouseLeave={handleMapMouseLeave}
+            style={{
+              scale: mapScaleSpring,
+            }}
           >
             <Image
               src="/BlankMap-Africa.svg"
               alt="Carte de l'Afrique"
               fill
               priority
-              className="object-contain opacity-95 drop-shadow-[0_22px_50px_rgba(64,180,166,0.18)]"
+              className="object-contain opacity-95 drop-shadow-[0_22px_50px_rgba(64,180,166,0.18)] transition-transform duration-300"
             />
           </motion.div>
         </div>
@@ -249,6 +312,8 @@ const HeroSection = () => {
           className=""
           size={{ base: "3.5rem", sm: "4rem", md: "4.5rem" }}
           radius={600}
+          pauseWhenIdle
+          hideWhenIdle
         />
       </div>
 
