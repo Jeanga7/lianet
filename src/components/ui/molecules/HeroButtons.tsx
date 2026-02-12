@@ -66,7 +66,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
         />
 
         <motion.span
-          className="relative z-10 flex items-center gap-2"
+          className="relative z-10 flex items-center justify-center gap-2"
           animate={{ x: isHovered ? 4 : 0 }}
           transition={{
             type: "spring",
@@ -136,7 +136,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-white/5 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden",
+          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/10 backdrop-blur-[6px] backdrop-saturate-150 sm:bg-white/5 sm:backdrop-blur-0 sm:backdrop-saturate-100 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden",
           sizeClassName,
           className
         )}
@@ -144,8 +144,6 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
           fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
           letterSpacing: "0.1em",
           isolation: "isolate",
-          backdropFilter: "none",
-          WebkitBackdropFilter: "none",
           zIndex: 1,
           ...style,
         }}
@@ -204,7 +202,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
           }}
         />
 
-        <span className="relative z-40 flex items-center gap-2">
+        <span className="relative z-40 flex items-center justify-center gap-2">
           <Rocket className="w-4 h-4" />
           {label}
         </span>

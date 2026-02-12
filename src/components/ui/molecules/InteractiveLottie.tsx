@@ -20,7 +20,7 @@ type DotLottieElement = HTMLElement & {
 interface InteractiveLottieProps {
   src: string;
   className?: string;
-  size?: { base: string; sm?: string };
+  size?: { base: string; sm?: string; md?: string };
   radius?: number;
   nearSpeed?: number;
   hoverSpeed?: number;
@@ -293,6 +293,7 @@ const InteractiveLottie = ({
         width: size.base,
         height: size.base,
         ...(size.sm ? { ["--lottie-sm" as const]: size.sm } : {}),
+        ...(size.md ? { ["--lottie-md" as const]: size.md } : {}),
         rotate: rotateSpring,
         x: xSpring,
         y: ySpring,
@@ -304,7 +305,7 @@ const InteractiveLottie = ({
         ref={lottieRef}
         src={src}
         loop
-        className="block w-full h-full sm:[width:var(--lottie-sm)] sm:[height:var(--lottie-sm)]"
+        className="block w-full h-full sm:[width:var(--lottie-sm)] sm:[height:var(--lottie-sm)] md:[width:var(--lottie-md)] md:[height:var(--lottie-md)]"
         style={{ width: "100%", height: "100%" }}
       />
     </motion.span>

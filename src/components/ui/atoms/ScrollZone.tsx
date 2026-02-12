@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ScrollZoneProps {
   targetSectionId: string;
@@ -8,12 +8,24 @@ interface ScrollZoneProps {
 
 const ScrollZone = ({ targetSectionId }: ScrollZoneProps) => {
   const zoneRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Détecter si on est sur mobile
-  const isMobile = typeof window !== "undefined" && (
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0
-  );
+  // Détecter si on est sur mobile après le montage pour éviter l'erreur d'hydratation
+  useEffect(() => {
+    setIsMounted(true);
+    const checkMobile = () => {
+      setIsMobile(
+        "ontouchstart" in window ||
+        (navigator.maxTouchPoints > 0)
+      );
+    };
+    checkMobile();
+    
+    // Écouter les changements de taille d'écran
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     if (isMobile) return;
@@ -73,7 +85,8 @@ const ScrollZone = ({ targetSectionId }: ScrollZoneProps) => {
     };
   }, [isMobile, targetSectionId]);
 
-  if (isMobile) return null;
+  // Ne rien rendre jusqu'à ce que le composant soit monté pour éviter l'erreur d'hydratation
+  if (!isMounted || isMobile) return null;
 
   return (
     <div

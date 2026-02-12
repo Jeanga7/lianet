@@ -16,7 +16,7 @@ const HeroSection = () => {
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -20], { clamp: true });
   
   // Interaction de scroll sur le titre : réduction du tracking et fade-out
-  const titleTracking = useTransform(scrollYProgress, [0, 0.1], [-0.04, -0.08], { clamp: true });
+  const titleTracking = useTransform(scrollYProgress, [0, 0.1], [-0.015, -0.04], { clamp: true });
   // Keep title color true (#1B365D) by avoiding opacity fade on scroll.
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 1], { clamp: true });
 
@@ -48,13 +48,13 @@ const HeroSection = () => {
       <MobileBackgroundPattern />
 
       {/* Logo mobile (en haut à gauche, absolu) - Aligné avec le bouton menu */}
-      <div className="absolute left-6 top-6 z-50 lg:hidden flex items-center h-12">
+      <div className="absolute left-4 sm:left-6 top-6 z-50 lg:hidden flex items-center h-10 sm:h-12">
         <Image
           src="/logo-lianet-sans-bg.png"
           alt="Lianet"
           width={128}
           height={42}
-          className="h-12 w-auto"
+          className="h-10 sm:h-12 w-auto"
           priority
           quality={90}
         />
@@ -63,28 +63,28 @@ const HeroSection = () => {
       {/* Halo organique (mobile) + parallax léger */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[38%] z-0 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(143,214,204,0.22),rgba(255,255,255,0)_60%)] blur-2xl lg:hidden"
+        className="pointer-events-none absolute left-1/2 top-[38%] z-0 h-[400px] w-[400px] sm:h-[520px] sm:w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(143,214,204,0.22),rgba(255,255,255,0)_60%)] blur-2xl lg:hidden"
         style={{ y: haloY }}
       />
 
       {/* Layout principal : Sidebar à gauche + Contenu à droite */}
       <motion.div 
-        className="relative z-10 ml-0 flex flex-1 flex-col pt-32 pb-20 lg:pt-24 lg:pb-0 lg:flex-row"
+        className="relative z-10 ml-0 flex flex-1 flex-col pt-24 sm:pt-32 pb-36 sm:pb-20 lg:pt-24 lg:pb-0 lg:flex-row"
         style={{
           y: contentY,
         }}
       >
         {/* Zone Texte/CTA (Gauche) */}
-        <div className="flex flex-1 flex-col justify-center px-6 py-16 lg:py-24 lg:pl-16 lg:pr-12 relative z-10">
+        <div className="flex flex-1 flex-col justify-center px-4 sm:px-6 py-16 lg:py-24 lg:pl-16 lg:pr-12 relative z-10">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="space-y-6 relative z-10"
+            className="h-full justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
           >
             {/* Eyebrow text */}
             <motion.p
-              className="text-[10px] tracking-[0.4em] text-[#1B365D]/40 uppercase"
+              className="-mt-6 sm:mt-0 text-xs sm:text-[10px] tracking-[0.4em] text-[#1B365D]/40 uppercase"
               style={{ fontFamily: "var(--font-varela), 'Varela Round', sans-serif" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -99,7 +99,7 @@ const HeroSection = () => {
 
             {/* Titre massif avec effet reveal et interaction de scroll */}
             <motion.h1
-              className="text-[12vw] font-extrabold leading-[1.1] sm:text-7xl md:text-8xl lg:text-9xl relative z-20"
+              className="w-full mx-auto lg:mx-0 text-[11vw] sm:text-[12vw] font-extrabold leading-[1.1] sm:text-7xl md:text-8xl lg:text-9xl relative z-20 text-center lg:text-left"
               style={{
                 letterSpacing: titleTracking,
                 opacity: titleOpacity,
@@ -119,13 +119,13 @@ const HeroSection = () => {
               }}
             >
               Connecting
-              <br className="hidden sm:block" />
+              <br className="block" />
               the Future
             </motion.h1>
 
             {/* Paragraphe avec effet reveal */}
             <motion.p
-              className="max-w-[45ch] text-base text-foreground sm:text-lg"
+              className="max-w-[90%] sm:max-w-[45ch] text-[17px] sm:text-base text-foreground sm:text-lg mx-auto lg:mx-0 pb-4 sm:pb-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -140,7 +140,7 @@ const HeroSection = () => {
 
             {/* Duo CTA avec effet reveal - Conteneur séparé pour isolation */}
             <motion.div
-              className="mt-8 flex flex-col sm:flex-row gap-4 relative z-10"
+              className="hidden sm:flex mt-6 lg:mt-8 flex-col sm:flex-row gap-3 sm:gap-4 relative z-10 items-center lg:items-start"
               style={{ isolation: "isolate" }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -238,6 +238,26 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
+      {/* CTA mobile ancrés en bas pour ergonomie du pouce */}
+      <motion.div
+        className="sm:hidden absolute left-0 right-0 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 px-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.6,
+          delay: 0.6,
+          ease: [0.25, 0.1, 0.25, 1],
+        }}
+      >
+        <div className="mx-auto w-full max-w-md flex flex-col gap-3">
+          <HeroPrimaryButton
+            onClick={handleButtonClick}
+            label="Nos Solutions"
+          />
+          <HeroSecondaryButton label="Start Project" />
+        </div>
+      </motion.div>
+
       {/* Lueur turquoise pour Shared Element Transition (Hero → Expertise) */}
       <motion.div
         layoutId="hero-liane-glow"
@@ -287,11 +307,11 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Lottie en bas à gauche */}
-      <div className="absolute bottom-6 left-6 z-20 lg:bottom-8 lg:left-16">
+      <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-20 lg:bottom-8 lg:left-16">
         <InteractiveLottie
           src="https://lottie.host/bbbdb663-2443-4e12-a9b1-09abd36b5768/SG4lGYFvFC.lottie"
           className=""
-          size={{ base: "3rem", sm: "4rem" }}
+          size={{ base: "3.5rem", sm: "4rem", md: "4.5rem" }}
           radius={600}
         />
       </div>
