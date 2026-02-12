@@ -88,34 +88,45 @@ const HeroSection = () => {
 
   useEffect(() => {
     const scroller = document.getElementById("main-scroll");
-    if (!scroller) return;
-
-    let lastScrollTop = scroller.scrollTop;
+    let lastY = scroller ? scroller.scrollTop : window.scrollY;
     let ticking = false;
+
+    const readY = () => (scroller ? scroller.scrollTop : window.scrollY);
 
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
 
       window.requestAnimationFrame(() => {
-        const currentScrollTop = scroller.scrollTop;
-        const delta = currentScrollTop - lastScrollTop;
+        const currentY = readY();
+        const delta = currentY - lastY;
 
-        if (currentScrollTop <= 12) {
+        if (currentY <= 8) {
           setIsMobileLogoVisible(true);
-        } else if (delta > 6) {
+        } else if (delta > 3) {
           setIsMobileLogoVisible(false);
-        } else if (delta < -4) {
+        } else if (delta < -1) {
           setIsMobileLogoVisible(true);
         }
 
-        lastScrollTop = currentScrollTop;
+        lastY = currentY;
         ticking = false;
       });
     };
 
-    scroller.addEventListener("scroll", onScroll, { passive: true });
-    return () => scroller.removeEventListener("scroll", onScroll);
+    if (scroller) {
+      scroller.addEventListener("scroll", onScroll, { passive: true });
+    } else {
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    return () => {
+      if (scroller) {
+        scroller.removeEventListener("scroll", onScroll);
+      } else {
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
   }, []);
 
   const handleMapMouseEnter = useCallback(() => {
@@ -136,15 +147,23 @@ const HeroSection = () => {
       {/* Motifs illustratifs élégants (mobile) */}
       <MobileBackgroundPattern />
 
-      {/* Logo mobile (en haut à gauche, fixe) - masque/reapparition douce selon le scroll */}
+      {/* Logo mobile (fixe, hide/reveal selon la direction du scroll) */}
       <motion.div
-        className="fixed left-4 sm:left-6 top-6 z-50 lg:hidden flex items-center h-10 sm:h-12 pointer-events-none"
+        className="fixed left-4 sm:left-6 top-6 z-50 lg:hidden flex items-center h-10 sm:h-12"
         animate={{
-          y: isMobileLogoVisible ? 0 : -26,
+          y: isMobileLogoVisible ? 0 : -24,
           opacity: isMobileLogoVisible ? 1 : 0,
         }}
+        style={{
+          backdropFilter: isMobileLogoVisible ? "blur(8px)" : "blur(0px)",
+          WebkitBackdropFilter: isMobileLogoVisible ? "blur(8px)" : "blur(0px)",
+          backgroundColor: "transparent",
+          borderRadius: "6px",
+          padding: "0px",
+          border: "none",
+        }}
         transition={{
-          duration: 0.32,
+          duration: 0.28,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
