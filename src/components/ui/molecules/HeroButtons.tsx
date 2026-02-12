@@ -66,7 +66,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
         />
 
         <motion.span
-          className="relative z-10 flex items-center justify-center gap-2"
+          className="relative z-10 flex w-full items-center justify-center gap-2"
           animate={{ x: isHovered ? 4 : 0 }}
           transition={{
             type: "spring",
@@ -90,7 +90,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
             <Grid3x3 className="w-4 h-4 text-white" />
           </motion.span>
 
-          {label}
+          <span className="inline-flex items-center justify-center">{label}</span>
 
           <motion.span
             animate={{
@@ -103,7 +103,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
               stiffness: 400,
               damping: 25,
             }}
-            className="flex-shrink-0"
+            className="hidden sm:inline-flex flex-shrink-0"
           >
             <ArrowRight className="w-4 h-4 text-white" />
           </motion.span>

@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
 import InteractiveLottie from "@/components/ui/molecules/InteractiveLottie";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
@@ -34,6 +35,13 @@ const HeroSection = () => {
   const handleButtonClick = useCallback(() => {
     setIsTransitioning(true);
     setTargetUrl("/solutions");
+  }, []);
+
+  const handleMobileScrollClick = useCallback(() => {
+    const targetSection = document.getElementById("expertise");
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, []);
 
   useEffect(() => {
@@ -132,7 +140,7 @@ const HeroSection = () => {
           >
             {/* Eyebrow text */}
             <motion.p
-              className="-mt-6 sm:mt-0 text-xs sm:text-[10px] tracking-[0.4em] text-[#1B365D]/40 uppercase"
+              className="-mt-6 sm:mt-0 text-[9px] sm:text-[10px] tracking-[0.4em] text-[#1B365D]/40 uppercase"
               style={{ fontFamily: "var(--font-varela), 'Varela Round', sans-serif" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -173,7 +181,7 @@ const HeroSection = () => {
 
             {/* Paragraphe avec effet reveal */}
             <motion.p
-              className="max-w-[90%] sm:max-w-[45ch] text-[17px] md:text-[18px] lg:text-[17px] xl:text-[18px] text-foreground mx-auto lg:mx-0 pb-4 sm:pb-0"
+              className="max-w-[90%] sm:max-w-[45ch] text-[17px] md:text-[18px] lg:text-[17px] xl:text-[18px] text-foreground mx-auto lg:mx-0 pb-1 sm:pb-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -239,7 +247,7 @@ const HeroSection = () => {
 
       {/* CTA mobile ancrés en bas pour ergonomie du pouce */}
       <motion.div
-        className="sm:hidden absolute left-0 right-0 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 px-4"
+        className="sm:hidden absolute left-0 right-0 bottom-[calc(2.4rem+env(safe-area-inset-bottom))] z-30 px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
@@ -254,6 +262,37 @@ const HeroSection = () => {
             label="Nos Solutions"
           />
           <HeroSecondaryButton label="Start Project" />
+          <motion.button
+            type="button"
+            onClick={handleMobileScrollClick}
+            whileTap={{ scale: 0.94 }}
+            className="mt-6 inline-flex items-center justify-center self-center p-1 text-[#1B365D]/78"
+            aria-label="Scroller vers la section suivante"
+          >
+            <span className="relative flex flex-col items-center leading-none">
+              <motion.span
+                className="-mb-1 block"
+                animate={{ y: [-2, 1, -2], opacity: [0.35, 0.95, 0.35] }}
+                transition={{ duration: 1.35, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown className="h-5 w-5" />
+              </motion.span>
+              <motion.span
+                className="-mb-1 block"
+                animate={{ y: [-1, 2, -1], opacity: [0.35, 1, 0.35] }}
+                transition={{ duration: 1.35, delay: 0.14, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown className="h-5 w-5" />
+              </motion.span>
+              <motion.span
+                className="block"
+                animate={{ y: [0, 3, 0], opacity: [0.35, 1, 0.35] }}
+                transition={{ duration: 1.35, delay: 0.28, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronDown className="h-5 w-5" />
+              </motion.span>
+            </span>
+          </motion.button>
         </div>
       </motion.div>
 
