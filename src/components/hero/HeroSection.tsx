@@ -29,6 +29,7 @@ const HeroSection = () => {
   const [targetUrl, setTargetUrl] = useState<string | null>(null);
   const [typedChars, setTypedChars] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
+  const [isMobileLogoVisible, setIsMobileLogoVisible] = useState(true);
   const mapScale = useMotionValue(1);
   const mapScaleSpring = useSpring(mapScale, { stiffness: 140, damping: 20, mass: 0.8 });
 
@@ -85,6 +86,38 @@ const HeroSection = () => {
     };
   }, [heroParagraph]);
 
+  useEffect(() => {
+    const scroller = document.getElementById("main-scroll");
+    if (!scroller) return;
+
+    let lastScrollTop = scroller.scrollTop;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        const currentScrollTop = scroller.scrollTop;
+        const delta = currentScrollTop - lastScrollTop;
+
+        if (currentScrollTop <= 12) {
+          setIsMobileLogoVisible(true);
+        } else if (delta > 6) {
+          setIsMobileLogoVisible(false);
+        } else if (delta < -4) {
+          setIsMobileLogoVisible(true);
+        }
+
+        lastScrollTop = currentScrollTop;
+        ticking = false;
+      });
+    };
+
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    return () => scroller.removeEventListener("scroll", onScroll);
+  }, []);
+
   const handleMapMouseEnter = useCallback(() => {
     mapScale.set(1.015);
   }, [mapScale]);
@@ -103,8 +136,18 @@ const HeroSection = () => {
       {/* Motifs illustratifs élégants (mobile) */}
       <MobileBackgroundPattern />
 
-      {/* Logo mobile (en haut à gauche, absolu) - Aligné avec le bouton menu */}
-      <div className="absolute left-4 sm:left-6 top-6 z-50 lg:hidden flex items-center h-10 sm:h-12">
+      {/* Logo mobile (en haut à gauche, fixe) - masque/reapparition douce selon le scroll */}
+      <motion.div
+        className="fixed left-4 sm:left-6 top-6 z-50 lg:hidden flex items-center h-10 sm:h-12 pointer-events-none"
+        animate={{
+          y: isMobileLogoVisible ? 0 : -26,
+          opacity: isMobileLogoVisible ? 1 : 0,
+        }}
+        transition={{
+          duration: 0.32,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+      >
         <Image
           src="/logo-lianet-sans-bg.png"
           alt="Lianet"
@@ -114,7 +157,7 @@ const HeroSection = () => {
           priority
           quality={90}
         />
-      </div>
+      </motion.div>
 
       {/* Halo organique (mobile) + parallax léger */}
       <motion.div
