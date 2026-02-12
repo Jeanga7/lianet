@@ -13,7 +13,11 @@ const ScrollZone = ({ targetSectionId }: ScrollZoneProps) => {
 
   // Détecter si on est sur mobile après le montage pour éviter l'erreur d'hydratation
   useEffect(() => {
-    setIsMounted(true);
+    // Utiliser requestAnimationFrame pour rendre l'appel asynchrone et éviter les cascading renders
+    requestAnimationFrame(() => {
+      setIsMounted(true);
+    });
+    
     const checkMobile = () => {
       setIsMobile(
         "ontouchstart" in window ||

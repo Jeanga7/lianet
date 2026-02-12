@@ -307,7 +307,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Lottie en bas à gauche */}
-      <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-20 lg:bottom-8 lg:left-16">
+      <div className="hidden sm:block absolute sm:bottom-6 sm:left-6 z-20 lg:bottom-8 lg:left-16">
         <InteractiveLottie
           src="https://lottie.host/bbbdb663-2443-4e12-a9b1-09abd36b5768/SG4lGYFvFC.lottie"
           className=""
