@@ -33,13 +33,13 @@
 .circle
 {
    opacity:0;
-   fill:#b9b9b9;
+   fill:#40B4A6;
    fill-opacity:1;
-   stroke:black;
+   stroke:#8FD6CC;
    stroke-width:0.5;
    stroke-miterlimit:3.97446823;
    stroke-dasharray:none;
-   stroke-opacity:1;
+   stroke-opacity:0.9;
 }
 
 
@@ -48,11 +48,11 @@
  */
 .land
 {
-   fill: #b9b9b9;
+   fill: #40B4A6;
    fill-opacity: 1;
-   stroke:white;
-   stroke-opacity: 1;
-   stroke-width:0.5;
+   stroke:#8FD6CC;
+   stroke-opacity: 0.65;
+   stroke-width:0.6;
    stroke-miterlimit: 3.97446823;
    stroke-dasharray: none;
 }
@@ -62,7 +62,7 @@
  */
 .coast
 {
-   stroke-width: 0.3;
+   stroke-width: 0.5;
 }
 
 /*

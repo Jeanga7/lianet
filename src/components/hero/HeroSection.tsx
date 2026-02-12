@@ -34,13 +34,6 @@ const HeroSection = () => {
 
   return (
     <div className="relative flex h-full w-full overflow-hidden bg-white grid-pattern lg:bg-transparent lg:grid-pattern-none">
-      {/* Background image desktop */}
-      <div 
-        className="hidden lg:block absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/background-lianet-1.png')" }}
-        aria-hidden="true"
-      />
-
       {/* Organic background (mobile) */}
       <OrganicBackground className="pointer-events-none absolute inset-0 z-0 lg:hidden" />
 
@@ -69,18 +62,18 @@ const HeroSection = () => {
 
       {/* Layout principal : Sidebar à gauche + Contenu à droite */}
       <motion.div 
-        className="relative z-10 ml-0 flex flex-1 flex-col pt-24 sm:pt-32 pb-36 sm:pb-20 lg:pt-24 lg:pb-0 lg:flex-row"
+        className="relative z-10 ml-0 flex flex-1 flex-col pt-24 sm:pt-32 pb-36 sm:pb-20 lg:pt-24 lg:pb-0 lg:flex-row lg:items-stretch"
         style={{
           y: contentY,
         }}
       >
         {/* Zone Texte/CTA (Gauche) */}
-        <div className="flex flex-1 flex-col justify-center px-4 sm:px-6 py-16 lg:py-24 lg:pl-16 lg:pr-12 relative z-10">
+        <div className="flex flex-1 lg:basis-[52%] xl:basis-1/2 flex-col justify-center px-4 sm:px-6 py-16 lg:py-24 lg:pl-16 lg:pr-10 xl:pr-12 relative z-10">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="h-full justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
+            className="h-full max-w-[38rem] justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
           >
             {/* Eyebrow text */}
             <motion.p
@@ -99,7 +92,7 @@ const HeroSection = () => {
 
             {/* Titre massif avec effet reveal et interaction de scroll */}
             <motion.h1
-              className="w-full mx-auto lg:mx-0 text-[11vw] sm:text-[12vw] font-extrabold leading-[1.1] sm:text-7xl md:text-8xl lg:text-9xl relative z-20 text-center lg:text-left"
+              className="w-full mx-auto lg:mx-0 text-[clamp(3.1rem,12vw,6.2rem)] md:text-[clamp(3.6rem,8.8vw,6.8rem)] lg:text-[clamp(4rem,6.8vw,7.8rem)] font-extrabold leading-[1.06] relative z-20 text-center lg:text-left"
               style={{
                 letterSpacing: titleTracking,
                 opacity: titleOpacity,
@@ -120,12 +113,12 @@ const HeroSection = () => {
             >
               Connecting
               <br className="block" />
-              the Future
+              <span className="inline-block whitespace-nowrap">the Future</span>
             </motion.h1>
 
             {/* Paragraphe avec effet reveal */}
             <motion.p
-              className="max-w-[90%] sm:max-w-[45ch] text-[17px] sm:text-base text-foreground sm:text-lg mx-auto lg:mx-0 pb-4 sm:pb-0"
+              className="max-w-[90%] sm:max-w-[45ch] text-[17px] md:text-[18px] lg:text-[17px] xl:text-[18px] text-foreground mx-auto lg:mx-0 pb-4 sm:pb-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -162,77 +155,20 @@ const HeroSection = () => {
           </motion.div>
         </div>
 
-        {/* Zone Visuelle - Liane Narrative à droite */}
-        <div className="relative hidden flex-1 lg:block">
-          {/* Liane Narrative verticale à droite */}
+        {/* Zone Visuelle - Carte Afrique à droite */}
+        <div className="relative hidden flex-1 lg:basis-[48%] xl:basis-1/2 lg:flex items-center justify-center px-6 lg:px-8 xl:px-12">
           <motion.div
-            className="absolute right-16 top-1/2 -translate-y-1/2 w-2 h-96 pointer-events-none z-20"
-            style={{
-              background: "linear-gradient(to bottom, transparent, rgba(64, 180, 166, 0.4), rgba(64, 180, 166, 0.1), transparent)",
-              filter: "blur(4px)",
-            }}
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            transition={{
-              duration: 1.2,
-              delay: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            aria-hidden="true"
+            className="relative h-[56vh] lg:h-[60vh] xl:h-[66vh] 2xl:h-[72vh] w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[760px] 2xl:max-w-[900px]"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Halo pulsant autour de la liane */}
-            <motion.div
-              className="absolute inset-0"
-              style={{
-                background: "radial-gradient(ellipse 40px 100%, rgba(64, 180, 166, 0.3), transparent 70%)",
-                filter: "blur(8px)",
-                width: "40px",
-                left: "-19px",
-              }}
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            
-            {/* Ligne principale avec box-shadow et pulse */}
-            <motion.div
-              className="absolute inset-0"
-              style={{
-                background: "linear-gradient(to bottom, rgba(64, 180, 166, 0.8), rgba(64, 180, 166, 0.4), rgba(143, 214, 204, 0.2))",
-                boxShadow: "0 0 20px rgba(64, 180, 166, 0.6), 0 0 40px rgba(64, 180, 166, 0.3)",
-              }}
-              animate={{
-                scale: [1, 1.05, 1],
-                opacity: [0.6, 1, 0.6],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            
-            {/* Spark effect - étincelle qui parcourt la liane */}
-            <motion.div
-              className="absolute w-1 h-1 bg-secondary rounded-full left-1/2 -translate-x-1/2"
-              style={{
-                boxShadow: "0 0 8px rgba(64, 180, 166, 0.8), 0 0 16px rgba(64, 180, 166, 0.4)",
-              }}
-              animate={{
-                y: [0, 384, 0],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+            <Image
+              src="/BlankMap-Africa.svg"
+              alt="Carte de l'Afrique"
+              fill
+              priority
+              className="object-contain opacity-95 drop-shadow-[0_22px_50px_rgba(64,180,166,0.18)]"
             />
           </motion.div>
         </div>

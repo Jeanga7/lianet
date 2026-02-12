@@ -18,7 +18,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
     const sizeClassName =
       size === "compact"
         ? "px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter"
-        : "px-12 py-4.5 text-sm font-bold";
+        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-bold";
 
     return (
       <motion.button
@@ -33,7 +33,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full text-white bg-[#40B4A6] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 overflow-hidden group",
+          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full text-white bg-[#40B4A6] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 overflow-hidden group whitespace-nowrap",
           sizeClassName,
           className
         )}
@@ -121,7 +121,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
     const sizeClassName =
       size === "compact"
         ? "px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter"
-        : "px-12 py-4.5 text-sm font-bold";
+        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-bold";
 
     return (
       <motion.button
@@ -136,7 +136,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/10 backdrop-blur-[6px] backdrop-saturate-150 sm:bg-white/5 sm:backdrop-blur-0 sm:backdrop-saturate-100 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden",
+          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/10 backdrop-blur-[6px] backdrop-saturate-150 sm:bg-white/5 sm:backdrop-blur-0 sm:backdrop-saturate-100 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden whitespace-nowrap",
           sizeClassName,
           className
         )}
