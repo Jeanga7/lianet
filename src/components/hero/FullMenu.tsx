@@ -179,6 +179,28 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                 </motion.button>
               </div>
 
+              {/* Sélecteur langue mobile (dans le menu, pour éviter d'encombrer le header fixe) */}
+              <motion.div variants={poleTitleVariants} className="px-6 pb-4">
+                <div className="flex justify-end">
+                  <div className="inline-flex items-center rounded-full border border-[#1B365D]/15 bg-white/78 p-1 backdrop-blur-sm">
+                    <button
+                      type="button"
+                      className="inline-flex min-w-9 items-center justify-center rounded-full bg-[#1B365D] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white"
+                      aria-label="Langue française active"
+                    >
+                      FR
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-[#1B365D]/65 transition-colors hover:text-[#40B4A6]"
+                      aria-label="Passer en anglais"
+                    >
+                      EN
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+
               <div className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide pb-[max(120px,env(safe-area-inset-bottom))]">
                 <motion.div variants={panelVariants} className="px-6">
                   {/* Navigation primaire */}

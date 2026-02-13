@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Menu } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 interface SidebarProps {
   onMenuClick?: () => void;
@@ -19,6 +19,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [expertiseHover, setExpertiseHover] = useState<"talent" | "lab" | null>(null);
   const [isExpertiseExpanded, setIsExpertiseExpanded] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   // Écouter les événements de hover depuis ExpertiseSection
   useEffect(() => {
@@ -155,7 +156,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#8FD6CC]/20 to-transparent" />
       {/* Menu hamburger en haut */}
       <motion.button
         type="button"
@@ -187,12 +188,12 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
               className="group relative flex h-7 w-7 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
               initial={{ opacity: 0, scale: 0 }}
               animate={{
-                opacity: shouldFade ? 0.2 : isActive ? 1 : 0.5,
-                scale: isActive ? 1.2 : 1,
+                opacity: shouldFade ? 0.24 : isActive ? 1 : 0.56,
+                scale: isActive ? 1.16 : 1,
               }}
-              whileHover={{ scale: isActive ? 1.2 : 1.1 }}
+              whileHover={{ scale: isActive ? 1.16 : 1.06 }}
               transition={{
-                duration: 0.4,
+                duration: 0.32,
                 delay: 0.3 + index * 0.1,
               }}
               aria-label={section.label}
@@ -202,7 +203,31 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
                 <motion.span
                   layoutId="sidebarActiveRing"
                   className="absolute inset-0 rounded-full border border-secondary/80 bg-secondary/10"
-                  transition={{ type: "spring", stiffness: 520, damping: 34 }}
+                  animate={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                          boxShadow: [
+                            "0 0 0 0 rgba(143,214,204,0.18)",
+                            "0 0 0 6px rgba(143,214,204,0)",
+                            "0 0 0 0 rgba(143,214,204,0.18)",
+                          ],
+                        }
+                  }
+                  transition={
+                    prefersReducedMotion
+                      ? { type: "spring", stiffness: 520, damping: 34 }
+                      : {
+                          type: "spring",
+                          stiffness: 520,
+                          damping: 34,
+                          boxShadow: {
+                            duration: 1.8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          },
+                        }
+                  }
                 />
               )}
               {shouldFade ? (
@@ -220,11 +245,11 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
                       : "bg-primary-foreground/30 group-hover:bg-secondary/60"
                   }`}
                   animate={{
-                    scaleY: shouldStretchUp ? 1.8 : shouldStretchDown ? 1.8 : 1,
-                    scaleX: shouldStretchUp || shouldStretchDown ? 1.2 : 1,
-                    y: shouldStretchUp ? -4 : shouldStretchDown ? 4 : 0,
+                    scaleY: shouldStretchUp ? 1.45 : shouldStretchDown ? 1.45 : 1,
+                    scaleX: shouldStretchUp || shouldStretchDown ? 1.08 : 1,
+                    y: shouldStretchUp ? -2 : shouldStretchDown ? 2 : 0,
                   }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  transition={{ duration: 0.24, ease: "easeOut" }}
                 />
               )}
             </motion.button>
