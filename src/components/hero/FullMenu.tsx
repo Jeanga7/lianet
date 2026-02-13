@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, type Variants, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { X, Linkedin, Twitter, Instagram, Mail, MapPin, ChevronDown } from "lucide-react";
 import { HeroSecondaryButton } from "@/components/ui";
+import { localizePathname } from "@/lib/locale";
+import { useI18n } from "@/lib/useI18n";
 
 interface FullMenuProps {
   isOpen: boolean;
@@ -85,12 +88,15 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
   const [expandedMobilePole, setExpandedMobilePole] = useState<"talent" | "strategy" | "lab" | null>(null);
   const [expandedMobileSection, setExpandedMobileSection] = useState<MobileSection | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const { locale, t } = useI18n();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const navItems = [
-    { label: "Solutions", href: "#solutions" },
-    { label: "Experts", href: "#experts" },
-    { label: "À Propos", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: t("navigation.solutions"), href: "#solutions" },
+    { label: t("navigation.experts"), href: "#experts" },
+    { label: t("navigation.about"), href: "#about" },
+    { label: t("navigation.contact"), href: "#contact" },
   ];
 
   const socialLinks = [
@@ -98,6 +104,16 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
     { icon: Twitter, href: "https://twitter.com/lianet", label: "Twitter" },
     { icon: Instagram, href: "https://instagram.com/lianet", label: "Instagram" },
   ];
+
+  const switchLocale = (targetLocale: "fr" | "en") => {
+    if (!pathname || locale === targetLocale) return;
+    const targetPath = localizePathname(pathname, targetLocale);
+    const query =
+      typeof window !== "undefined" ? window.location.search.replace(/^\?/, "") : "";
+    const hash =
+      typeof window !== "undefined" && window.location.hash ? window.location.hash : "";
+    router.push(`${targetPath}${query ? `?${query}` : ""}${hash}`);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -120,24 +136,21 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
   const poles = [
     {
       id: "talent" as const,
-      title: "Talent Solutions",
-      description:
-        "Nous ne nous contentons pas de trouver des profils ; nous bâtissons des équipes de choc. Accédez au top 3% des experts digitaux africains pour propulser vos développements techniques et vos designs d'interface.",
-      tags: "Staff Augmentation • Recrutement Expert • Agilité",
+      title: t("fullMenu.poles.talent.title"),
+      description: t("fullMenu.poles.talent.description"),
+      tags: t("fullMenu.poles.talent.tags"),
     },
     {
       id: "strategy" as const,
-      title: "Digital Strategy",
-      description:
-        "Le digital n'est pas une option, c'est votre moteur de croissance. Nos consultants dessinent la feuille de route de votre transformation, de l'audit initial au déploiement de solutions scalables et sécurisées.",
-      tags: "Conseil • Roadmap • ROI Mesurable",
+      title: t("fullMenu.poles.strategy.title"),
+      description: t("fullMenu.poles.strategy.description"),
+      tags: t("fullMenu.poles.strategy.tags"),
     },
     {
       id: "lab" as const,
-      title: "Innovation Lab",
-      description:
-        "Le laboratoire où les idées deviennent des produits. Nous incubons des projets disruptifs et explorons les technologies émergentes (IA, Web3, IoT) pour maintenir votre entreprise à l'avant-garde du marché.",
-      tags: "R&D • Prototypage rapide • Futurisme",
+      title: t("fullMenu.poles.lab.title"),
+      description: t("fullMenu.poles.lab.description"),
+      tags: t("fullMenu.poles.lab.tags"),
     },
   ];
 
@@ -166,12 +179,12 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
             >
               <div className="flex shrink-0 items-center justify-between px-6 pt-8 pb-4">
                 <p className="pl-4 text-[11px] font-semibold tracking-[0.22em] text-[#1B365D]/55 uppercase">
-                  Lianet Ecosystem
+                  {t("fullMenu.ecosystem")}
                 </p>
                 <motion.button
                   onClick={onClose}
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-[#1B365D]/15 bg-white/75 text-[#1B365D] backdrop-blur-md transition-colors"
-                  aria-label="Fermer le menu"
+                  aria-label={t("fullMenu.close")}
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
                 >
@@ -185,15 +198,23 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   <div className="inline-flex items-center rounded-full border border-[#1B365D]/15 bg-white/78 p-1 backdrop-blur-sm">
                     <button
                       type="button"
-                      className="inline-flex min-w-9 items-center justify-center rounded-full bg-[#1B365D] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white"
-                      aria-label="Langue française active"
+                      onClick={() => switchLocale("fr")}
+                      className={`inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.08em] transition-colors ${
+                        locale === "fr" ? "bg-[#1B365D] font-semibold text-white" : "font-medium text-[#1B365D]/65 hover:text-[#40B4A6]"
+                      }`}
+                      aria-label={locale === "fr" ? t("fullMenu.langActiveFr") : t("fullMenu.langSwitchFr")}
+                      aria-pressed={locale === "fr"}
                     >
                       FR
                     </button>
                     <button
                       type="button"
-                      className="inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-[#1B365D]/65 transition-colors hover:text-[#40B4A6]"
-                      aria-label="Passer en anglais"
+                      onClick={() => switchLocale("en")}
+                      className={`inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.08em] transition-colors ${
+                        locale === "en" ? "bg-[#1B365D] text-white" : "text-[#1B365D]/65 hover:text-[#40B4A6]"
+                      }`}
+                      aria-label={locale === "en" ? t("fullMenu.langActiveEn") : t("fullMenu.langSwitchEn")}
+                      aria-pressed={locale === "en"}
                     >
                       EN
                     </button>
@@ -224,7 +245,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   <motion.div variants={poleTitleVariants} className="pt-5 pb-7 pl-4 border-b border-[#1B365D]/10">
                     <HeroSecondaryButton
                       onClick={onClose}
-                      label="Start a Project"
+                      label={t("fullMenu.startProject")}
                       size="compact"
                       className="w-full sm:w-full bg-[#40B4A6]/12 hover:bg-[#40B4A6]/20 backdrop-blur-md border border-[#40B4A6]/30"
                     />
@@ -242,7 +263,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       aria-controls="mobile-menu-poles"
                     >
                       <span className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase">
-                        Pôles
+                        {t("fullMenu.sections.poles")}
                       </span>
                       <motion.div
                         animate={{ rotate: expandedMobileSection === "poles" ? 180 : 0 }}
@@ -328,7 +349,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       aria-controls="mobile-menu-resources"
                     >
                       <span className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase">
-                        Ressources
+                        {t("fullMenu.sections.resources")}
                       </span>
                       <motion.div
                         animate={{ rotate: expandedMobileSection === "resources" ? 180 : 0 }}
@@ -354,7 +375,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                                 onClick={onClose}
                                 className="group flex min-h-11 items-center gap-3 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
                               >
-                                Blog &amp; Insights
+                                {t("fullMenu.resources.insights")}
                                 <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
                               </Link>
                             </li>
@@ -364,7 +385,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                                 onClick={onClose}
                                 className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
                               >
-                                Carrières <span className="text-[#1B365D]/55 text-sm font-normal">(Join the Liane)</span>
+                                {t("fullMenu.resources.careers")} <span className="text-[#1B365D]/55 text-sm font-normal">{t("fullMenu.resources.careersSuffix")}</span>
                                 <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
                               </Link>
                             </li>
@@ -374,7 +395,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                                 onClick={onClose}
                                 className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
                               >
-                                Études de cas <span className="text-[#1B365D]/55 text-sm font-normal">(Success Stories)</span>
+                                {t("fullMenu.resources.caseStudies")} <span className="text-[#1B365D]/55 text-sm font-normal">{t("fullMenu.resources.caseStudiesSuffix")}</span>
                                 <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
                               </Link>
                             </li>
@@ -396,7 +417,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       aria-controls="mobile-menu-contact"
                     >
                       <span className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase">
-                        Contact &amp; Localisation
+                        {t("fullMenu.sections.contact")}
                       </span>
                       <motion.div
                         animate={{ rotate: expandedMobileSection === "contact" ? 180 : 0 }}
@@ -420,15 +441,15 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                               <div className="flex items-start gap-3">
                                 <MapPin className="mt-0.5 h-5 w-5 text-[#40B4A6] shrink-0" />
                                 <div>
-                                  <p className="text-sm font-semibold text-[#1B365D]">Dakar HQ</p>
-                                  <p className="mt-1 text-sm text-[#1B365D]/70">Dakar, Sénégal</p>
+                                  <p className="text-sm font-semibold text-[#1B365D]">{t("fullMenu.contact.dakar")}</p>
+                                  <p className="mt-1 text-sm text-[#1B365D]/70">{t("fullMenu.contact.city")}</p>
                                   <a
                                     href="https://www.google.com/maps?q=Lianet+Dakar"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="mt-2 inline-flex text-sm font-medium text-[#1B365D] underline-offset-4 hover:underline"
                                   >
-                                    Voir sur la carte
+                                    {t("fullMenu.contact.map")}
                                   </a>
                                 </div>
                               </div>
@@ -438,7 +459,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                               <div className="flex items-start gap-3">
                                 <Mail className="mt-0.5 h-5 w-5 text-[#40B4A6] shrink-0" />
                                 <div>
-                                  <p className="text-sm font-semibold text-[#1B365D]">Email</p>
+                                  <p className="text-sm font-semibold text-[#1B365D]">{t("fullMenu.contact.email")}</p>
                                   <a
                                     href="mailto:contact@lianet.africa"
                                     className="mt-1 inline-flex text-sm font-medium text-[#1B365D]/80 underline-offset-4 hover:text-[#40B4A6] hover:underline"
@@ -457,7 +478,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   {/* Social compact */}
                   <motion.div variants={poleTitleVariants} className="py-8 pl-4">
                     <p className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase mb-4">
-                      Social
+                      {t("fullMenu.sections.social")}
                     </p>
                     <div className="flex items-center gap-3">
                       {socialLinks.map((s) => {
@@ -482,9 +503,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     variants={poleDescriptionVariants}
                     className="mb-8 max-w-[92%] pl-4 italic text-[#1B365D]/62 pb-8"
                   >
-                    Parce que l&apos;avenir de l&apos;Afrique s&apos;écrit en lignes de code et en
-                    visions audacieuses, Lianet tisse la liane entre les ambitions des
-                    leaders et l&apos;excellence des talents.
+                    {t("fullMenu.manifesto")}
                   </motion.p>
                 </motion.div>
               </div>
@@ -539,7 +558,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               <button
                 onClick={onClose}
                 className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1B365D]/18 bg-white/80 text-[#1B365D] transition-all duration-200 hover:bg-[#1B365D]/6 hover:border-[#40B4A6]/45 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2"
-                aria-label="Fermer le menu"
+                aria-label={t("fullMenu.close")}
               >
                 <X className="h-6 w-6" />
               </button>
@@ -561,9 +580,9 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   </div>
 
                   <div className="mt-auto pt-44">
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
-                      Social
-                    </p>
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
+                  {t("fullMenu.sections.social")}
+                </p>
                     <div className="mt-3 flex items-center gap-3">
                       {socialLinks.map((s) => {
                         const Icon = s.icon;
@@ -588,7 +607,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               {/* Col 2: Pôles */}
               <motion.section variants={itemVariants} className="col-span-1 md:col-span-2 lg:col-span-3">
                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
-                  Pôles
+                  {t("fullMenu.sections.poles")}
                 </p>
                 <div className="mt-6 space-y-12">
                   <div
@@ -596,7 +615,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     onMouseLeave={() => setHoveredPole(null)}
                   >
                     <h3 className="text-3xl font-bold leading-none tracking-tight text-[#1B365D]">
-                      Talent Solutions
+                      {t("fullMenu.poles.talent.title")}
                     </h3>
                     <AnimatePresence initial={false}>
                       {hoveredPole === "talent" && (
@@ -608,13 +627,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           className="mt-4 rounded-xl border border-[#40B4A6]/28 bg-white/88 p-4 shadow-[0_12px_28px_rgba(64,180,166,0.14)] backdrop-blur-sm"
                         >
                           <p className="text-lg font-normal leading-relaxed text-[#1B365D]/90">
-                            Nous ne nous contentons pas de trouver des profils ; nous
-                            bâtissons des équipes de choc. Accédez au top 3% des
-                            experts digitaux africains pour propulser vos
-                            développements techniques et vos designs d&apos;interface.
+                            {t("fullMenu.poles.talent.description")}
                           </p>
                           <p className="mt-3 text-sm font-semibold tracking-wide text-[#40B4A6]">
-                            Staff Augmentation • Recrutement Expert • Agilité
+                            {t("fullMenu.poles.talent.tags")}
                           </p>
                         </motion.div>
                       )}
@@ -626,7 +642,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     onMouseLeave={() => setHoveredPole(null)}
                   >
                     <h3 className="text-3xl font-bold leading-none tracking-tight text-[#1B365D]">
-                      Digital Strategy
+                      {t("fullMenu.poles.strategy.title")}
                     </h3>
                     <AnimatePresence initial={false}>
                       {hoveredPole === "strategy" && (
@@ -638,13 +654,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           className="mt-4 rounded-xl border border-[#40B4A6]/28 bg-white/88 p-4 shadow-[0_12px_28px_rgba(64,180,166,0.14)] backdrop-blur-sm"
                         >
                           <p className="text-lg font-normal leading-relaxed text-[#1B365D]/90">
-                            Le digital n&apos;est pas une option, c&apos;est votre moteur
-                            de croissance. Nos consultants dessinent la feuille de
-                            route de votre transformation, de l&apos;audit initial au
-                            déploiement de solutions scalables et sécurisées.
+                            {t("fullMenu.poles.strategy.description")}
                           </p>
                           <p className="mt-3 text-sm font-semibold tracking-wide text-[#40B4A6]">
-                            Conseil • Roadmap • ROI Mesurable
+                            {t("fullMenu.poles.strategy.tags")}
                           </p>
                         </motion.div>
                       )}
@@ -656,7 +669,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     onMouseLeave={() => setHoveredPole(null)}
                   >
                     <h3 className="text-3xl font-bold leading-none tracking-tight text-[#1B365D] transition-colors hover:text-[#40B4A6]">
-                      Innovation Lab
+                      {t("fullMenu.poles.lab.title")}
                     </h3>
                     <AnimatePresence initial={false}>
                       {hoveredPole === "lab" && (
@@ -668,13 +681,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           className="mt-4 rounded-xl border border-[#40B4A6]/28 bg-white/88 p-4 shadow-[0_12px_28px_rgba(64,180,166,0.14)] backdrop-blur-sm"
                         >
                           <p className="text-lg font-normal leading-relaxed text-[#1B365D]/90">
-                            Le laboratoire où les idées deviennent des produits. Nous
-                            incubons des projets disruptifs et explorons les
-                            technologies émergentes (IA, Web3, IoT) pour maintenir
-                            votre entreprise à l&apos;avant-garde du marché.
+                            {t("fullMenu.poles.lab.description")}
                           </p>
                           <p className="mt-3 text-sm font-semibold tracking-wide text-[#40B4A6]">
-                            R&amp;D • Prototypage rapide • Futurisme
+                            {t("fullMenu.poles.lab.tags")}
                           </p>
                         </motion.div>
                       )}
@@ -686,7 +696,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               {/* Col 3: Ressources */}
               <motion.section variants={itemVariants} className="col-span-1 md:col-span-1 lg:col-span-3">
                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
-                  Ressources
+                  {t("fullMenu.sections.resources")}
                 </p>
                 <ul className="mt-6 space-y-4">
                   <li>
@@ -695,7 +705,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       onClick={onClose}
                       className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
                     >
-                      Blog &amp; Insights
+                      {t("fullMenu.resources.insights")}
                       <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                         →
                       </span>
@@ -707,7 +717,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       onClick={onClose}
                       className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
                     >
-                      Carrières <span className="text-[#1B365D]/60 normal-case tracking-normal">(Join the Liane)</span>
+                      {t("fullMenu.resources.careers")} <span className="text-[#1B365D]/60 normal-case tracking-normal">{t("fullMenu.resources.careersSuffix")}</span>
                       <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                         →
                           </span>
@@ -719,7 +729,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                       onClick={onClose}
                       className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
                     >
-                      Études de cas <span className="text-[#1B365D]/60 normal-case tracking-normal">(Success Stories)</span>
+                      {t("fullMenu.resources.caseStudies")} <span className="text-[#1B365D]/60 normal-case tracking-normal">{t("fullMenu.resources.caseStudiesSuffix")}</span>
                       <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                             →
                           </span>
@@ -731,7 +741,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               {/* Col 4: Contact & localisation */}
               <motion.aside variants={itemVariants} className="col-span-1 md:col-span-1 lg:col-span-3">
                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
-                  Contact &amp; Localisation
+                  {t("fullMenu.sections.contact")}
                 </p>
 
                 <div className="mt-6 space-y-4">
@@ -739,9 +749,9 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     <div className="flex items-start gap-3">
                       <MapPin className="mt-0.5 h-5 w-5 text-[#40B4A6]" />
                       <div>
-                        <p className="text-sm font-semibold text-[#1B365D]">Dakar HQ</p>
+                        <p className="text-sm font-semibold text-[#1B365D]">{t("fullMenu.contact.dakar")}</p>
                         <p className="mt-1 text-sm text-[#1B365D]/70">
-                          Dakar, Sénégal
+                          {t("fullMenu.contact.city")}
                         </p>
                         <a
                           href="https://www.google.com/maps?q=Lianet+Dakar"
@@ -749,7 +759,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           rel="noopener noreferrer"
                           className="mt-2 inline-flex text-sm font-medium text-[#1B365D] underline-offset-4 hover:underline"
                         >
-                          Voir sur la carte
+                          {t("fullMenu.contact.map")}
                         </a>
                       </div>
                     </div>
@@ -759,7 +769,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     <div className="flex items-start gap-3">
                       <Mail className="mt-0.5 h-5 w-5 text-[#40B4A6]" />
                       <div>
-                        <p className="text-sm font-semibold text-[#1B365D]">Email</p>
+                        <p className="text-sm font-semibold text-[#1B365D]">{t("fullMenu.contact.email")}</p>
                         <a
                           href="mailto:contact@lianet.africa"
                           className="mt-1 inline-flex text-sm font-medium text-[#1B365D]/80 underline-offset-4 hover:text-[#40B4A6] hover:underline"
@@ -773,7 +783,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   <div className="pt-2">
                     <HeroSecondaryButton
                       onClick={onClose}
-                      label="Start a Project"
+                      label={t("fullMenu.startProject")}
                       size="compact"
                       className="w-full sm:w-full bg-[#40B4A6]/15 hover:bg-[#40B4A6]/25 backdrop-blur-md border border-[#40B4A6]/25"
                     />
@@ -786,7 +796,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
             {/* Bottom tagline */}
             <motion.div variants={itemVariants} className="mt-24">
               <p className="text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D]">
-                Propulser les ambitions africaines vers l’ère numérique.
+                {t("fullMenu.tagline")}
               </p>
             </motion.div>
 
@@ -798,11 +808,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.9, delay: 1.1, ease: "easeOut" }}
             >
-              Parce que l&apos;avenir de l&apos;Afrique s&apos;écrit en lignes de code et en
-              visions audacieuses, Lianet tisse la liane entre les ambitions des
-              leaders et l&apos;excellence des talents. Nous ne construisons pas
-              seulement des solutions ; nous connectons les bâtisseurs du monde
-              de demain.
+              {t("fullMenu.manifesto")}
             </motion.p>
           </motion.div>
           </div>

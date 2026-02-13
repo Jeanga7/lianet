@@ -3,23 +3,25 @@
 import { useState, useEffect, useCallback } from "react";
 import { Menu } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useI18n } from "@/lib/useI18n";
 
 interface SidebarProps {
   onMenuClick?: () => void;
 }
 
-// Sections dans l'ordre d'apparition
-const sections = [
-  { id: "hero", label: "Accueil" },
-  { id: "expertise", label: "Expertise" },
-  { id: "manifeste", label: "Manifeste" },
-];
+const SECTION_IDS = ["hero", "expertise", "manifeste"] as const;
 
 const Sidebar = ({ onMenuClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [expertiseHover, setExpertiseHover] = useState<"talent" | "lab" | null>(null);
   const [isExpertiseExpanded, setIsExpertiseExpanded] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const { t } = useI18n();
+  const sections = [
+    { id: "hero", label: t("sidebar.hero") },
+    { id: "expertise", label: t("sidebar.expertise") },
+    { id: "manifeste", label: t("sidebar.manifeste") },
+  ];
 
   // Écouter les événements de hover depuis ExpertiseSection
   useEffect(() => {
@@ -72,7 +74,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     // Observer toutes les sections
-    sections.forEach(({ id }) => {
+    SECTION_IDS.forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);
@@ -80,7 +82,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     });
 
     return () => {
-      sections.forEach(({ id }) => {
+      SECTION_IDS.forEach((id) => {
         const element = document.getElementById(id);
         if (element) {
           observer.unobserve(element);
@@ -165,7 +167,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        aria-label="Menu"
+        aria-label={t("sidebar.menu")}
       >
         <Menu className="h-6 w-6 text-primary-foreground" />
       </motion.button>

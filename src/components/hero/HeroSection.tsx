@@ -6,12 +6,14 @@ import { motion, useMotionValue, useScroll, useSpring, useTransform } from "fram
 import { ChevronDown } from "lucide-react";
 import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
 import InteractiveLottie from "@/components/ui/molecules/InteractiveLottie";
+import { localizePathname } from "@/lib/locale";
+import { useI18n } from "@/lib/useI18n";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import OrganicBackground from "./OrganicBackground";
 
 const HeroSection = () => {
-  const heroParagraph =
-    "Lianet connects African businesses with top digital talents to build impactful, scalable solutions.";
+  const { locale, t } = useI18n();
+  const heroParagraph = t("hero.paragraph");
   const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll();
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
@@ -35,8 +37,8 @@ const HeroSection = () => {
 
   const handleButtonClick = useCallback(() => {
     setIsTransitioning(true);
-    setTargetUrl("/solutions");
-  }, []);
+    setTargetUrl(localizePathname("/solutions", locale));
+  }, [locale]);
 
   const handleMobileScrollClick = useCallback(() => {
     const targetSection = document.getElementById("expertise");
@@ -47,30 +49,37 @@ const HeroSection = () => {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let resetFrame: number | null = null;
     if (reducedMotion) {
-      const rafId = window.requestAnimationFrame(() => {
+      resetFrame = window.requestAnimationFrame(() => {
         setTypedChars(heroParagraph.length);
         setTypingDone(true);
       });
-      return () => window.cancelAnimationFrame(rafId);
+      return () => {
+        if (resetFrame) window.cancelAnimationFrame(resetFrame);
+      };
     }
 
     let startTimeout: number | null = null;
     let typingInterval: number | null = null;
 
     const startTyping = () => {
-      startTimeout = window.setTimeout(() => {
-        typingInterval = window.setInterval(() => {
-          setTypedChars((previous) => {
-            if (previous >= heroParagraph.length) {
-              if (typingInterval) window.clearInterval(typingInterval);
-              setTypingDone(true);
-              return heroParagraph.length;
-            }
-            return previous + 1;
-          });
-        }, 22);
-      }, 260);
+      resetFrame = window.requestAnimationFrame(() => {
+        setTypedChars(0);
+        setTypingDone(false);
+        startTimeout = window.setTimeout(() => {
+          typingInterval = window.setInterval(() => {
+            setTypedChars((previous) => {
+              if (previous >= heroParagraph.length) {
+                if (typingInterval) window.clearInterval(typingInterval);
+                setTypingDone(true);
+                return heroParagraph.length;
+              }
+              return previous + 1;
+            });
+          }, 22);
+        }, 260);
+      });
     };
 
     if (document.readyState === "complete") {
@@ -80,6 +89,7 @@ const HeroSection = () => {
     }
 
     return () => {
+      if (resetFrame) window.cancelAnimationFrame(resetFrame);
       if (startTimeout) window.clearTimeout(startTimeout);
       if (typingInterval) window.clearInterval(typingInterval);
       window.removeEventListener("load", startTyping);
@@ -212,7 +222,7 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              LIANET — STRATEGIC EXCELLENCE
+              {t("hero.eyebrow")}
             </motion.p>
 
             {/* Titre massif avec effet reveal et interaction de scroll */}
@@ -236,9 +246,9 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              Connecting
+              {t("hero.titleLine1")}
               <br className="block" />
-              <span className="inline-block whitespace-nowrap">the Future</span>
+              <span className="inline-block whitespace-nowrap">{t("hero.titleLine2")}</span>
             </motion.h1>
 
             {/* Paragraphe avec effet reveal */}
@@ -274,11 +284,11 @@ const HeroSection = () => {
               {/* CTA Primaire - Focus avec solidité premium */}
               <HeroPrimaryButton
                 onClick={handleButtonClick}
-                label="Nos Solutions"
+                label={t("hero.primaryCta")}
               />
               
               {/* CTA Secondaire - Glassmorphism premium avec barre de scan */}
-              <HeroSecondaryButton label="Start Project" />
+              <HeroSecondaryButton label={t("hero.secondaryCta")} />
             </motion.div>
           </motion.div>
         </div>
@@ -321,15 +331,15 @@ const HeroSection = () => {
         <div className="mx-auto w-full max-w-md flex flex-col gap-3">
           <HeroPrimaryButton
             onClick={handleButtonClick}
-            label="Nos Solutions"
+            label={t("hero.primaryCta")}
           />
-          <HeroSecondaryButton label="Start Project" />
+          <HeroSecondaryButton label={t("hero.secondaryCta")} />
           <motion.button
             type="button"
             onClick={handleMobileScrollClick}
             whileTap={{ scale: 0.94 }}
             className="mt-6 inline-flex items-center justify-center self-center p-1 text-[#1B365D]/78"
-            aria-label="Scroller vers la section suivante"
+            aria-label={t("hero.scrollCta")}
           >
             <span className="relative flex flex-col items-center leading-none">
               <motion.span

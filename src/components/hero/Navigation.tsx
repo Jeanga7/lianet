@@ -4,12 +4,18 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Magnetic } from "@/components/ui";
+import { localizePathname } from "@/lib/locale";
+import { useI18n } from "@/lib/useI18n";
 
 const Navigation = () => {
   const [isCondensed, setIsCondensed] = useState(false);
   const [hasDepth, setHasDepth] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const { locale, t } = useI18n();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleScroll = useCallback(() => {
     const container = document.getElementById("main-scroll");
@@ -43,11 +49,21 @@ const Navigation = () => {
   }, [handleScroll]);
 
   const navItems = [
-    { label: "Solutions", href: "#solutions" },
-    { label: "Experts", href: "#experts" },
-    { label: "À Propos", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: t("navigation.solutions"), href: "#solutions" },
+    { label: t("navigation.experts"), href: "#experts" },
+    { label: t("navigation.about"), href: "#about" },
+    { label: t("navigation.contact"), href: "#contact" },
   ];
+
+  const switchLocale = (targetLocale: "fr" | "en") => {
+    if (!pathname || locale === targetLocale) return;
+    const targetPath = localizePathname(pathname, targetLocale);
+    const query =
+      typeof window !== "undefined" ? window.location.search.replace(/^\?/, "") : "";
+    const hash =
+      typeof window !== "undefined" && window.location.hash ? window.location.hash : "";
+    router.push(`${targetPath}${query ? `?${query}` : ""}${hash}`);
+  };
 
   return (
     <nav className="fixed left-20 right-0 top-0 z-50 hidden lg:block">
@@ -62,7 +78,6 @@ const Navigation = () => {
           opacity: 1,
           y: 0,
           backdropFilter: isCondensed ? "blur(14px)" : "blur(6px)",
-          WebkitBackdropFilter: isCondensed ? "blur(14px)" : "blur(6px)",
           backgroundColor: isCondensed
             ? hasDepth
               ? "rgba(255,255,255,0.86)"
@@ -80,6 +95,9 @@ const Navigation = () => {
           duration: prefersReducedMotion ? 0 : 0.42,
           delay: prefersReducedMotion ? 0 : 0.08,
           ease: [0.22, 1, 0.36, 1],
+        }}
+        style={{
+          WebkitBackdropFilter: isCondensed ? "blur(14px)" : "blur(6px)",
         }}
       >
         <motion.span
@@ -108,7 +126,11 @@ const Navigation = () => {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <Link href="/" aria-label="Accueil Lianet" className="group relative inline-flex items-center">
+          <Link
+            href={localizePathname("/", locale)}
+            aria-label="Accueil Lianet"
+            className="group relative inline-flex items-center"
+          >
             <span className="pointer-events-none absolute -inset-2 rounded-full bg-[#40B4A6]/20 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
             <Image
               src="/logo-lianet-sans-bg.png"
@@ -166,15 +188,23 @@ const Navigation = () => {
           >
             <button
               type="button"
-              className="inline-flex min-w-9 items-center justify-center rounded-full bg-[#1B365D] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2"
-              aria-label="Langue française active"
+              onClick={() => switchLocale("fr")}
+              className={`inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2 ${
+                locale === "fr" ? "bg-[#1B365D] font-semibold text-white" : "font-medium text-[#1B365D]/65 hover:text-[#40B4A6]"
+              }`}
+              aria-label={locale === "fr" ? t("navigation.langActiveFr") : t("navigation.langSwitchFr")}
+              aria-pressed={locale === "fr"}
             >
               FR
             </button>
             <button
               type="button"
-              className="inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#1B365D]/65 transition-colors hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2"
-              aria-label="Passer en anglais"
+              onClick={() => switchLocale("en")}
+              className={`inline-flex min-w-9 items-center justify-center rounded-full px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2 ${
+                locale === "en" ? "bg-[#1B365D] text-white" : "text-[#1B365D]/65 hover:text-[#40B4A6]"
+              }`}
+              aria-label={locale === "en" ? t("navigation.langActiveEn") : t("navigation.langSwitchEn")}
+              aria-pressed={locale === "en"}
             >
               EN
             </button>
