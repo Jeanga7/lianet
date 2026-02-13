@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { X, Linkedin, Twitter, Instagram, Mail, MapPin, ChevronDown } from "lucide-react";
 import { HeroSecondaryButton } from "@/components/ui";
@@ -16,7 +16,8 @@ const backdropVariants: Variants = {
   show: { opacity: 1, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } },
   exit: { 
     opacity: 0, 
-    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] as const },
+    pointerEvents: "none",
+    transition: { duration: 0.04, ease: [0.4, 0, 1, 1] as const },
   },
 };
 
@@ -33,7 +34,8 @@ const panelVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] as const },
+    pointerEvents: "none",
+    transition: { duration: 0.04, ease: [0.4, 0, 1, 1] as const },
   },
 };
 
@@ -78,13 +80,17 @@ const poleDescriptionVariants: Variants = {
 };
 
 export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
+  type MobileSection = "poles" | "resources" | "contact";
   const [hoveredPole, setHoveredPole] = useState<"talent" | "strategy" | "lab" | null>(null);
   const [expandedMobilePole, setExpandedMobilePole] = useState<"talent" | "strategy" | "lab" | null>(null);
+  const [expandedMobileSection, setExpandedMobileSection] = useState<MobileSection | null>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const navItems = [
     { label: "Solutions", href: "#solutions" },
     { label: "Experts", href: "#experts" },
     { label: "À Propos", href: "#about" },
+    { label: "Contact", href: "#contact" },
   ];
 
   const socialLinks = [
@@ -145,12 +151,12 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
           exit="exit"
           variants={backdropVariants}
         >
-          {/* Mobile version - Fond Bleu Profond */}
-          <div className="absolute inset-0 h-[100dvh] bg-[#1B365D] lg:hidden">
-            {/* Liane verticale (gauche) - relie visuellement les titres */}
-            <div className="absolute left-6 top-0 h-full w-[0.5px] bg-[#40B4A6]" />
+          {/* Mobile version - Light Glass aligned with desktop */}
+          <div className="absolute inset-0 h-[100dvh] overflow-hidden bg-background/95 lg:hidden">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-secondary/12 via-white/70 to-accent/10" />
+            <div className="pointer-events-none absolute inset-0 grid-pattern opacity-20" />
+            <div className="pointer-events-none absolute left-6 top-0 h-full w-px bg-[#40B4A6]/35" />
 
-            {/* Content mobile */}
             <motion.div
               variants={panelVariants}
               role="dialog"
@@ -158,229 +164,277 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
               aria-label="Menu principal"
               className="relative flex h-full flex-col overflow-hidden"
             >
-              {/* Top bar - Bouton fermer */}
-              <div className="flex shrink-0 items-start justify-end px-6 pt-8">
+              <div className="flex shrink-0 items-center justify-between px-6 pt-8 pb-4">
+                <p className="pl-4 text-[11px] font-semibold tracking-[0.22em] text-[#1B365D]/55 uppercase">
+                  Lianet Ecosystem
+                </p>
                 <motion.button
                   onClick={onClose}
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/90 transition-colors hover:bg-white/20"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#1B365D]/15 bg-white/75 text-[#1B365D] backdrop-blur-md transition-colors"
                   aria-label="Fermer le menu"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
                 >
                   <X className="h-5 w-5" strokeWidth={1.5} />
                 </motion.button>
               </div>
 
-              {/* Scrollable content */}
               <div className="flex-1 overflow-y-auto overscroll-contain scrollbar-hide pb-[max(120px,env(safe-area-inset-bottom))]">
-                <motion.div
-                  variants={panelVariants}
-                  className="px-6"
-                >
-                  {/* Vision - Header subtil */}
-                  <motion.div variants={poleTitleVariants} className="py-8 pl-6 border-b border-white/10">
-                    <p className="text-xs font-semibold tracking-[0.2em] text-white/60 uppercase">
-                      Lianet Ecosystem
-                    </p>
-                  </motion.div>
-
-                  {/* Navigation principale */}
-                  <motion.div variants={poleTitleVariants} className="py-6 pl-6 border-b border-white/10">
-                    <ul className="space-y-2">
+                <motion.div variants={panelVariants} className="px-6">
+                  {/* Navigation primaire */}
+                  <motion.div variants={poleTitleVariants} className="pb-5 border-b border-[#1B365D]/10">
+                    <ul className="space-y-1">
                       {navItems.map((item) => (
                         <li key={item.href}>
                           <Link
                             href={item.href}
                             onClick={onClose}
-                            className="group flex items-center gap-3 rounded-lg px-4 py-4 -ml-4 text-2xl font-semibold tracking-tight text-white transition-all active:scale-[0.98] active:bg-white/5"
+                            className="group flex min-h-11 items-center justify-center rounded-xl px-4 py-3 text-center text-[1.08rem] font-medium uppercase leading-tight tracking-[0.08em] text-[#1B365D] transition-all active:scale-[0.98] active:bg-[#1B365D]/5"
                           >
-                            {/* Indicateur visuel gauche */}
-                            <span className="h-1 w-1 shrink-0 rounded-full bg-[#40B4A6] opacity-0 transition-opacity group-hover:opacity-100 group-active:opacity-100" />
-                            
-                            {/* Texte avec soulignement subtil */}
-                            <span className="relative">
-                              {item.label}
-                              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#40B4A6] transition-all duration-300 group-hover:w-full group-active:w-full" />
-                            </span>
-                            
-                            {/* Flèche */}
-                            <span className="ml-auto translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 group-active:translate-x-1 group-active:opacity-100 text-[#40B4A6]">
-                              →
-                            </span>
+                            <span className="relative">{item.label}</span>
                           </Link>
                         </li>
                       ))}
                     </ul>
                   </motion.div>
 
-                  {/* Pôles - Accordéons */}
-                  <div className="space-y-0">
-                    {poles.map((pole) => {
-                      const isExpanded = expandedMobilePole === pole.id;
-                      return (
+                  {/* CTA principal au-dessus de la ligne de flottaison */}
+                  <motion.div variants={poleTitleVariants} className="pt-5 pb-7 pl-4 border-b border-[#1B365D]/10">
+                    <HeroSecondaryButton
+                      onClick={onClose}
+                      label="Start a Project"
+                      size="compact"
+                      className="w-full sm:w-full bg-[#40B4A6]/12 hover:bg-[#40B4A6]/20 backdrop-blur-md border border-[#40B4A6]/30"
+                    />
+                  </motion.div>
+
+                  {/* Section Pôles repliée */}
+                  <motion.div variants={poleTitleVariants} className="border-b border-[#1B365D]/10">
+                    <motion.button
+                      onClick={() =>
+                        setExpandedMobileSection(expandedMobileSection === "poles" ? null : "poles")
+                      }
+                      className="flex min-h-11 w-full items-center justify-between py-4 pl-4 pr-2 text-left"
+                      whileTap={{ scale: 0.99 }}
+                      aria-expanded={expandedMobileSection === "poles"}
+                      aria-controls="mobile-menu-poles"
+                    >
+                      <span className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase">
+                        Pôles
+                      </span>
+                      <motion.div
+                        animate={{ rotate: expandedMobileSection === "poles" ? 180 : 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        <ChevronDown className="h-5 w-5 text-[#1B365D]/60" strokeWidth={1.5} />
+                      </motion.div>
+                    </motion.button>
+                    <AnimatePresence initial={false}>
+                      {expandedMobileSection === "poles" && (
                         <motion.div
-                          key={pole.id}
-                          variants={poleTitleVariants}
-                          className="relative border-b border-white/10 last:border-b-0"
+                          id="mobile-menu-poles"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{
+                            duration: shouldReduceMotion ? 0 : 0.26,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="overflow-hidden"
                         >
-                          {/* Titre cliquable */}
-                          <motion.button
-                            onClick={() => setExpandedMobilePole(isExpanded ? null : pole.id)}
-                            className="flex w-full items-center justify-between py-8 pl-6 pr-4 text-left"
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <h3 className="text-5xl font-extrabold leading-[1.1] tracking-[-0.04em] text-white">
-                              {pole.title}
-                            </h3>
-                            <motion.div
-                              animate={{ rotate: isExpanded ? 180 : 0 }}
-                              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                              className="ml-4 shrink-0"
-                            >
-                              <ChevronDown className="h-6 w-6 text-white/60" strokeWidth={1.5} />
-                            </motion.div>
-                          </motion.button>
-
-                          {/* Description - Accordéon */}
-                          <AnimatePresence initial={false}>
-                            {isExpanded && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                className="overflow-hidden"
-                              >
-                                <div className="px-6 pb-8">
-                                  <p className="text-lg font-light leading-relaxed text-[#8FD6CC]/90 max-w-[85%]">
-                                    {pole.description}
-                                  </p>
-                                  <p className="mt-4 text-sm font-medium tracking-wide text-[#8FD6CC]/70">
-                                    {pole.tags}
-                                  </p>
+                          <div className="pb-5">
+                            {poles.map((pole) => {
+                              const isExpanded = expandedMobilePole === pole.id;
+                              return (
+                                <div key={pole.id} className="border-t border-[#1B365D]/8 first:border-t-0">
+                                  <motion.button
+                                    onClick={() => setExpandedMobilePole(isExpanded ? null : pole.id)}
+                                    className="flex min-h-11 w-full items-center justify-between px-4 py-4 text-left"
+                                    whileTap={{ scale: 0.99 }}
+                                  >
+                                    <h3 className="text-[1.22rem] font-semibold leading-snug tracking-[-0.01em] text-[#1B365D]">
+                                      {pole.title}
+                                    </h3>
+                                    <motion.div
+                                      animate={{ rotate: isExpanded ? 180 : 0 }}
+                                      transition={{ duration: shouldReduceMotion ? 0 : 0.24 }}
+                                      className="ml-4 shrink-0"
+                                    >
+                                      <ChevronDown className="h-5 w-5 text-[#1B365D]/55" strokeWidth={1.5} />
+                                    </motion.div>
+                                  </motion.button>
+                                  <AnimatePresence initial={false}>
+                                    {isExpanded && (
+                                      <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: shouldReduceMotion ? 0 : 0.24 }}
+                                        className="overflow-hidden"
+                                      >
+                                        <div className="px-4 pb-5">
+                                          <p className="text-[0.98rem] leading-relaxed text-[#1B365D]/80">
+                                            {pole.description}
+                                          </p>
+                                          <p className="mt-3 text-sm font-medium tracking-wide text-[#40B4A6]">
+                                            {pole.tags}
+                                          </p>
+                                        </div>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
                                 </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
+                              );
+                            })}
+                          </div>
                         </motion.div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Ressources - Section compacte */}
-                  <motion.div variants={poleTitleVariants} className="py-10 pl-6 border-b border-white/10">
-                    <p className="text-xs font-semibold tracking-wide text-white/60 uppercase mb-6">
-                      Ressources
-                    </p>
-                    <ul className="space-y-3">
-                      <li>
-                        <Link
-                          href="#insights"
-                          onClick={onClose}
-                          className="group flex items-center gap-3 rounded-lg px-4 py-3 -ml-4 text-lg font-semibold tracking-tight text-white transition-all active:scale-[0.98] active:bg-white/5"
-                        >
-                          <span className="h-1 w-1 shrink-0 rounded-full bg-[#40B4A6] opacity-0 transition-opacity group-hover:opacity-100 group-active:opacity-100" />
-                          <span className="relative">
-                            Blog &amp; Insights
-                            <span className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-[#40B4A6] transition-all duration-300 group-hover:w-full group-active:w-full" />
-                          </span>
-                          <span className="ml-auto translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 group-active:translate-x-1 group-active:opacity-100 text-[#40B4A6]">
-                            →
-                          </span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="#careers"
-                          onClick={onClose}
-                          className="group flex items-center gap-3 rounded-lg px-4 py-3 -ml-4 text-lg font-semibold tracking-tight text-white transition-all active:scale-[0.98] active:bg-white/5"
-                        >
-                          <span className="h-1 w-1 shrink-0 rounded-full bg-[#40B4A6] opacity-0 transition-opacity group-hover:opacity-100 group-active:opacity-100" />
-                          <span className="relative">
-                            Carrières
-                            <span className="text-white/60 text-sm ml-2 font-normal">(Join the Liane)</span>
-                            <span className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-[#40B4A6] transition-all duration-300 group-hover:w-full group-active:w-full" />
-                          </span>
-                          <span className="ml-auto translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 group-active:translate-x-1 group-active:opacity-100 text-[#40B4A6]">
-                            →
-                          </span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="#case-studies"
-                          onClick={onClose}
-                          className="group flex items-center gap-3 rounded-lg px-4 py-3 -ml-4 text-lg font-semibold tracking-tight text-white transition-all active:scale-[0.98] active:bg-white/5"
-                        >
-                          <span className="h-1 w-1 shrink-0 rounded-full bg-[#40B4A6] opacity-0 transition-opacity group-hover:opacity-100 group-active:opacity-100" />
-                          <span className="relative">
-                            Études de cas
-                            <span className="text-white/60 text-sm ml-2 font-normal">(Success Stories)</span>
-                            <span className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-[#40B4A6] transition-all duration-300 group-hover:w-full group-active:w-full" />
-                          </span>
-                          <span className="ml-auto translate-x-0 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 group-active:translate-x-1 group-active:opacity-100 text-[#40B4A6]">
-                            →
-                          </span>
-                        </Link>
-                      </li>
-                    </ul>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
 
-                  {/* Contact & Localisation - Cards compactes */}
-                  <motion.div variants={poleTitleVariants} className="py-10 pl-6 border-b border-white/10">
-                    <p className="text-xs font-semibold tracking-wide text-white/60 uppercase mb-6">
-                      Contact &amp; Localisation
-                    </p>
-                    <div className="space-y-4">
-                      <div className="rounded-xl border border-white/20 bg-white/5 p-4 backdrop-blur-sm">
-                        <div className="flex items-start gap-3">
-                          <MapPin className="mt-0.5 h-5 w-5 text-[#40B4A6] shrink-0" />
-                          <div>
-                            <p className="text-sm font-semibold text-white">Dakar HQ</p>
-                            <p className="mt-1 text-sm text-white/70">
-                              Dakar, Sénégal
-                            </p>
-                            <a
-                              href="https://www.google.com/maps?q=Lianet+Dakar"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="mt-2 inline-flex text-sm font-medium text-[#40B4A6] underline-offset-4 hover:underline"
-                            >
-                              Voir sur la carte
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="rounded-xl border border-white/20 bg-white/5 p-4 backdrop-blur-sm">
-                        <div className="flex items-start gap-3">
-                          <Mail className="mt-0.5 h-5 w-5 text-[#40B4A6] shrink-0" />
-                          <div>
-                            <p className="text-sm font-semibold text-white">Email</p>
-                            <a
-                              href="mailto:contact@lianet.africa"
-                              className="mt-1 inline-flex text-sm font-medium text-white/80 underline-offset-4 hover:text-[#40B4A6] hover:underline"
-                            >
-                              contact@lianet.africa
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="pt-2">
-                        <HeroSecondaryButton
-                          onClick={onClose}
-                          label="Start a Project"
-                          size="compact"
-                          className="w-full sm:w-full bg-[#40B4A6]/20 hover:bg-[#40B4A6]/30 backdrop-blur-md border border-[#40B4A6]/30"
-                        />
-                      </div>
-                    </div>
+                  {/* Section Ressources repliée */}
+                  <motion.div variants={poleTitleVariants} className="border-b border-[#1B365D]/10">
+                    <motion.button
+                      onClick={() =>
+                        setExpandedMobileSection(
+                          expandedMobileSection === "resources" ? null : "resources"
+                        )
+                      }
+                      className="flex min-h-11 w-full items-center justify-between py-4 pl-4 pr-2 text-left"
+                      whileTap={{ scale: 0.99 }}
+                      aria-expanded={expandedMobileSection === "resources"}
+                      aria-controls="mobile-menu-resources"
+                    >
+                      <span className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase">
+                        Ressources
+                      </span>
+                      <motion.div
+                        animate={{ rotate: expandedMobileSection === "resources" ? 180 : 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        <ChevronDown className="h-5 w-5 text-[#1B365D]/60" strokeWidth={1.5} />
+                      </motion.div>
+                    </motion.button>
+                    <AnimatePresence initial={false}>
+                      {expandedMobileSection === "resources" && (
+                        <motion.div
+                          id="mobile-menu-resources"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: shouldReduceMotion ? 0 : 0.24 }}
+                          className="overflow-hidden"
+                        >
+                          <ul className="space-y-1 px-4 pb-5">
+                            <li>
+                              <Link
+                                href="#insights"
+                                onClick={onClose}
+                                className="group flex min-h-11 items-center gap-3 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
+                              >
+                                Blog &amp; Insights
+                                <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                href="#careers"
+                                onClick={onClose}
+                                className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
+                              >
+                                Carrières <span className="text-[#1B365D]/55 text-sm font-normal">(Join the Liane)</span>
+                                <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                href="#case-studies"
+                                onClick={onClose}
+                                className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
+                              >
+                                Études de cas <span className="text-[#1B365D]/55 text-sm font-normal">(Success Stories)</span>
+                                <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
+                              </Link>
+                            </li>
+                          </ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
 
-                  {/* Social - Section compacte */}
-                  <motion.div variants={poleTitleVariants} className="py-10 pl-6 border-b border-white/10">
-                    <p className="text-xs font-semibold tracking-wide text-white/60 uppercase mb-4">
+                  {/* Section Contact repliée */}
+                  <motion.div variants={poleTitleVariants} className="border-b border-[#1B365D]/10">
+                    <motion.button
+                      onClick={() =>
+                        setExpandedMobileSection(expandedMobileSection === "contact" ? null : "contact")
+                      }
+                      className="flex min-h-11 w-full items-center justify-between py-4 pl-4 pr-2 text-left"
+                      whileTap={{ scale: 0.99 }}
+                      aria-expanded={expandedMobileSection === "contact"}
+                      aria-controls="mobile-menu-contact"
+                    >
+                      <span className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase">
+                        Contact &amp; Localisation
+                      </span>
+                      <motion.div
+                        animate={{ rotate: expandedMobileSection === "contact" ? 180 : 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        <ChevronDown className="h-5 w-5 text-[#1B365D]/60" strokeWidth={1.5} />
+                      </motion.div>
+                    </motion.button>
+                    <AnimatePresence initial={false}>
+                      {expandedMobileSection === "contact" && (
+                        <motion.div
+                          id="mobile-menu-contact"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: shouldReduceMotion ? 0 : 0.24 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="space-y-3 px-4 pb-5">
+                            <div className="rounded-xl border border-[#1B365D]/12 bg-white/70 p-4 backdrop-blur-sm">
+                              <div className="flex items-start gap-3">
+                                <MapPin className="mt-0.5 h-5 w-5 text-[#40B4A6] shrink-0" />
+                                <div>
+                                  <p className="text-sm font-semibold text-[#1B365D]">Dakar HQ</p>
+                                  <p className="mt-1 text-sm text-[#1B365D]/70">Dakar, Sénégal</p>
+                                  <a
+                                    href="https://www.google.com/maps?q=Lianet+Dakar"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-2 inline-flex text-sm font-medium text-[#1B365D] underline-offset-4 hover:underline"
+                                  >
+                                    Voir sur la carte
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="rounded-xl border border-[#1B365D]/12 bg-white/70 p-4 backdrop-blur-sm">
+                              <div className="flex items-start gap-3">
+                                <Mail className="mt-0.5 h-5 w-5 text-[#40B4A6] shrink-0" />
+                                <div>
+                                  <p className="text-sm font-semibold text-[#1B365D]">Email</p>
+                                  <a
+                                    href="mailto:contact@lianet.africa"
+                                    className="mt-1 inline-flex text-sm font-medium text-[#1B365D]/80 underline-offset-4 hover:text-[#40B4A6] hover:underline"
+                                  >
+                                    contact@lianet.africa
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+
+                  {/* Social compact */}
+                  <motion.div variants={poleTitleVariants} className="py-8 pl-4">
+                    <p className="text-xs font-semibold tracking-[0.2em] text-[#1B365D]/55 uppercase mb-4">
                       Social
                     </p>
                     <div className="flex items-center gap-3">
@@ -392,7 +446,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                             href={s.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/90 transition-colors hover:border-[#40B4A6]/50 hover:bg-white/20 hover:text-[#40B4A6]"
+                            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#1B365D]/15 bg-white/75 text-[#1B365D]/80 transition-colors hover:border-[#40B4A6]/45 hover:text-[#40B4A6]"
                             aria-label={s.label}
                           >
                             <Icon className="h-5 w-5" />
@@ -402,16 +456,13 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     </div>
                   </motion.div>
 
-                  {/* Manifeste - Safe area */}
                   <motion.p
                     variants={poleDescriptionVariants}
-                    className="mt-10 mb-8 max-w-[85%] pl-6 italic text-[#8FD6CC] opacity-90 pb-8"
+                    className="mb-8 max-w-[92%] pl-4 italic text-[#1B365D]/62 pb-8"
                   >
                     Parce que l&apos;avenir de l&apos;Afrique s&apos;écrit en lignes de code et en
                     visions audacieuses, Lianet tisse la liane entre les ambitions des
-                    leaders et l&apos;excellence des talents. Nous ne construisons pas
-                    seulement des solutions ; nous connectons les bâtisseurs du monde
-                    de demain.
+                    leaders et l&apos;excellence des talents.
                   </motion.p>
                 </motion.div>
               </div>

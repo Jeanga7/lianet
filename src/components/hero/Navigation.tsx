@@ -69,7 +69,7 @@ const Navigation = () => {
               <Magnetic className="inline-flex">
                 <Link
                   href={item.href}
-                  className="group relative inline-flex items-center text-sm font-medium text-foreground transition-colors duration-300 hover:text-[#40B4A6]"
+                  className="group relative inline-flex items-center text-sm font-normal uppercase tracking-[0.08em] text-foreground transition-colors duration-300 hover:text-[#40B4A6]"
                 >
                   <span className="relative">
                     {item.label}
