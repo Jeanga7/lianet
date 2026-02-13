@@ -2,8 +2,12 @@
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Users, Target, FlaskConical, TrendingUp, Eye, Lightbulb, Zap, Sparkles, CheckCircle2, Award, Globe, Code, Briefcase, Rocket, Hexagon, Circle, Diamond, Plus, Minus } from "lucide-react";
 import { HeroPrimaryButton } from "@/components/ui";
+import { localizePathname } from "@/lib/locale";
+import { appRoutes } from "@/lib/routes";
+import { useI18n } from "@/lib/useI18n";
 
 // Composant Lens Flare pour le socle
 const LensFlare = () => {
@@ -801,6 +805,8 @@ const KineticCard = ({
 };
 
 const ManifesteSection = () => {
+  const router = useRouter();
+  const { locale } = useI18n();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const cardRef0 = useRef<HTMLDivElement>(null);
@@ -1142,6 +1148,7 @@ const ManifesteSection = () => {
                 show: { opacity: 1, x: 0, scale: 1 },
               }}
               label="Initier le mouvement"
+              onClick={() => router.push(localizePathname(appRoutes.contact, locale))}
               size="compact"
               className="flex-shrink-0"
             />

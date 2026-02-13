@@ -7,9 +7,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Magnetic } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
+import { mainNavigationRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
 
-const Navigation = () => {
+interface NavigationProps {
+  onNavigateWithWipe?: (href: string) => void;
+}
+
+const Navigation = ({ onNavigateWithWipe }: NavigationProps) => {
   const [isCondensed, setIsCondensed] = useState(false);
   const [hasDepth, setHasDepth] = useState(false);
   const prefersReducedMotion = useReducedMotion();
@@ -48,12 +53,10 @@ const Navigation = () => {
     };
   }, [handleScroll]);
 
-  const navItems = [
-    { label: t("navigation.solutions"), href: "#solutions" },
-    { label: t("navigation.experts"), href: "#experts" },
-    { label: t("navigation.about"), href: "#about" },
-    { label: t("navigation.contact"), href: "#contact" },
-  ];
+  const navItems = mainNavigationRoutes.map((item) => ({
+    label: t(item.labelKey),
+    href: localizePathname(item.path, locale),
+  }));
 
   const switchLocale = (targetLocale: "fr" | "en") => {
     if (!pathname || locale === targetLocale) return;
@@ -63,6 +66,14 @@ const Navigation = () => {
     const hash =
       typeof window !== "undefined" && window.location.hash ? window.location.hash : "";
     router.push(`${targetPath}${query ? `?${query}` : ""}${hash}`);
+  };
+
+  const navigateTo = (href: string) => {
+    if (onNavigateWithWipe) {
+      onNavigateWithWipe(href);
+      return;
+    }
+    router.push(href);
   };
 
   return (
@@ -130,6 +141,10 @@ const Navigation = () => {
             href={localizePathname("/", locale)}
             aria-label="Accueil Lianet"
             className="group relative inline-flex items-center"
+            onClick={(event) => {
+              event.preventDefault();
+              navigateTo(localizePathname("/", locale));
+            }}
           >
             <span className="pointer-events-none absolute -inset-2 rounded-full bg-[#40B4A6]/20 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
             <Image
@@ -160,6 +175,10 @@ const Navigation = () => {
               <Magnetic className="inline-flex">
                 <Link
                   href={item.href}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigateTo(item.href);
+                  }}
                   className="group relative inline-flex items-center text-sm font-normal uppercase tracking-[0.06em] text-[#1B365D] transition-colors duration-300 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2 rounded-sm"
                 >
                   <span className="relative">

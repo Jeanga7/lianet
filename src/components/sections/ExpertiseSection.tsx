@@ -4,6 +4,9 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence, Variants, useMotionValue, useSpring, useScroll, useTransform, useInView } from "framer-motion";
 import { Users, Target, FlaskConical, ArrowRight } from "lucide-react";
 import { PageWipe } from "@/components/ui";
+import { localizePathname } from "@/lib/locale";
+import { appRoutes } from "@/lib/routes";
+import { useI18n } from "@/lib/useI18n";
 import BackgroundEffects from "./BackgroundEffects";
 import FilmGrain from "./FilmGrain";
 
@@ -37,7 +40,7 @@ const poles: Pole[] = [
       "Gestion de Carrière d'Excellence",
     ],
     buttonText: "Explorer nos Talents",
-    buttonHref: "/solutions/talent",
+    buttonHref: appRoutes.solutionsTalent,
       icon: Users,
     },
     {
@@ -55,7 +58,7 @@ const poles: Pole[] = [
       "Ingénierie de Processus",
     ],
     buttonText: "Consulter nos Stratégies",
-    buttonHref: "/solutions/strategy",
+    buttonHref: appRoutes.solutionsStrategy,
       icon: Target,
     canvasBg: "bg-blue-50/30",
     },
@@ -74,7 +77,7 @@ const poles: Pole[] = [
       "Prototypage de Solutions",
     ],
     buttonText: "Entrer dans le Lab",
-    buttonHref: "/solutions/lab",
+    buttonHref: appRoutes.solutionsLab,
       icon: FlaskConical,
   },
 ];
@@ -702,6 +705,7 @@ const MobilePoleSection = ({
 };
 
 const ExpertiseSection = () => {
+  const { locale } = useI18n();
   const [activePole, setActivePole] = useState<Pole["id"]>("talent");
   const [hoveredPole, setHoveredPole] = useState<Pole["id"] | null>(null);
   const [hoveredService, setHoveredService] = useState<number | null>(null);
@@ -828,9 +832,9 @@ const ExpertiseSection = () => {
 
   const handleButtonClick = useCallback((href: string) => {
     setIsLoading(true);
-    setTargetUrl(href);
+    setTargetUrl(localizePathname(href, locale));
     setIsTransitioning(true);
-  }, []);
+  }, [locale]);
 
   const handleSubServiceClick = useCallback((service: string) => {
     // Action à définir : pourrait ouvrir un modal, scroll vers une section, etc.

@@ -7,11 +7,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { X, Linkedin, Twitter, Instagram, Mail, MapPin, ChevronDown } from "lucide-react";
 import { HeroSecondaryButton } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
+import { appRoutes, mainNavigationRoutes, resourceNavigationRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
 
 interface FullMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  onNavigateWithWipe?: (href: string) => void;
 }
 
 const backdropVariants: Variants = {
@@ -82,7 +84,7 @@ const poleDescriptionVariants: Variants = {
   },
 };
 
-export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
+export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMenuProps) {
   type MobileSection = "poles" | "resources" | "contact";
   const [hoveredPole, setHoveredPole] = useState<"talent" | "strategy" | "lab" | null>(null);
   const [expandedMobilePole, setExpandedMobilePole] = useState<"talent" | "strategy" | "lab" | null>(null);
@@ -92,12 +94,16 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const navItems = [
-    { label: t("navigation.solutions"), href: "#solutions" },
-    { label: t("navigation.experts"), href: "#experts" },
-    { label: t("navigation.about"), href: "#about" },
-    { label: t("navigation.contact"), href: "#contact" },
-  ];
+  const navItems = mainNavigationRoutes.map((item) => ({
+    label: t(item.labelKey),
+    href: localizePathname(item.path, locale),
+  }));
+
+  const resourceLinks = resourceNavigationRoutes.map((item) => ({
+    href: localizePathname(item.path, locale),
+    label: t(item.labelKey),
+    suffix: item.suffixKey ? t(item.suffixKey) : null,
+  }));
 
   const socialLinks = [
     { icon: Linkedin, href: "https://linkedin.com/company/lianet", label: "LinkedIn" },
@@ -113,6 +119,25 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
     const hash =
       typeof window !== "undefined" && window.location.hash ? window.location.hash : "";
     router.push(`${targetPath}${query ? `?${query}` : ""}${hash}`);
+  };
+
+  const openRoute = (path: string) => {
+    const href = localizePathname(path, locale);
+    onClose();
+    if (onNavigateWithWipe) {
+      onNavigateWithWipe(href);
+      return;
+    }
+    router.push(href);
+  };
+
+  const openLocalizedHref = (href: string) => {
+    onClose();
+    if (onNavigateWithWipe) {
+      onNavigateWithWipe(href);
+      return;
+    }
+    router.push(href);
   };
 
   useEffect(() => {
@@ -231,7 +256,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                         <li key={item.href}>
                           <Link
                             href={item.href}
-                            onClick={onClose}
+                            onClick={(event) => {
+                              event.preventDefault();
+                              openLocalizedHref(item.href);
+                            }}
                             className="group flex min-h-11 items-center justify-center rounded-xl px-4 py-3 text-center text-[1.08rem] font-medium uppercase leading-tight tracking-[0.08em] text-[#1B365D] transition-all active:scale-[0.98] active:bg-[#1B365D]/5"
                           >
                             <span className="relative">{item.label}</span>
@@ -244,7 +272,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   {/* CTA principal au-dessus de la ligne de flottaison */}
                   <motion.div variants={poleTitleVariants} className="pt-5 pb-7 pl-4 border-b border-[#1B365D]/10">
                     <HeroSecondaryButton
-                      onClick={onClose}
+                      onClick={() => openRoute(appRoutes.contact)}
                       label={t("fullMenu.startProject")}
                       size="compact"
                       className="w-full sm:w-full bg-[#40B4A6]/12 hover:bg-[#40B4A6]/20 backdrop-blur-md border border-[#40B4A6]/30"
@@ -369,36 +397,22 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           className="overflow-hidden"
                         >
                           <ul className="space-y-1 px-4 pb-5">
-                            <li>
-                              <Link
-                                href="#insights"
-                                onClick={onClose}
-                                className="group flex min-h-11 items-center gap-3 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
-                              >
-                                {t("fullMenu.resources.insights")}
-                                <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                href="#careers"
-                                onClick={onClose}
-                                className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
-                              >
-                                {t("fullMenu.resources.careers")} <span className="text-[#1B365D]/55 text-sm font-normal">{t("fullMenu.resources.careersSuffix")}</span>
-                                <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
-                              </Link>
-                            </li>
-                            <li>
-                              <Link
-                                href="#case-studies"
-                                onClick={onClose}
-                                className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
-                              >
-                                {t("fullMenu.resources.caseStudies")} <span className="text-[#1B365D]/55 text-sm font-normal">{t("fullMenu.resources.caseStudiesSuffix")}</span>
-                                <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
-                              </Link>
-                            </li>
+                            {resourceLinks.map((item) => (
+                              <li key={item.href}>
+                                <Link
+                                  href={item.href}
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    openLocalizedHref(item.href);
+                                  }}
+                                  className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-3 text-base font-semibold tracking-tight text-[#1B365D] active:scale-[0.98] active:bg-[#1B365D]/5"
+                                >
+                                  {item.label}
+                                  {item.suffix ? <span className="text-[#1B365D]/55 text-sm font-normal">{item.suffix}</span> : null}
+                                  <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
                         </motion.div>
                       )}
@@ -699,42 +713,26 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                   {t("fullMenu.sections.resources")}
                 </p>
                 <ul className="mt-6 space-y-4">
-                  <li>
-                    <Link
-                      href="#insights"
-                      onClick={onClose}
-                      className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
-                    >
-                      {t("fullMenu.resources.insights")}
-                      <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
-                        →
-                      </span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#careers"
-                      onClick={onClose}
-                      className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
-                    >
-                      {t("fullMenu.resources.careers")} <span className="text-[#1B365D]/60 normal-case tracking-normal">{t("fullMenu.resources.careersSuffix")}</span>
-                      <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
-                        →
-                          </span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#case-studies"
-                      onClick={onClose}
-                      className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
-                    >
-                      {t("fullMenu.resources.caseStudies")} <span className="text-[#1B365D]/60 normal-case tracking-normal">{t("fullMenu.resources.caseStudiesSuffix")}</span>
-                      <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
-                            →
-                          </span>
-                        </Link>
-                  </li>
+                  {resourceLinks.map((item) => (
+                    <li key={`desktop-${item.href}`}>
+                      <Link
+                        href={item.href}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          openLocalizedHref(item.href);
+                        }}
+                        className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
+                      >
+                        {item.label}{" "}
+                        {item.suffix ? (
+                          <span className="text-[#1B365D]/60 normal-case tracking-normal">{item.suffix}</span>
+                        ) : null}
+                        <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
                   </ul>
               </motion.section>
 
@@ -782,7 +780,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
 
                   <div className="pt-2">
                     <HeroSecondaryButton
-                      onClick={onClose}
+                      onClick={() => openRoute(appRoutes.contact)}
                       label={t("fullMenu.startProject")}
                       size="compact"
                       className="w-full sm:w-full bg-[#40B4A6]/15 hover:bg-[#40B4A6]/25 backdrop-blur-md border border-[#40B4A6]/25"

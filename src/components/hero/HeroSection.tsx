@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
 import InteractiveLottie from "@/components/ui/molecules/InteractiveLottie";
 import { localizePathname } from "@/lib/locale";
+import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
 import MobileBackgroundPattern from "./MobileBackgroundPattern";
 import OrganicBackground from "./OrganicBackground";
@@ -37,7 +38,12 @@ const HeroSection = () => {
 
   const handleButtonClick = useCallback(() => {
     setIsTransitioning(true);
-    setTargetUrl(localizePathname("/solutions", locale));
+    setTargetUrl(localizePathname(appRoutes.solutions, locale));
+  }, [locale]);
+
+  const handleSecondaryButtonClick = useCallback(() => {
+    setIsTransitioning(true);
+    setTargetUrl(localizePathname(appRoutes.contact, locale));
   }, [locale]);
 
   const handleMobileScrollClick = useCallback(() => {
@@ -288,7 +294,7 @@ const HeroSection = () => {
               />
               
               {/* CTA Secondaire - Glassmorphism premium avec barre de scan */}
-              <HeroSecondaryButton label={t("hero.secondaryCta")} />
+              <HeroSecondaryButton label={t("hero.secondaryCta")} onClick={handleSecondaryButtonClick} />
             </motion.div>
           </motion.div>
         </div>
@@ -333,7 +339,7 @@ const HeroSection = () => {
             onClick={handleButtonClick}
             label={t("hero.primaryCta")}
           />
-          <HeroSecondaryButton label={t("hero.secondaryCta")} />
+          <HeroSecondaryButton label={t("hero.secondaryCta")} onClick={handleSecondaryButtonClick} />
           <motion.button
             type="button"
             onClick={handleMobileScrollClick}

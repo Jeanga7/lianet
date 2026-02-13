@@ -1,33 +1,20 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from "next";
+import { locales } from "@/i18n/config";
+import { sitemapRoutes } from "@/lib/routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lianet.com'
-  
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    // Sections de la page principale (optionnel, pour référence)
-    {
-      url: `${baseUrl}#hero`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}#expertise`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}#manifeste`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-  ]
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://lianet.com";
+  const lastModified = new Date();
+
+  return locales.flatMap((locale) =>
+    sitemapRoutes.map((route) => {
+      const localizedPath = route === "/" ? `/${locale}` : `/${locale}${route}`;
+      return {
+        url: `${baseUrl}${localizedPath}`,
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: route === "/" ? 1 : 0.8,
+      };
+    })
+  );
 }
