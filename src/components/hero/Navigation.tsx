@@ -30,7 +30,7 @@ const Navigation = () => {
     <nav className="fixed left-20 right-0 top-0 z-50 hidden lg:block">
       <motion.div
         className={`flex items-center gap-8 px-8 py-4 backdrop-blur-md bg-background/80 transition-all duration-300 ${
-          scrolled ? "border-b border-gray-200" : "border-b border-gray-100"
+          scrolled ? "border-b border-[#1B365D]/18" : "border-b border-[#1B365D]/10"
         }`}
         initial={{ opacity: 0, y: -10, filter: "blur(8px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -69,7 +69,7 @@ const Navigation = () => {
               <Magnetic className="inline-flex">
                 <Link
                   href={item.href}
-                  className="group relative inline-flex items-center text-sm font-normal uppercase tracking-[0.08em] text-foreground transition-colors duration-300 hover:text-[#40B4A6]"
+                  className="group relative inline-flex items-center text-sm font-normal uppercase tracking-[0.08em] text-[#1B365D] transition-colors duration-300 hover:text-[#40B4A6]"
                 >
                   <span className="relative">
                     {item.label}
@@ -84,13 +84,13 @@ const Navigation = () => {
         {/* Bouton recherche */}
         <Magnetic className="inline-flex">
           <motion.button
-            className="flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-muted"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#1B365D]/12 bg-white/72 transition-all duration-200 hover:border-[#40B4A6]/45 hover:bg-white/86"
             initial={{ opacity: 0, scale: 0.8, filter: "blur(8px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.5, delay: 0.6 }}
             aria-label="Rechercher"
           >
-            <Search className="h-5 w-5 text-foreground" />
+            <Search className="h-5 w-5 text-[#1B365D]" />
           </motion.button>
         </Magnetic>
       </motion.div>

@@ -474,7 +474,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
           {/* Backdrop */}
           <motion.div
             variants={backdropVariants}
-              className="absolute inset-0 bg-foreground/10 backdrop-blur-md"
+              className="absolute inset-0 bg-[#1B365D]/10 backdrop-blur-md"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -516,7 +516,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
             <div className="flex items-start justify-end shrink-0">
               <button
                 onClick={onClose}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1B365D]/20 bg-white/80 text-[#333333] transition-colors hover:bg-[#1B365D]/5 hover:border-[#1B365D]/30"
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1B365D]/18 bg-white/80 text-[#1B365D] transition-all duration-200 hover:bg-[#1B365D]/6 hover:border-[#40B4A6]/45 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6]/45 focus-visible:ring-offset-2"
                 aria-label="Fermer le menu"
               >
                 <X className="h-6 w-6" />
@@ -538,8 +538,8 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     </div>
                   </div>
 
-                  <div className="mt-auto">
-                    <p className="text-xs font-semibold tracking-wide text-[#333333]/60">
+                  <div className="mt-auto pt-44">
+                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
                       Social
                     </p>
                     <div className="mt-3 flex items-center gap-3">
@@ -551,7 +551,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                             href={s.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white/70 text-[#333333]/80 transition-colors hover:border-[#1B365D]/30 hover:bg-muted hover:text-[#333333]"
+                            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#1B365D]/12 bg-white/72 text-[#1B365D]/80 transition-all duration-200 hover:border-[#40B4A6]/45 hover:bg-white/86 hover:text-[#40B4A6] hover:shadow-[0_8px_20px_rgba(64,180,166,0.16)]"
                             aria-label={s.label}
                           >
                             <Icon className="h-5 w-5" />
@@ -565,7 +565,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
 
               {/* Col 2: Pôles */}
               <motion.section variants={itemVariants} className="col-span-1 md:col-span-2 lg:col-span-3">
-                <p className="text-xs font-semibold tracking-wide text-[#333333]/60">
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
                   Pôles
                 </p>
                 <div className="mt-6 space-y-12">
@@ -573,7 +573,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     onMouseEnter={() => setHoveredPole("talent")}
                     onMouseLeave={() => setHoveredPole(null)}
                   >
-                    <h3 className="text-3xl font-extrabold leading-none tracking-tighter text-[#1B365D]">
+                    <h3 className="text-3xl font-bold leading-none tracking-tight text-[#1B365D]">
                       Talent Solutions
                     </h3>
                     <AnimatePresence initial={false}>
@@ -583,15 +583,15 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 8 }}
                           transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="mt-4 rounded-xl bg-[#1B365D]/80 p-4 shadow-sm"
+                          className="mt-4 rounded-xl border border-[#40B4A6]/28 bg-white/88 p-4 shadow-[0_12px_28px_rgba(64,180,166,0.14)] backdrop-blur-sm"
                         >
-                          <p className="text-lg font-light text-[#8FD6CC]">
+                          <p className="text-lg font-normal leading-relaxed text-[#1B365D]/90">
                             Nous ne nous contentons pas de trouver des profils ; nous
                             bâtissons des équipes de choc. Accédez au top 3% des
                             experts digitaux africains pour propulser vos
                             développements techniques et vos designs d&apos;interface.
                           </p>
-                          <p className="mt-3 text-sm font-medium tracking-wide text-[#8FD6CC]/90">
+                          <p className="mt-3 text-sm font-semibold tracking-wide text-[#40B4A6]">
                             Staff Augmentation • Recrutement Expert • Agilité
                           </p>
                         </motion.div>
@@ -603,7 +603,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     onMouseEnter={() => setHoveredPole("strategy")}
                     onMouseLeave={() => setHoveredPole(null)}
                   >
-                    <h3 className="text-3xl font-extrabold leading-none tracking-tighter text-[#1B365D]">
+                    <h3 className="text-3xl font-bold leading-none tracking-tight text-[#1B365D]">
                       Digital Strategy
                     </h3>
                     <AnimatePresence initial={false}>
@@ -613,15 +613,15 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 8 }}
                           transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="mt-4 rounded-xl bg-[#1B365D]/80 p-4 shadow-sm"
+                          className="mt-4 rounded-xl border border-[#40B4A6]/28 bg-white/88 p-4 shadow-[0_12px_28px_rgba(64,180,166,0.14)] backdrop-blur-sm"
                         >
-                          <p className="text-lg font-light text-[#8FD6CC]">
+                          <p className="text-lg font-normal leading-relaxed text-[#1B365D]/90">
                             Le digital n&apos;est pas une option, c&apos;est votre moteur
                             de croissance. Nos consultants dessinent la feuille de
                             route de votre transformation, de l&apos;audit initial au
                             déploiement de solutions scalables et sécurisées.
                           </p>
-                          <p className="mt-3 text-sm font-medium tracking-wide text-[#8FD6CC]/90">
+                          <p className="mt-3 text-sm font-semibold tracking-wide text-[#40B4A6]">
                             Conseil • Roadmap • ROI Mesurable
                           </p>
                         </motion.div>
@@ -633,7 +633,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     onMouseEnter={() => setHoveredPole("lab")}
                     onMouseLeave={() => setHoveredPole(null)}
                   >
-                    <h3 className="text-3xl font-extrabold leading-none tracking-tighter text-[#1B365D] transition-colors hover:text-[#40B4A6]">
+                    <h3 className="text-3xl font-bold leading-none tracking-tight text-[#1B365D] transition-colors hover:text-[#40B4A6]">
                       Innovation Lab
                     </h3>
                     <AnimatePresence initial={false}>
@@ -643,15 +643,15 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 8 }}
                           transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="mt-4 rounded-xl bg-[#1B365D]/80 p-4 shadow-sm"
+                          className="mt-4 rounded-xl border border-[#40B4A6]/28 bg-white/88 p-4 shadow-[0_12px_28px_rgba(64,180,166,0.14)] backdrop-blur-sm"
                         >
-                          <p className="text-lg font-light text-[#8FD6CC]">
+                          <p className="text-lg font-normal leading-relaxed text-[#1B365D]/90">
                             Le laboratoire où les idées deviennent des produits. Nous
                             incubons des projets disruptifs et explorons les
                             technologies émergentes (IA, Web3, IoT) pour maintenir
                             votre entreprise à l&apos;avant-garde du marché.
                           </p>
-                          <p className="mt-3 text-sm font-medium tracking-wide text-[#8FD6CC]/90">
+                          <p className="mt-3 text-sm font-semibold tracking-wide text-[#40B4A6]">
                             R&amp;D • Prototypage rapide • Futurisme
                           </p>
                         </motion.div>
@@ -663,7 +663,7 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
 
               {/* Col 3: Ressources */}
               <motion.section variants={itemVariants} className="col-span-1 md:col-span-1 lg:col-span-3">
-                <p className="text-xs font-semibold tracking-wide text-[#333333]/60">
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
                   Ressources
                 </p>
                 <ul className="mt-6 space-y-4">
@@ -671,10 +671,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     <Link
                       href="#insights"
                       onClick={onClose}
-                      className="group inline-flex items-center gap-3 text-lg font-semibold tracking-tight text-[#333333] transition-colors hover:text-[#40B4A6]"
+                      className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
                     >
                       Blog &amp; Insights
-                      <span className="translate-x-0 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                      <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                         →
                       </span>
                     </Link>
@@ -683,10 +683,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     <Link
                       href="#careers"
                       onClick={onClose}
-                      className="group inline-flex items-center gap-3 text-lg font-semibold tracking-tight text-[#333333] transition-colors hover:text-[#40B4A6]"
+                      className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
                     >
-                      Carrières <span className="text-[#333333]/60">(Join the Liane)</span>
-                      <span className="translate-x-0 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                      Carrières <span className="text-[#1B365D]/60 normal-case tracking-normal">(Join the Liane)</span>
+                      <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                         →
                           </span>
                     </Link>
@@ -695,10 +695,10 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     <Link
                       href="#case-studies"
                       onClick={onClose}
-                      className="group inline-flex items-center gap-3 text-lg font-semibold tracking-tight text-[#333333] transition-colors hover:text-[#40B4A6]"
+                      className="group inline-flex items-center gap-3 text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D] transition-all duration-200 hover:text-[#40B4A6]"
                     >
-                      Études de cas <span className="text-[#333333]/60">(Success Stories)</span>
-                      <span className="translate-x-0 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100">
+                      Études de cas <span className="text-[#1B365D]/60 normal-case tracking-normal">(Success Stories)</span>
+                      <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                             →
                           </span>
                         </Link>
@@ -708,17 +708,17 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
 
               {/* Col 4: Contact & localisation */}
               <motion.aside variants={itemVariants} className="col-span-1 md:col-span-1 lg:col-span-3">
-                <p className="text-xs font-semibold tracking-wide text-[#333333]/60">
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#1B365D]/60">
                   Contact &amp; Localisation
                 </p>
 
                 <div className="mt-6 space-y-4">
-                  <div className="rounded-2xl border border-border bg-background/70 p-5">
+                  <div className="rounded-2xl border border-[#1B365D]/12 bg-white/72 p-5 transition-all duration-200 hover:border-[#40B4A6]/35 hover:bg-white/84">
                     <div className="flex items-start gap-3">
                       <MapPin className="mt-0.5 h-5 w-5 text-[#40B4A6]" />
                       <div>
-                        <p className="text-sm font-semibold text-[#333333]">Dakar HQ</p>
-                        <p className="mt-1 text-sm text-[#333333]/70">
+                        <p className="text-sm font-semibold text-[#1B365D]">Dakar HQ</p>
+                        <p className="mt-1 text-sm text-[#1B365D]/70">
                           Dakar, Sénégal
                         </p>
                         <a
@@ -733,14 +733,14 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-border bg-background/70 p-5">
+                  <div className="rounded-2xl border border-[#1B365D]/12 bg-white/72 p-5 transition-all duration-200 hover:border-[#40B4A6]/35 hover:bg-white/84">
                     <div className="flex items-start gap-3">
                       <Mail className="mt-0.5 h-5 w-5 text-[#40B4A6]" />
                       <div>
-                        <p className="text-sm font-semibold text-[#333333]">Email</p>
+                        <p className="text-sm font-semibold text-[#1B365D]">Email</p>
                         <a
                           href="mailto:contact@lianet.africa"
-                          className="mt-1 inline-flex text-sm font-medium text-[#333333]/80 underline-offset-4 hover:text-[#40B4A6] hover:underline"
+                          className="mt-1 inline-flex text-sm font-medium text-[#1B365D]/80 underline-offset-4 hover:text-[#40B4A6] hover:underline"
                         >
                           contact@lianet.africa
                         </a>
@@ -762,15 +762,15 @@ export default function FullMenu({ isOpen, onClose }: FullMenuProps) {
             </div>
 
             {/* Bottom tagline */}
-            <motion.div variants={itemVariants} className="mt-10">
-              <p className="text-sm font-medium tracking-wide text-foreground/70">
-                Propelling African Ambitions into the Digital Era.
+            <motion.div variants={itemVariants} className="mt-24">
+              <p className="text-lg font-medium uppercase tracking-[0.06em] text-[#1B365D]">
+                Propulser les ambitions africaines vers l’ère numérique.
               </p>
             </motion.div>
 
             {/* Manifeste */}
             <motion.p
-              className="mt-6 max-w-5xl italic text-[#8FD6CC] opacity-80"
+              className="mt-12 max-w-5xl italic text-[#1B365D]/88"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
