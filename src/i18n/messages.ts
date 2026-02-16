@@ -33,7 +33,7 @@ const fr = {
   },
   expertise: {
     eyebrow: "EXPERTISE — 02",
-    headline: "Maitriser la complexité. Propulser l'impact.",
+    headline: "Maitriser la complexité, propulser l'impact",
     ctaLabel: "Débloquer la Solution",
     poles: {
       talent: {

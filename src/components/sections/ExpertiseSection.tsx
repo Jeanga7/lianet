@@ -179,13 +179,6 @@ export default function ExpertiseSection() {
     router.push(localizePathname(appRoutes.solutions, locale));
   };
 
-  const headline = t("expertise.headline");
-  const headlineParts = headline.split(". ");
-  const headlinePrimary =
-    headlineParts.length > 1 ? `${headlineParts[0]}.` : headline;
-  const headlineSecondary =
-    headlineParts.length > 1 ? headlineParts.slice(1).join(". ") : "";
-
   return (
     <section className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-16 sm:px-6 lg:min-h-dvh lg:px-10 lg:py-24 xl:px-14">
       <div
@@ -210,23 +203,15 @@ export default function ExpertiseSection() {
               {t("expertise.eyebrow")}
             </motion.p>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.65 }}
-            transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-[24ch] text-[clamp(2.1rem,3.6vw,4rem)] font-black leading-[1.02] tracking-[-0.03em] text-[rgb(var(--primary))]"
-            style={{
-              fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
-              marginTop: isMobile ? 0 : 30,
-            }}
-          >
-              <span className="block whitespace-nowrap">{headlinePrimary}</span>
-              {headlineSecondary ? (
-                <span className="mt-2 block pl-2 text-left text-[clamp(1.55rem,2.7vw,3rem)] leading-[1.06]">
-                  {headlineSecondary}
-                </span>
-              ) : null}
+            <motion.h2
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.65 }}
+              transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-[24ch] text-[clamp(2.1rem,3.4vw,4rem)] font-black leading-[1.02] tracking-[-0.03em] text-[rgb(var(--primary))]"
+              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+            >
+              {t("expertise.headline")}
             </motion.h2>
           </div>
 
