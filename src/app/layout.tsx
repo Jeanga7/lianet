@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist_Mono, Lato, Nunito, Varela_Round } from "next/font/google";
 import "./globals.css";
 import { SiteLayout } from "@/components/layout";
@@ -47,12 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <head>
-        <Script
-          src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"
-          type="module"
-        />
-      </head>
+      <head />
       <body
         className={`${varelaRound.variable} ${lato.variable} ${nunito.variable} ${geistMono.variable} antialiased`}
       >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Sidebar, Navigation, FullMenu, ScrollProgressBar, MobileMenuButton } from "@/components/hero";
 import { CustomCursor, PageWipe } from "@/components/ui";
 
@@ -17,6 +17,20 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
     setTargetUrl(href);
     setIsTransitioning(true);
   }, []);
+
+  useEffect(() => {
+    const handleWipeNavigation = (event: Event) => {
+      const customEvent = event as CustomEvent<{ href?: string }>;
+      const href = customEvent.detail?.href;
+      if (!href) return;
+      navigateWithWipe(href);
+    };
+
+    window.addEventListener("navigateWithWipe", handleWipeNavigation as EventListener);
+    return () => {
+      window.removeEventListener("navigateWithWipe", handleWipeNavigation as EventListener);
+    };
+  }, [navigateWithWipe]);
 
   return (
     <>

@@ -9,17 +9,72 @@ interface SidebarProps {
   onMenuClick?: () => void;
 }
 
-const SECTION_IDS = ["hero", "expertise", "manifeste"] as const;
+const getInitialSectionIds = () => {
+  if (typeof document === "undefined") {
+    return ["hero", "expertise", "blueprint"];
+  }
+
+  const mainScroll = document.getElementById("main-scroll");
+  if (!mainScroll) {
+    return ["hero", "expertise", "blueprint"];
+  }
+
+  const ids = Array.from(mainScroll.querySelectorAll(":scope > section[id]"))
+    .map((section) => section.id)
+    .filter(Boolean);
+
+  return ids.length > 0 ? ids : ["hero", "expertise", "blueprint"];
+};
 
 const Sidebar = ({ onMenuClick }: SidebarProps) => {
-  const [activeSection, setActiveSection] = useState<string>("hero");
+  const [sectionIds, setSectionIds] = useState<string[]>(() => getInitialSectionIds());
+  const [activeSection, setActiveSection] = useState<string>(() => sectionIds[0] ?? "hero");
   const prefersReducedMotion = useReducedMotion();
   const { t } = useI18n();
-  const sections = [
-    { id: "hero", label: t("sidebar.hero") },
-    { id: "expertise", label: t("sidebar.expertise") },
-    { id: "manifeste", label: t("sidebar.manifeste") },
-  ];
+  const sections = sectionIds.map((id) => {
+    const label =
+      id === "hero"
+        ? t("sidebar.hero")
+        : id === "expertise"
+        ? t("sidebar.expertise")
+        : id === "blueprint"
+        ? t("sidebar.blueprint")
+        : id === "manifeste"
+        ? t("sidebar.manifeste")
+        : id;
+    return { id, label };
+  });
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const syncSectionIds = () => {
+      const ids = getInitialSectionIds();
+      setSectionIds((previous) => {
+        if (previous.length === ids.length && previous.every((id, index) => id === ids[index])) {
+          return previous;
+        }
+        return ids;
+      });
+      setActiveSection((previous) => (ids.includes(previous) ? previous : ids[0] ?? previous));
+    };
+
+    const frameId = window.requestAnimationFrame(syncSectionIds);
+    const mainScroll = document.getElementById("main-scroll");
+    if (!mainScroll) {
+      return () => window.cancelAnimationFrame(frameId);
+    }
+
+    const observer = new MutationObserver(() => {
+      window.requestAnimationFrame(syncSectionIds);
+    });
+    observer.observe(mainScroll, { childList: true, subtree: true, attributes: true, attributeFilter: ["id"] });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+    };
+  }, []);
 
   // Détection de la section active au scroll avec threshold: 0.6
   useEffect(() => {
@@ -40,7 +95,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     // Observer toutes les sections
-    SECTION_IDS.forEach((id) => {
+    sectionIds.forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);
@@ -48,14 +103,14 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     });
 
     return () => {
-      SECTION_IDS.forEach((id) => {
+      sectionIds.forEach((id) => {
         const element = document.getElementById(id);
         if (element) {
           observer.unobserve(element);
         }
       });
     };
-  }, []);
+  }, [sectionIds]);
 
   // Scroll vers une section au clic (avec snap, utilise scrollIntoView)
   const scrollToSection = useCallback((sectionId: string) => {

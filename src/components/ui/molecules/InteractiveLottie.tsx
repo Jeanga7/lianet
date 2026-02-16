@@ -60,6 +60,21 @@ const InteractiveLottie = ({
   const ySpring = useSpring(y, { stiffness: 300, damping: 22 });
   const isActive = isHover || isNear;
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (customElements.get("dotlottie-wc")) return;
+
+    const existing = document.querySelector<HTMLScriptElement>("script[data-dotlottie-wc-loader='true']");
+    if (existing) return;
+
+    const script = document.createElement("script");
+    script.type = "module";
+    script.async = true;
+    script.src = "https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@0.8.15/+esm";
+    script.dataset.dotlottieWcLoader = "true";
+    document.head.appendChild(script);
+  }, []);
+
   const setSpeed = useCallback((speed: number) => {
     const instance = lottieRef.current;
     if (!instance) return;

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   AnimatePresence,
   motion,
@@ -10,7 +9,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowUpRight, FlaskConical, TrendingUp, Users } from "lucide-react";
+import { ArrowUpRight, Compass, Users2, Zap } from "lucide-react";
 import { HeroPrimaryButton, Magnetic } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
@@ -25,6 +24,8 @@ interface PoleContent {
   title: string;
   hook: string;
   subtitle: string;
+  cta: string;
+  ctaMeta: string;
   description: string;
   keyPoints: string[];
   valueProp: string;
@@ -44,13 +45,12 @@ const parallaxSpring = {
 };
 
 const poleIcons = {
-  talent: Users,
-  strategy: TrendingUp,
-  lab: FlaskConical,
+  talent: Users2,
+  strategy: Compass,
+  lab: Zap,
 } as const;
 
 export default function ExpertiseSection() {
-  const router = useRouter();
   const { locale, t } = useI18n();
   const shouldReduceMotion = useReducedMotion();
   const [activePole, setActivePole] = useState<PoleKey>("talent");
@@ -110,6 +110,8 @@ export default function ExpertiseSection() {
         title: t("expertise.poles.talent.title"),
         hook: t("expertise.poles.talent.hook"),
         subtitle: t("expertise.poles.talent.subtitle"),
+        cta: t("expertise.poles.talent.cta"),
+        ctaMeta: t("expertise.poles.talent.ctaMeta"),
         description: t("expertise.poles.talent.description"),
         keyPoints: [
           t("expertise.poles.talent.keyPoint1"),
@@ -124,6 +126,8 @@ export default function ExpertiseSection() {
         title: t("expertise.poles.strategy.title"),
         hook: t("expertise.poles.strategy.hook"),
         subtitle: t("expertise.poles.strategy.subtitle"),
+        cta: t("expertise.poles.strategy.cta"),
+        ctaMeta: t("expertise.poles.strategy.ctaMeta"),
         description: t("expertise.poles.strategy.description"),
         keyPoints: [
           t("expertise.poles.strategy.keyPoint1"),
@@ -138,6 +142,8 @@ export default function ExpertiseSection() {
         title: t("expertise.poles.lab.title"),
         hook: t("expertise.poles.lab.hook"),
         subtitle: t("expertise.poles.lab.subtitle"),
+        cta: t("expertise.poles.lab.cta"),
+        ctaMeta: t("expertise.poles.lab.ctaMeta"),
         description: t("expertise.poles.lab.description"),
         keyPoints: [
           t("expertise.poles.lab.keyPoint1"),
@@ -176,7 +182,8 @@ export default function ExpertiseSection() {
   };
 
   const handleCtaClick = () => {
-    router.push(localizePathname(appRoutes.solutions, locale));
+    const href = localizePathname(appRoutes.solutions, locale);
+    window.dispatchEvent(new CustomEvent("navigateWithWipe", { detail: { href } }));
   };
 
   return (
@@ -184,6 +191,10 @@ export default function ExpertiseSection() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16),transparent_58%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#8FD6CC]/75 to-transparent lg:h-20"
       />
 
       <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-10 sm:gap-12 lg:grid lg:grid-cols-[40%_60%] lg:gap-16">
@@ -202,58 +213,71 @@ export default function ExpertiseSection() {
             >
               {t("expertise.eyebrow")}
             </motion.p>
+          </div>
 
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.65 }}
+            transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto max-w-[24ch] text-[clamp(1.85rem,8vw,4rem)] font-black leading-[1.04] tracking-[-0.03em] text-[rgb(var(--primary))] lg:hidden"
+            style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+          >
+            {t("expertise.headline")}
+          </motion.h2>
+
+          <div className="hidden max-w-[500px] lg:absolute lg:inset-x-0 lg:top-1/2 lg:flex lg:-translate-y-1/2 lg:flex-col lg:gap-10">
             <motion.h2
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.65 }}
               transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto max-w-[24ch] text-[clamp(1.85rem,8vw,4rem)] font-black leading-[1.04] tracking-[-0.03em] text-[rgb(var(--primary))] lg:mx-0 lg:text-[clamp(2.1rem,3.4vw,4rem)] lg:leading-[1.02]"
+              className="max-w-[24ch] text-[clamp(2.1rem,3.4vw,4rem)] font-black leading-[1.02] tracking-[-0.03em] text-[rgb(var(--primary))]"
               style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
             >
               {t("expertise.headline")}
             </motion.h2>
-          </div>
 
-          <div className="hidden max-w-[480px] lg:absolute lg:left-0 lg:top-1/2 lg:flex lg:w-full lg:-translate-y-1/2 lg:items-center lg:justify-start">
-            <div className="space-y-6">
-              {poles.map((pole) => {
-                const isActive = pole.key === activePole;
-                return (
-                  <motion.button
-                    key={pole.key}
-                    type="button"
-                    onClick={() => handlePoleChange(pole.key)}
-                    aria-label={`${locale === "fr" ? "Sélectionner" : "Select"} ${pole.title}`}
-                    aria-current={isActive ? "true" : "false"}
-                    className="group relative flex w-full items-center gap-5 pl-7 pr-2 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--secondary))] focus-visible:ring-offset-4 focus-visible:ring-offset-[#8FD6CC]"
-                    whileHover={{ x: 5 }}
-                    transition={springTransition}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId="expertise-liane"
-                        className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-[rgb(var(--secondary))]"
-                        transition={springTransition}
-                        style={{ boxShadow: "0 0 18px rgba(64,180,166,0.65)" }}
-                      />
-                    )}
+            <div className="max-w-[480px]">
+              <div className="space-y-6">
+                {poles.map((pole) => {
+                  const isActive = pole.key === activePole;
+                  return (
+                    <motion.button
+                      key={pole.key}
+                      type="button"
+                      onClick={() => handlePoleChange(pole.key)}
+                      aria-label={`${locale === "fr" ? "Sélectionner" : "Select"} ${pole.title}`}
+                      aria-current={isActive ? "true" : "false"}
+                      className="group relative flex w-full items-center gap-5 pl-7 pr-2 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--secondary))] focus-visible:ring-offset-4 focus-visible:ring-offset-[#8FD6CC]"
+                      whileHover={{ x: 5 }}
+                      transition={springTransition}
+                    >
+                      {isActive && (
+                        <motion.span
+                          layoutId="expertise-liane"
+                          className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-[rgb(var(--secondary))]"
+                          transition={springTransition}
+                          style={{ boxShadow: "0 0 18px rgba(64,180,166,0.65)" }}
+                        />
+                      )}
 
-                    <span
-                      className={`text-sm tracking-[0.2em] ${isActive ? "text-[rgb(var(--secondary))]" : "text-[rgb(var(--primary))]/42"}`}
-                      style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
-                    >
-                      {pole.number}
-                    </span>
-                    <span
-                      className={`text-[clamp(1.05rem,1.55vw,1.2rem)] font-black ${isActive ? "text-[rgb(var(--primary))]" : "text-[rgb(var(--primary))]/40"}`}
-                      style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
-                    >
-                      {pole.hook}
-                    </span>
-                  </motion.button>
-                );
-              })}
+                      <span
+                        className={`text-sm tracking-[0.2em] ${isActive ? "text-[rgb(var(--secondary))]" : "text-[rgb(var(--primary))]/42"}`}
+                        style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                      >
+                        {pole.number}
+                      </span>
+                      <span
+                        className={`text-[clamp(1.05rem,1.55vw,1.2rem)] font-black ${isActive ? "text-[rgb(var(--primary))]" : "text-[rgb(var(--primary))]/40"}`}
+                        style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                      >
+                        {pole.hook}
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </aside>
@@ -276,7 +300,7 @@ export default function ExpertiseSection() {
             }}
           >
             <span className="pointer-events-none absolute inset-0 rounded-[2rem] border-l border-t border-white/30" aria-hidden="true" />
-            <SandGrain className="z-[1]" opacity={0.04} />
+            <SandGrain className="z-[1]" opacity={0.065} />
 
             <motion.p
               aria-hidden="true"
@@ -365,22 +389,36 @@ export default function ExpertiseSection() {
                   {activeContent.valueProp}
                 </p>
 
-                <Magnetic className="inline-flex" strength={14}>
-                  <HeroPrimaryButton
-                    size="compact"
-                    label={t("expertise.ctaLabel")}
-                    iconStart={activePoleIcon}
-                    iconEnd={ArrowUpRight}
-                    showEndIconOnMobile
-                    onClick={handleCtaClick}
-                    data-cursor="hover"
-                    data-cursor-label="VOIR"
-                    data-cursor-profile="expertise"
-                    data-cursor-strength="strong"
-                    className="!w-auto min-w-[16rem] bg-[rgb(var(--secondary))] px-8 py-4 shadow-[0_14px_30px_rgba(64,180,166,0.34)]"
-                    style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
-                  />
-                </Magnetic>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96, y: 8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ ...springTransition, delay: 0.2 }}
+                  className="space-y-2"
+                >
+                  <p
+                    className="text-[10px] font-light uppercase tracking-[0.18em] text-[rgb(var(--primary))]/50"
+                    style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
+                  >
+                    {activeContent.ctaMeta}
+                  </p>
+                  <Magnetic className="inline-flex" strength={20}>
+                    <HeroPrimaryButton
+                      size="compact"
+                      label={activeContent.cta}
+                      iconStart={activePoleIcon}
+                      iconEnd={ArrowUpRight}
+                      iconHoverRotate={5}
+                      showEndIconOnMobile
+                      onClick={handleCtaClick}
+                      data-cursor="hover"
+                      data-cursor-label="VOIR"
+                      data-cursor-profile="expertise"
+                      data-cursor-strength="strong"
+                      className="!w-auto min-w-[16rem] bg-[rgb(var(--secondary))] px-8 py-4 !text-sm !font-bold uppercase !tracking-widest shadow-[0_14px_30px_rgba(64,180,166,0.34)] hover:bg-[#58c5b7]"
+                      style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                    />
+                  </Magnetic>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
 
@@ -415,7 +453,7 @@ export default function ExpertiseSection() {
                 viewport={{ amount: 0.35, once: false }}
                 transition={{ type: "spring", stiffness: 150, damping: 20, delay: index * 0.08 }}
               >
-                <SandGrain className="z-[1]" opacity={0.04} />
+                <SandGrain className="z-[1]" opacity={0.065} />
                 <div className="relative z-10 space-y-4">
                   <p
                     className="text-[11px] uppercase tracking-[0.22em] text-[rgb(var(--primary))]/60"
@@ -435,9 +473,9 @@ export default function ExpertiseSection() {
                   >
                     {pole.subtitle}
                   </p>
-                  <p className="text-base font-light leading-relaxed text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
-                    {pole.description}
-                  </p>
+                <p className="mb-10 text-base font-light leading-relaxed text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+                  {pole.description}
+                </p>
 
                   <ul className="space-y-2 text-sm font-light text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
                     {pole.keyPoints.map((item) => (
@@ -453,22 +491,37 @@ export default function ExpertiseSection() {
                   </p>
                 </div>
 
-                <div className="relative z-10 mt-8 w-full px-2 sm:px-6">
-                  <Magnetic className="block w-full" strength={10}>
-                    <HeroPrimaryButton
-                      size="compact"
-                      label={t("expertise.ctaLabel")}
-                      iconStart={poleIcons[pole.key]}
-                      iconEnd={ArrowUpRight}
-                      showEndIconOnMobile
-                      onClick={handleCtaClick}
-                      data-cursor="hover"
-                      data-cursor-label="VOIR"
-                      data-cursor-profile="expertise"
-                      className="w-full bg-[rgb(var(--secondary))] px-8 py-4"
-                      style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
-                    />
-                  </Magnetic>
+                <div className="relative z-10 mt-8 w-full px-2 text-center sm:px-6">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.96, y: 8 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ amount: 0.5, once: false }}
+                    transition={{ ...springTransition, delay: 0.2 }}
+                    className="space-y-2"
+                  >
+                    <p
+                      className="text-[10px] font-light uppercase tracking-[0.18em] text-[rgb(var(--primary))]/50"
+                      style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
+                    >
+                      {pole.ctaMeta}
+                    </p>
+                    <Magnetic className="block w-full" strength={16}>
+                      <HeroPrimaryButton
+                        size="compact"
+                        label={pole.cta}
+                        iconStart={poleIcons[pole.key]}
+                        iconEnd={ArrowUpRight}
+                        iconHoverRotate={5}
+                        showEndIconOnMobile
+                        onClick={handleCtaClick}
+                        data-cursor="hover"
+                        data-cursor-label="VOIR"
+                        data-cursor-profile="expertise"
+                        className="w-full bg-[rgb(var(--secondary))] px-8 py-4 !text-sm !font-bold uppercase !tracking-widest hover:bg-[#58c5b7]"
+                        style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                      />
+                    </Magnetic>
+                  </motion.div>
                 </div>
               </motion.article>
             </div>

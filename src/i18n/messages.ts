@@ -18,6 +18,7 @@ const fr = {
   sidebar: {
     hero: "Accueil",
     expertise: "Expertise",
+    blueprint: "Blueprint",
     manifeste: "Manifeste",
     menu: "Menu",
   },
@@ -40,6 +41,8 @@ const fr = {
         title: "Talent",
         hook: "Elite Squads",
         subtitle: "Le capital humain comme moteur de performance.",
+        cta: "Mobiliser l'Équipe",
+        ctaMeta: "READY TO DEPLOY",
         description:
           "Bâtissez des équipes capables d'exécuter l'impossible. Accédez au top 3% des experts digitaux africains.",
         keyPoint1: "Top 3% talents digitaux",
@@ -51,6 +54,8 @@ const fr = {
         title: "Strategy",
         hook: "Impact Roadmap",
         subtitle: "Transformer l'incertitude en leadership de marché.",
+        cta: "Tracer la Vision",
+        ctaMeta: "STRATEGIC AUDIT",
         description:
           "Transformez votre vision en leadership de marché. De l'audit à l'exécution, nous dessinons votre feuille de route.",
         keyPoint1: "Audit maturité orienté ROI",
@@ -62,6 +67,8 @@ const fr = {
         title: "Lab",
         hook: "Venture Studio",
         subtitle: "L'innovation disruptive, validée par la donnée.",
+        cta: "Bâtir le Futur",
+        ctaMeta: "FAST PROTOTYPING",
         description:
           "Anticipez demain par l'innovation technologique. Nous explorons, validons et déployons les solutions de l'avenir.",
         keyPoint1: "MVP en 2 semaines",
@@ -69,6 +76,45 @@ const fr = {
         keyPoint3: "Validation business continue",
         valueProp: "L'innovation utile qui crée un avantage durable.",
       },
+    },
+  },
+  blueprint: {
+    eyebrow: "BLUEPRINT — 03",
+    title: "The Impact Blueprint",
+    subtitle: "Le système opératoire de votre croissance.",
+    steps: {
+      immersion: {
+        number: "01 / IMMERSION",
+        title: "Immersion",
+        subtitle: "Comprendre pour mieux bâtir.",
+        description:
+          "Audit profond de votre écosystème pour identifier les leviers de croissance réels.",
+      },
+      architecture: {
+        number: "02 / ARCHITECTURE",
+        title: "Architecture",
+        subtitle: "La précision comme fondation.",
+        description:
+          "Conception de roadmaps stratégiques et de structures techniques sur-mesure.",
+      },
+      execution: {
+        number: "03 / EXÉCUTION",
+        title: "Exécution",
+        subtitle: "L'élite en mouvement.",
+        description:
+          "Déploiement de nos \"Elite Squads\" pour transformer les plans en réalités tangibles.",
+      },
+      optimisation: {
+        number: "04 / OPTIMISATION",
+        title: "Optimisation",
+        subtitle: "L'impact, mesuré et amplifié.",
+        description:
+          "Analyse des KPIs et ajustements continus pour garantir un leadership durable.",
+      },
+    },
+    cta: {
+      primary: "Démarrer votre projet",
+      secondary: "Découvrir nos solutions",
     },
   },
   fullMenu: {
@@ -144,6 +190,7 @@ const en = {
   sidebar: {
     hero: "Home",
     expertise: "Expertise",
+    blueprint: "Blueprint",
     manifeste: "Manifesto",
     menu: "Menu",
   },
@@ -166,6 +213,8 @@ const en = {
         title: "Talent",
         hook: "Elite Squads",
         subtitle: "Human capital engineered for performance.",
+        cta: "Mobilize the Team",
+        ctaMeta: "READY TO DEPLOY",
         description:
           "Build teams capable of executing the impossible. Access the top 3% of African digital experts.",
         keyPoint1: "Top 3% digital talent",
@@ -177,6 +226,8 @@ const en = {
         title: "Strategy",
         hook: "Impact Roadmap",
         subtitle: "Turn uncertainty into market leadership.",
+        cta: "Map the Vision",
+        ctaMeta: "STRATEGIC AUDIT",
         description:
           "Turn your vision into market leadership. From assessment to execution, we design your growth roadmap.",
         keyPoint1: "ROI-oriented maturity audit",
@@ -188,6 +239,8 @@ const en = {
         title: "Lab",
         hook: "Venture Studio",
         subtitle: "Disruptive innovation, validated by data.",
+        cta: "Build the Future",
+        ctaMeta: "FAST PROTOTYPING",
         description:
           "Anticipate tomorrow through technology-driven innovation. We explore, validate, and deploy next-generation solutions.",
         keyPoint1: "MVP in 2 weeks",
@@ -195,6 +248,45 @@ const en = {
         keyPoint3: "Continuous business validation",
         valueProp: "Practical innovation that builds durable advantage.",
       },
+    },
+  },
+  blueprint: {
+    eyebrow: "BLUEPRINT — 03",
+    title: "The Impact Blueprint",
+    subtitle: "Your operating system for scalable growth.",
+    steps: {
+      immersion: {
+        number: "01 / IMMERSION",
+        title: "Immersion",
+        subtitle: "Understand before you build.",
+        description:
+          "A deep audit of your ecosystem to identify real growth levers.",
+      },
+      architecture: {
+        number: "02 / ARCHITECTURE",
+        title: "Architecture",
+        subtitle: "Precision as foundation.",
+        description:
+          "Design of strategic roadmaps and tailored technical structures.",
+      },
+      execution: {
+        number: "03 / EXECUTION",
+        title: "Execution",
+        subtitle: "Elite teams in motion.",
+        description:
+          "Deployment of our Elite Squads to turn plans into tangible outcomes.",
+      },
+      optimisation: {
+        number: "04 / OPTIMIZATION",
+        title: "Optimization",
+        subtitle: "Impact measured and amplified.",
+        description:
+          "KPI analysis and continuous refinement to secure durable leadership.",
+      },
+    },
+    cta: {
+      primary: "Start your project",
+      secondary: "Explore our solutions",
     },
   },
   fullMenu: {

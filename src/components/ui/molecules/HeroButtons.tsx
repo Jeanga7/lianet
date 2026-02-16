@@ -16,6 +16,7 @@ type HeroPrimaryButtonProps = HeroButtonBaseProps & {
   iconStart?: ElementType | null;
   iconEnd?: ElementType | null;
   showEndIconOnMobile?: boolean;
+  iconHoverRotate?: number;
 };
 
 export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButtonProps>(
@@ -30,6 +31,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
       iconStart: StartIcon = Grid3x3,
       iconEnd: EndIcon = ArrowRight,
       showEndIconOnMobile = false,
+      iconHoverRotate = 0,
       ...props
     },
     ref
@@ -100,6 +102,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
                 opacity: isHovered ? 0 : 1,
                 scale: isHovered ? 0.8 : 1,
                 x: isHovered ? -8 : 0,
+                rotate: isHovered ? iconHoverRotate : 0,
               }}
               transition={{
                 type: "spring",
