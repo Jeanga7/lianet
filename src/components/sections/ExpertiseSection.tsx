@@ -186,9 +186,9 @@ export default function ExpertiseSection() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16),transparent_58%)]"
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-12 lg:grid lg:grid-cols-[40%_60%] lg:gap-16">
+      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-10 sm:gap-12 lg:grid lg:grid-cols-[40%_60%] lg:gap-16">
         <aside
-          className="relative z-10 flex flex-col gap-8 lg:pr-4"
+          className="relative z-10 flex flex-col items-center gap-8 text-center lg:items-start lg:text-left lg:pr-4"
           style={isMobile ? undefined : { minHeight: desktopCanvasHeight }}
         >
           <div className="space-y-5 lg:pt-10">
@@ -208,7 +208,7 @@ export default function ExpertiseSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.65 }}
               transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-[24ch] text-[clamp(2.1rem,3.4vw,4rem)] font-black leading-[1.02] tracking-[-0.03em] text-[rgb(var(--primary))]"
+              className="mx-auto max-w-[24ch] text-[clamp(1.85rem,8vw,4rem)] font-black leading-[1.04] tracking-[-0.03em] text-[rgb(var(--primary))] lg:mx-0 lg:text-[clamp(2.1rem,3.4vw,4rem)] lg:leading-[1.02]"
               style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
             >
               {t("expertise.headline")}
@@ -405,11 +405,11 @@ export default function ExpertiseSection() {
           </motion.div>
         </div>
 
-        <div className="grid gap-0 lg:hidden">
+        <div className="grid gap-6 sm:gap-8 lg:hidden">
           {poles.map((pole, index) => (
-            <div key={pole.key} className="py-24">
+            <div key={pole.key} className="py-12 sm:py-16">
               <motion.article
-                className="relative overflow-hidden rounded-3xl border border-white/28 bg-white/20 p-8 text-center backdrop-blur-md sm:p-10"
+                className="relative mx-auto w-full max-w-[42rem] overflow-hidden rounded-3xl border border-white/28 bg-white/20 p-6 text-center backdrop-blur-md sm:p-8"
                 initial={{ opacity: 0, y: 30, filter: "blur(8px)", scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
                 viewport={{ amount: 0.35, once: false }}
@@ -453,8 +453,8 @@ export default function ExpertiseSection() {
                   </p>
                 </div>
 
-                <div className="relative z-10 mt-8 w-full px-6">
-                  <Magnetic className="block" strength={10}>
+                <div className="relative z-10 mt-8 w-full px-2 sm:px-6">
+                  <Magnetic className="block w-full" strength={10}>
                     <HeroPrimaryButton
                       size="compact"
                       label={t("expertise.ctaLabel")}
