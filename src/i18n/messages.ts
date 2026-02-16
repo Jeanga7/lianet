@@ -31,6 +31,51 @@ const fr = {
     secondaryCta: "Start Project",
     scrollCta: "Scroller vers la section suivante",
   },
+  expertise: {
+    eyebrow: "EXPERTISE LIANET",
+    title: "Trois pôles. Une exécution d'exception.",
+    intro:
+      "Notre proposition de valeur repose sur un modèle intégré: talents d'élite, stratégie orientée ROI et innovation appliquée. Nous transformons vos ambitions en actifs numériques concrets.",
+    poles: {
+      talent: {
+        number: "01",
+        navTitle: "Talent Solutions",
+        canvasTitle: "Talent",
+        slogan: "L'élite digitale africaine au service de vos ambitions.",
+        description:
+          "Nous constituons des équipes digitales à fort impact pour accélérer vos livrables critiques avec un niveau d'exigence premium.",
+        capability1: "Staff augmentation ciblée",
+        capability2: "Recrutement expert",
+        capability3: "Delivery orienté qualité",
+        capability4: "Pilotage de performance",
+      },
+      strategy: {
+        number: "02",
+        navTitle: "Digital Strategy",
+        canvasTitle: "Strategy",
+        slogan: "Transformer votre vision en leadership de marché.",
+        description:
+          "Nous concevons des feuilles de route à haute valeur pour réduire le risque, prioriser les investissements et piloter la croissance.",
+        capability1: "Audit de maturité",
+        capability2: "Roadmap priorisée",
+        capability3: "Pilotage par indicateurs",
+        capability4: "Gouvernance d'exécution",
+      },
+      lab: {
+        number: "03",
+        navTitle: "Innovation Lab",
+        canvasTitle: "Lab",
+        slogan: "Expérimenter aujourd'hui les leviers de demain.",
+        description:
+          "Nous explorons, prototypons et validons rapidement des solutions innovantes pour créer des avantages compétitifs durables.",
+        capability1: "MVP et prototypage rapide",
+        capability2: "Expérimentation IA/Data",
+        capability3: "Validation business",
+        capability4: "Passage à l'échelle",
+      },
+    },
+    ctaPrimary: "Découvrir nos solutions",
+  },
   fullMenu: {
     ecosystem: "Lianet Ecosystem",
     close: "Fermer le menu",
@@ -116,6 +161,51 @@ const en = {
     primaryCta: "Our Solutions",
     secondaryCta: "Start Project",
     scrollCta: "Scroll to next section",
+  },
+  expertise: {
+    eyebrow: "LIANET EXPERTISE",
+    title: "Three pillars. One elite execution model.",
+    intro:
+      "Our value proposition is built on an integrated model: elite talent, ROI-driven strategy, and applied innovation to turn ambitions into concrete digital assets.",
+    poles: {
+      talent: {
+        number: "01",
+        navTitle: "Talent Solutions",
+        canvasTitle: "Talent",
+        slogan: "African digital excellence powering your ambitions.",
+        description:
+          "We assemble high-impact digital teams to accelerate mission-critical delivery with premium execution standards.",
+        capability1: "Targeted staff augmentation",
+        capability2: "Expert hiring",
+        capability3: "Quality-driven delivery",
+        capability4: "Performance management",
+      },
+      strategy: {
+        number: "02",
+        navTitle: "Digital Strategy",
+        canvasTitle: "Strategy",
+        slogan: "Turning vision into market leadership.",
+        description:
+          "We design high-value roadmaps to reduce risk, prioritize investments, and drive measurable growth.",
+        capability1: "Maturity assessment",
+        capability2: "Prioritized roadmap",
+        capability3: "KPI-led governance",
+        capability4: "Execution governance",
+      },
+      lab: {
+        number: "03",
+        navTitle: "Innovation Lab",
+        canvasTitle: "Lab",
+        slogan: "Experimenting today with tomorrow's growth levers.",
+        description:
+          "We explore, prototype, and validate innovative solutions fast to create durable competitive advantage.",
+        capability1: "MVP and rapid prototyping",
+        capability2: "AI/Data experimentation",
+        capability3: "Business validation",
+        capability4: "Scale readiness",
+      },
+    },
+    ctaPrimary: "Explore our solutions",
   },
   fullMenu: {
     ecosystem: "Lianet Ecosystem",

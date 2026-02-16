@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist_Mono, Lato, Varela_Round } from "next/font/google";
+import { Geist_Mono, Lato, Nunito, Varela_Round } from "next/font/google";
 import "./globals.css";
 import { SiteLayout } from "@/components/layout";
 
@@ -14,6 +14,12 @@ const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
   weight: ["400", "700"],
+});
+
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
 });
 
 const geistMono = Geist_Mono({
@@ -48,7 +54,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${varelaRound.variable} ${lato.variable} ${geistMono.variable} antialiased`}
+        className={`${varelaRound.variable} ${lato.variable} ${nunito.variable} ${geistMono.variable} antialiased`}
       >
         <SiteLayout>{children}</SiteLayout>
       </body>

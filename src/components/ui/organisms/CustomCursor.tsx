@@ -297,9 +297,13 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
         const distance = Math.sqrt(
           Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
         );
-        const force = Math.min(30 / Math.max(distance, 1), 1); // Force magnétique
-        magneticX.set((centerX - e.clientX) * force * 0.3);
-        magneticY.set((centerY - e.clientY) * force * 0.3);
+        const strength = hoverTarget.dataset.cursorStrength;
+        const radius = strength === "strong" ? 220 : 160;
+        const multiplier = strength === "strong" ? 0.46 : 0.3;
+        const falloff = Math.max(0, 1 - distance / radius);
+
+        magneticX.set((centerX - e.clientX) * falloff * multiplier);
+        magneticY.set((centerY - e.clientY) * falloff * multiplier);
       } else {
         magneticX.set(0);
         magneticY.set(0);
