@@ -18,7 +18,7 @@ const HeroSection = () => {
   const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll();
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
-  // Parallax Clipping : Le contenu Hero se translate vers le haut quand Expertise monte
+  // Parallax Clipping : le contenu Hero se translate légèrement pendant le défilement
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -20], { clamp: true });
   
   // Interaction de scroll sur le titre : réduction du tracking et fade-out
@@ -372,54 +372,6 @@ const HeroSection = () => {
             </span>
           </motion.button>
         </div>
-      </motion.div>
-
-      {/* Lueur turquoise pour Shared Element Transition (Hero → Expertise) */}
-      <motion.div
-        layoutId="hero-liane-glow"
-        className="hidden lg:block absolute left-20 bottom-0 w-2 h-32 pointer-events-none z-30"
-        style={{
-          background: "linear-gradient(to top, rgba(64, 180, 166, 0.4), rgba(64, 180, 166, 0.1), transparent)",
-          filter: "blur(4px)",
-        }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        aria-hidden="true"
-      >
-        {/* Halo pulsant autour de la lueur */}
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(circle, rgba(64, 180, 166, 0.3), transparent 70%)",
-            filter: "blur(8px)",
-            width: "40px",
-            left: "-19px",
-          }}
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        {/* Spark effect - étincelle qui parcourt la liane */}
-        <motion.div
-          className="absolute w-1 h-1 bg-secondary rounded-full"
-          style={{
-            boxShadow: "0 0 8px rgba(64, 180, 166, 0.8)",
-          }}
-          animate={{
-            y: [0, 128, 0],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
       </motion.div>
 
       {/* Lottie en bas à gauche */}

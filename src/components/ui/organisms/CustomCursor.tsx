@@ -5,6 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform, animate, useMotionTemp
 import { ChevronDown } from "lucide-react";
 
 type CursorState = "default" | "hover" | "text" | "drag" | "scroll" | "glow";
+type CursorProfile = "default" | "expertise";
 
 interface CustomCursorProps {
   enabled?: boolean;
@@ -76,6 +77,8 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [hoverTarget, setHoverTarget] = useState<HTMLElement | null>(null);
+  const [cursorLabel, setCursorLabel] = useState<string | null>(null);
+  const [cursorProfile, setCursorProfile] = useState<CursorProfile>("default");
   const [isLightBackground, setIsLightBackground] = useState(true);
   const [backgroundType, setBackgroundType] = useState<"blue" | "turquoise" | "white" | "dark" | "light">("light");
   const lastPositionRef = useRef({ x: 0, y: 0 });
@@ -205,6 +208,11 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
   
   // Template de transformation pour centrer le contenu
   const scrollTransform = useMotionTemplate`translate(${scrollContentX}px, ${scrollContentY}px) translate(-50%, -50%)`;
+  const hoverLabelTransform = useMotionTemplate`translate(${scrollContentX}px, ${scrollContentY}px) translate(-50%, -50%)`;
+  const hoverTransition =
+    cursorProfile === "expertise"
+      ? { type: "spring" as const, stiffness: 150, damping: 20, mass: 0.5 }
+      : { type: "spring" as const, stiffness: 250, damping: 30, mass: 0.5 };
 
   // Écouter les événements de la zone de scroll
   useEffect(() => {
@@ -313,6 +321,8 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
     const handleMouseLeave = () => {
       setIsVisible(false);
       animate(trailOpacity, 0, { duration: 0.2 });
+      setCursorLabel(null);
+      setCursorProfile("default");
     };
 
     const handleMouseEnter = () => {
@@ -323,12 +333,26 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
+      const interactiveTarget = target.closest(
+        '[data-cursor-label], [data-cursor-profile], [data-cursor="hover"], [data-cursor="glow"], button, a, [role="button"]'
+      ) as HTMLElement | null;
+
+      const updateCursorMetadata = (element: HTMLElement | null) => {
+        if (!element) {
+          setCursorLabel(null);
+          setCursorProfile("default");
+          return;
+        }
+        setCursorLabel(element.dataset.cursorLabel ?? null);
+        setCursorProfile(element.dataset.cursorProfile === "expertise" ? "expertise" : "default");
+      };
 
       // Priorité absolue à la zone de scroll desktop (bas de page)
       if (target.closest('[data-cursor="scroll-zone"]') || isInScrollZoneRef.current) {
         setCursorState("scroll");
         setIsHovering(false);
         setHoverTarget(null);
+        updateCursorMetadata(null);
         return;
       }
 
@@ -340,10 +364,12 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
         setCursorState("glow");
         setIsHovering(true);
         setHoverTarget(glowElement as HTMLElement);
+        updateCursorMetadata(glowElement as HTMLElement);
       } else if (hoverElement) {
         setCursorState("hover");
         setIsHovering(true);
         setHoverTarget(hoverElement as HTMLElement);
+        updateCursorMetadata(hoverElement as HTMLElement);
       } else {
         // Vérifier si c'est un élément interactif standard
         const isInteractive =
@@ -356,12 +382,8 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
         if (isInteractive) {
           setCursorState("hover");
           setIsHovering(true);
-          setHoverTarget(
-            (target.closest("button") ||
-              target.closest("a") ||
-              target.closest('[role="button"]') ||
-              target) as HTMLElement
-          );
+          setHoverTarget(interactiveTarget || target);
+          updateCursorMetadata(interactiveTarget || target);
         } else if (
           target.tagName === "INPUT" ||
           target.tagName === "TEXTAREA" ||
@@ -372,6 +394,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
           setCursorState("text");
           setIsHovering(false);
           setHoverTarget(null);
+          updateCursorMetadata(null);
         } else if (
           target.closest('[data-cursor="drag"]') ||
           target.closest(".draggable")
@@ -379,10 +402,12 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
           setCursorState("drag");
           setIsHovering(false);
           setHoverTarget(null);
+          updateCursorMetadata(null);
         } else {
           setCursorState("default");
           setIsHovering(false);
           setHoverTarget(null);
+          updateCursorMetadata(null);
         }
       }
     };
@@ -506,12 +531,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }
-              : {
-                  type: "spring",
-                  stiffness: 250,
-                  damping: 30,
-                  mass: 0.5,
-                }
+              : hoverTransition
           }
         />
 
@@ -650,6 +670,25 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
                 },
               }}
             />
+
+            {cursorLabel && (
+              <motion.span
+                className="absolute pointer-events-none whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em]"
+                style={{
+                  transform: hoverLabelTransform,
+                  fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+                  color: backgroundType === "blue" || (!isLightBackground && backgroundType !== "turquoise" && backgroundType !== "white")
+                    ? "rgb(255, 255, 255)"
+                    : "rgb(27, 54, 93)",
+                }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={hoverTransition}
+              >
+                {cursorLabel}
+              </motion.span>
+            )}
           </>
         )}
 

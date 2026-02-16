@@ -1414,7 +1414,7 @@ const ManifesteSection = () => {
             </div>
           </div>
 
-          {/* Mobile: Cartes empilées verticalement - Inspiré de ExpertiseSection avec hauteur libre */}
+          {/* Mobile: Cartes empilées verticalement avec hauteur libre */}
           <div className="md:hidden flex flex-col gap-6 md:gap-8 pb-8">
             {cardsData.map((card, index) => (
               <motion.div

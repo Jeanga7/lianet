@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Menu } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useI18n } from "@/lib/useI18n";
 
 interface SidebarProps {
@@ -13,8 +13,6 @@ const SECTION_IDS = ["hero", "expertise", "manifeste"] as const;
 
 const Sidebar = ({ onMenuClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState<string>("hero");
-  const [expertiseHover, setExpertiseHover] = useState<"talent" | "lab" | null>(null);
-  const [isExpertiseExpanded, setIsExpertiseExpanded] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const { t } = useI18n();
   const sections = [
@@ -22,38 +20,6 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     { id: "expertise", label: t("sidebar.expertise") },
     { id: "manifeste", label: t("sidebar.manifeste") },
   ];
-
-  // Écouter les événements de hover depuis ExpertiseSection
-  useEffect(() => {
-    const handleExpertiseHover = (event: CustomEvent) => {
-      const { poleId } = event.detail;
-      if (poleId === "talent") {
-        setExpertiseHover("talent");
-      } else if (poleId === "lab") {
-        setExpertiseHover("lab");
-      } else {
-        setExpertiseHover(null);
-      }
-    };
-
-    window.addEventListener("expertiseHover", handleExpertiseHover as EventListener);
-    return () => {
-      window.removeEventListener("expertiseHover", handleExpertiseHover as EventListener);
-    };
-  }, []);
-
-  // Écouter les événements d'expansion depuis ExpertiseSection
-  useEffect(() => {
-    const handleExpertiseExpanded = (event: CustomEvent) => {
-      const { isExpanded } = event.detail;
-      setIsExpertiseExpanded(isExpanded);
-    };
-
-    window.addEventListener("expertiseExpanded", handleExpertiseExpanded as EventListener);
-    return () => {
-      window.removeEventListener("expertiseExpanded", handleExpertiseExpanded as EventListener);
-    };
-  }, []);
 
   // Détection de la section active au scroll avec threshold: 0.6
   useEffect(() => {
@@ -139,19 +105,6 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
 
   return (
     <>
-      {/* Barre de progression horizontale quand expertise expanded */}
-      <AnimatePresence>
-        {isExpertiseExpanded && activeSection === "expertise" && (
-          <motion.div
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            exit={{ opacity: 0, scaleY: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-0 left-0 right-0 h-1 bg-secondary z-[60]"
-          />
-        )}
-      </AnimatePresence>
-
       <motion.aside
         className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center bg-primary text-primary-foreground lg:flex"
         initial={{ opacity: 0, x: -20 }}
@@ -176,10 +129,6 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
       <div className="mt-auto mb-auto flex flex-col items-center gap-4">
         {sections.map((section, index) => {
           const isActive = activeSection === section.id;
-          const isExpertise = section.id === "expertise";
-          const shouldStretchUp = isExpertise && isActive && expertiseHover === "talent";
-          const shouldStretchDown = isExpertise && isActive && expertiseHover === "lab";
-          const shouldFade = isExpertise && isActive && isExpertiseExpanded;
           
           return (
             <motion.button
@@ -190,7 +139,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
               className="group relative flex h-7 w-7 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
               initial={{ opacity: 0, scale: 0 }}
               animate={{
-                opacity: shouldFade ? 0.24 : isActive ? 1 : 0.56,
+                opacity: isActive ? 1 : 0.56,
                 scale: isActive ? 1.16 : 1,
               }}
               whileHover={{ scale: isActive ? 1.16 : 1.06 }}
@@ -201,7 +150,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
               aria-label={section.label}
               title={section.label}
             >
-              {isActive && !shouldFade && (
+              {isActive && (
                 <motion.span
                   layoutId="sidebarActiveRing"
                   className="absolute inset-0 rounded-full border border-secondary/80 bg-secondary/10"
@@ -232,28 +181,14 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
                   }
                 />
               )}
-              {shouldFade ? (
-                <motion.div
-                  className="h-full w-[1px] bg-gray-400/50"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              ) : (
-                <motion.span
-                  className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                    isActive
-                      ? "bg-secondary"
-                      : "bg-primary-foreground/30 group-hover:bg-secondary/60"
-                  }`}
-                  animate={{
-                    scaleY: shouldStretchUp ? 1.45 : shouldStretchDown ? 1.45 : 1,
-                    scaleX: shouldStretchUp || shouldStretchDown ? 1.08 : 1,
-                    y: shouldStretchUp ? -2 : shouldStretchDown ? 2 : 0,
-                  }}
-                  transition={{ duration: 0.24, ease: "easeOut" }}
-                />
-              )}
+              <motion.span
+                className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                  isActive
+                    ? "bg-secondary"
+                    : "bg-primary-foreground/30 group-hover:bg-secondary/60"
+                }`}
+                transition={{ duration: 0.24, ease: "easeOut" }}
+              />
             </motion.button>
           );
         })}

@@ -9,12 +9,13 @@ export default function LocalizedHomePage() {
         <HeroSection />
         <ScrollZone targetSectionId="expertise" />
       </section>
-      <div className="lg:hidden h-8 bg-gradient-to-b from-white to-[#1B365D]/5" />
-      <section id="expertise" className="relative h-auto min-h-screen w-full lg:w-[calc(100%-5rem)] lg:ml-20 lg:h-dvh lg:snap-start lg:snap-always flex-shrink-0">
+      <section
+        id="expertise"
+        className="relative h-auto min-h-screen w-full flex-shrink-0 lg:h-dvh lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always"
+      >
         <ExpertiseSection />
         <ScrollZone targetSectionId="manifeste" />
       </section>
-      <div className="lg:hidden h-8 bg-gradient-to-b from-[#1B365D]/5 to-white" />
       <section id="manifeste" className="relative">
         <ManifesteSection />
       </section>

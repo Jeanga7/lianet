@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, type ElementType, useState } from "react";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { ArrowRight, Grid3x3, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,8 +12,28 @@ type HeroButtonBaseProps = Omit<HTMLMotionProps<"button">, "children"> & {
   size?: HeroButtonSize;
 };
 
-export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseProps>(
-  ({ label, size = "hero", className, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
+type HeroPrimaryButtonProps = HeroButtonBaseProps & {
+  iconStart?: ElementType | null;
+  iconEnd?: ElementType | null;
+  showEndIconOnMobile?: boolean;
+};
+
+export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButtonProps>(
+  (
+    {
+      label,
+      size = "hero",
+      className,
+      style,
+      onMouseEnter,
+      onMouseLeave,
+      iconStart: StartIcon = Grid3x3,
+      iconEnd: EndIcon = ArrowRight,
+      showEndIconOnMobile = false,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = useState(false);
     const sizeClassName =
       size === "compact"
@@ -74,39 +94,43 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
             damping: 25,
           }}
         >
-          <motion.span
-            animate={{
-              opacity: isHovered ? 0 : 1,
-              scale: isHovered ? 0.8 : 1,
-              x: isHovered ? -8 : 0,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 25,
-            }}
-            className="flex-shrink-0"
-          >
-            <Grid3x3 className="w-4 h-4 text-white" />
-          </motion.span>
+          {StartIcon && (
+            <motion.span
+              animate={{
+                opacity: isHovered ? 0 : 1,
+                scale: isHovered ? 0.8 : 1,
+                x: isHovered ? -8 : 0,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+              }}
+              className="flex-shrink-0"
+            >
+              <StartIcon className="w-4 h-4 text-white" />
+            </motion.span>
+          )}
 
           <span className="inline-flex items-center justify-center">{label}</span>
 
-          <motion.span
-            animate={{
-              opacity: isHovered ? 1 : 0,
-              x: isHovered ? 0 : -8,
-              scale: isHovered ? 1 : 0.8,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 25,
-            }}
-            className="hidden sm:inline-flex flex-shrink-0"
-          >
-            <ArrowRight className="w-4 h-4 text-white" />
-          </motion.span>
+          {EndIcon && (
+            <motion.span
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : -8,
+                scale: isHovered ? 1 : 0.8,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+              }}
+              className={cn("flex-shrink-0", showEndIconOnMobile ? "inline-flex" : "hidden sm:inline-flex")}
+            >
+              <EndIcon className="w-4 h-4 text-white" />
+            </motion.span>
+          )}
         </motion.span>
       </motion.button>
     );
@@ -116,7 +140,18 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroButtonBasePro
 HeroPrimaryButton.displayName = "HeroPrimaryButton";
 
 export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseProps>(
-  ({ label, size = "hero", className, style, onMouseEnter, onMouseLeave, ...props }, ref) => {
+  (
+    {
+      label,
+      size = "hero",
+      className,
+      style,
+      onMouseEnter,
+      onMouseLeave,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = useState(false);
     const sizeClassName =
       size === "compact"
