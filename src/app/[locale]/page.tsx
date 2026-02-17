@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/hero";
-import { ExpertiseSection, ManifesteSection } from "@/components/sections";
+import { BlueprintSection, ExpertiseSection, FooterSection, ManifesteSection } from "@/components/sections";
 import { ScrollZone, SectionColorBridge } from "@/components/ui";
 
 export default function LocalizedHomePage() {
@@ -17,8 +17,19 @@ export default function LocalizedHomePage() {
         <ExpertiseSection />
         <ScrollZone targetSectionId="blueprint" />
       </section>
-      <section id="blueprint" className="relative">
+      <section
+        id="blueprint"
+        className="relative h-auto min-h-screen w-full flex-shrink-0 lg:h-dvh lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always"
+      >
+        <BlueprintSection />
+        <ScrollZone targetSectionId="manifeste" />
+      </section>
+      <section id="manifeste" className="relative h-auto min-h-screen w-full flex-shrink-0 lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always">
         <ManifesteSection />
+        <ScrollZone targetSectionId="footer" />
+      </section>
+      <section id="footer" className="relative h-auto min-h-[70vh] w-full flex-shrink-0 lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always">
+        <FooterSection />
       </section>
     </main>
   );

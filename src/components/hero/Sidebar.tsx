@@ -9,79 +9,25 @@ interface SidebarProps {
   onMenuClick?: () => void;
 }
 
-const getInitialSectionIds = () => {
-  if (typeof document === "undefined") {
-    return ["hero", "expertise", "blueprint"];
-  }
-
-  const mainScroll = document.getElementById("main-scroll");
-  if (!mainScroll) {
-    return ["hero", "expertise", "blueprint"];
-  }
-
-  const ids = Array.from(mainScroll.querySelectorAll(":scope > section[id]"))
-    .map((section) => section.id)
-    .filter(Boolean);
-
-  return ids.length > 0 ? ids : ["hero", "expertise", "blueprint"];
-};
+const SECTION_IDS = ["hero", "expertise", "blueprint", "manifeste", "footer"] as const;
 
 const Sidebar = ({ onMenuClick }: SidebarProps) => {
-  const [sectionIds, setSectionIds] = useState<string[]>(() => getInitialSectionIds());
-  const [activeSection, setActiveSection] = useState<string>(() => sectionIds[0] ?? "hero");
+  const [activeSection, setActiveSection] = useState<string>("hero");
   const prefersReducedMotion = useReducedMotion();
   const { t } = useI18n();
-  const sections = sectionIds.map((id) => {
-    const label =
-      id === "hero"
-        ? t("sidebar.hero")
-        : id === "expertise"
-        ? t("sidebar.expertise")
-        : id === "blueprint"
-        ? t("sidebar.blueprint")
-        : id === "manifeste"
-        ? t("sidebar.manifeste")
-        : id;
-    return { id, label };
-  });
+  const sections = [
+    { id: "hero", label: t("sidebar.hero") },
+    { id: "expertise", label: t("sidebar.expertise") },
+    { id: "blueprint", label: t("sidebar.blueprint") },
+    { id: "manifeste", label: t("sidebar.manifeste") },
+    { id: "footer", label: t("sidebar.footer") },
+  ];
 
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-
-    const syncSectionIds = () => {
-      const ids = getInitialSectionIds();
-      setSectionIds((previous) => {
-        if (previous.length === ids.length && previous.every((id, index) => id === ids[index])) {
-          return previous;
-        }
-        return ids;
-      });
-      setActiveSection((previous) => (ids.includes(previous) ? previous : ids[0] ?? previous));
-    };
-
-    const frameId = window.requestAnimationFrame(syncSectionIds);
-    const mainScroll = document.getElementById("main-scroll");
-    if (!mainScroll) {
-      return () => window.cancelAnimationFrame(frameId);
-    }
-
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(syncSectionIds);
-    });
-    observer.observe(mainScroll, { childList: true, subtree: true, attributes: true, attributeFilter: ["id"] });
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      observer.disconnect();
-    };
-  }, []);
-
-  // Détection de la section active au scroll avec threshold: 0.6
   useEffect(() => {
     const observerOptions = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.6, // Section active quand 60% est visible
+      threshold: 0.6,
     };
 
     const observerCallback: IntersectionObserverCallback = (entries) => {
@@ -94,8 +40,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-    // Observer toutes les sections
-    sectionIds.forEach((id) => {
+    SECTION_IDS.forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);
@@ -103,16 +48,15 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
     });
 
     return () => {
-      sectionIds.forEach((id) => {
+      SECTION_IDS.forEach((id) => {
         const element = document.getElementById(id);
         if (element) {
           observer.unobserve(element);
         }
       });
     };
-  }, [sectionIds]);
+  }, []);
 
-  // Scroll vers une section au clic (avec snap, utilise scrollIntoView)
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId);
     const container = document.getElementById("main-scroll");
@@ -166,88 +110,84 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#8FD6CC]/20 to-transparent" />
-      {/* Menu hamburger en haut */}
-      <motion.button
-        type="button"
-        onClick={onMenuClick}
-        className="mt-8 flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-primary-foreground/10"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        aria-label={t("sidebar.menu")}
-      >
-        <Menu className="h-6 w-6 text-primary-foreground" />
-      </motion.button>
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#8FD6CC]/20 to-transparent" />
+        <motion.button
+          type="button"
+          onClick={onMenuClick}
+          className="mt-8 flex h-11 w-11 items-center justify-center rounded-lg transition-colors hover:bg-primary-foreground/10"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          aria-label={t("sidebar.menu")}
+        >
+          <Menu className="h-6 w-6 text-primary-foreground" />
+        </motion.button>
 
-      {/* Indicateurs de pagination verticaux au centre */}
-      <div className="mt-auto mb-auto flex flex-col items-center gap-4">
-        {sections.map((section, index) => {
-          const isActive = activeSection === section.id;
-          
-          return (
-            <motion.button
-              key={section.id}
-              type="button"
-              onClick={() => scrollToSection(section.id)}
-              aria-current={isActive ? "true" : undefined}
-              className="group relative flex h-7 w-7 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{
-                opacity: isActive ? 1 : 0.56,
-                scale: isActive ? 1.16 : 1,
-              }}
-              whileHover={{ scale: isActive ? 1.16 : 1.06 }}
-              transition={{
-                duration: 0.32,
-                delay: 0.3 + index * 0.1,
-              }}
-              aria-label={section.label}
-              title={section.label}
-            >
-              {isActive && (
+        <div className="mb-auto mt-auto flex flex-col items-center gap-4">
+          {sections.map((section, index) => {
+            const isActive = activeSection === section.id;
+
+            return (
+              <motion.button
+                key={section.id}
+                type="button"
+                onClick={() => scrollToSection(section.id)}
+                aria-current={isActive ? "true" : undefined}
+                className="group relative flex h-7 w-7 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{
+                  opacity: isActive ? 1 : 0.56,
+                  scale: isActive ? 1.16 : 1,
+                }}
+                whileHover={{ scale: isActive ? 1.16 : 1.06 }}
+                transition={{
+                  duration: 0.32,
+                  delay: 0.3 + index * 0.1,
+                }}
+                aria-label={section.label}
+                title={section.label}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="sidebarActiveRing"
+                    className="absolute inset-0 rounded-full border border-secondary/80 bg-secondary/10"
+                    animate={
+                      prefersReducedMotion
+                        ? undefined
+                        : {
+                            boxShadow: [
+                              "0 0 0 0 rgba(143,214,204,0.18)",
+                              "0 0 0 6px rgba(143,214,204,0)",
+                              "0 0 0 0 rgba(143,214,204,0.18)",
+                            ],
+                          }
+                    }
+                    transition={
+                      prefersReducedMotion
+                        ? { type: "spring", stiffness: 520, damping: 34 }
+                        : {
+                            type: "spring",
+                            stiffness: 520,
+                            damping: 34,
+                            boxShadow: {
+                              duration: 1.8,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            },
+                          }
+                    }
+                  />
+                )}
                 <motion.span
-                  layoutId="sidebarActiveRing"
-                  className="absolute inset-0 rounded-full border border-secondary/80 bg-secondary/10"
-                  animate={
-                    prefersReducedMotion
-                      ? undefined
-                      : {
-                          boxShadow: [
-                            "0 0 0 0 rgba(143,214,204,0.18)",
-                            "0 0 0 6px rgba(143,214,204,0)",
-                            "0 0 0 0 rgba(143,214,204,0.18)",
-                          ],
-                        }
-                  }
-                  transition={
-                    prefersReducedMotion
-                      ? { type: "spring", stiffness: 520, damping: 34 }
-                      : {
-                          type: "spring",
-                          stiffness: 520,
-                          damping: 34,
-                          boxShadow: {
-                            duration: 1.8,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          },
-                        }
-                  }
+                  className={`h-2.5 w-2.5 rounded-full transition-colors ${
+                    isActive ? "bg-secondary" : "bg-primary-foreground/30 group-hover:bg-secondary/60"
+                  }`}
+                  transition={{ duration: 0.24, ease: "easeOut" }}
                 />
-              )}
-              <motion.span
-                className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                  isActive
-                    ? "bg-secondary"
-                    : "bg-primary-foreground/30 group-hover:bg-secondary/60"
-                }`}
-                transition={{ duration: 0.24, ease: "easeOut" }}
-              />
-            </motion.button>
-          );
-        })}
-      </div>
+              </motion.button>
+            );
+          })}
+        </div>
       </motion.aside>
     </>
   );

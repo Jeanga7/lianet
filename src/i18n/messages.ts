@@ -20,6 +20,7 @@ const fr = {
     expertise: "Expertise",
     blueprint: "Blueprint",
     manifeste: "Manifeste",
+    footer: "Footer",
     menu: "Menu",
   },
   hero: {
@@ -115,6 +116,16 @@ const fr = {
     cta: {
       primary: "Démarrer votre projet",
       secondary: "Découvrir nos solutions",
+      protocol: "Appliquer le Protocole",
+    },
+  },
+  footer: {
+    eyebrow: "LIANET — 05",
+    title: "Transformons vos ambitions en trajectoire de leadership.",
+    subtitle: "Parlons de vos priorités business et construisons un plan d'exécution concret, mesurable et durable.",
+    cta: {
+      primary: "Démarrer votre projet",
+      secondary: "Explorer nos solutions",
     },
   },
   fullMenu: {
@@ -192,6 +203,7 @@ const en = {
     expertise: "Expertise",
     blueprint: "Blueprint",
     manifeste: "Manifesto",
+    footer: "Footer",
     menu: "Menu",
   },
   hero: {
@@ -284,6 +296,16 @@ const en = {
           "KPI analysis and continuous refinement to secure durable leadership.",
       },
     },
+    cta: {
+      primary: "Start your project",
+      secondary: "Explore our solutions",
+      protocol: "Apply the Protocol",
+    },
+  },
+  footer: {
+    eyebrow: "LIANET — 05",
+    title: "Turn ambition into market leadership.",
+    subtitle: "Let's align on your business priorities and build a concrete, measurable execution plan.",
     cta: {
       primary: "Start your project",
       secondary: "Explore our solutions",
