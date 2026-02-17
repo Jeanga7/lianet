@@ -11,7 +11,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { Activity, ArrowUpRight, PenTool, Rocket, Search } from "lucide-react";
-import { HeroPrimaryButton, Magnetic } from "@/components/ui";
+import { HeroPrimaryButton, HeroSecondaryButton, Magnetic } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
@@ -150,7 +150,7 @@ export default function BlueprintSection() {
       ref={sectionRef}
       onMouseMove={handleCanvasMove}
       onMouseLeave={handleCanvasLeave}
-      className="relative isolate min-h-screen overflow-hidden bg-[#40B4A6] px-4 py-24 text-[#F8FAFC] sm:px-6 lg:min-h-dvh lg:px-10 lg:py-32 xl:px-14"
+      className="relative isolate min-h-screen overflow-hidden bg-[#40B4A6] px-4 py-16 text-[#F8FAFC] sm:px-6 lg:min-h-dvh lg:px-10 lg:py-24 xl:px-14"
       aria-label={t("blueprint.title")}
     >
       <SandGrain className="z-[1]" opacity={0.04} />
@@ -174,19 +174,24 @@ export default function BlueprintSection() {
           minHeight: `calc(100dvh - ${desktopNavHeight}px - 3.5rem)`,
         }}
       >
+        <motion.p
+          initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={motionSpring}
+          className="text-center text-[11px] uppercase tracking-[0.24em] text-[#F8FAFC]/75 lg:absolute lg:left-1/2 lg:top-10 lg:-translate-x-1/2"
+          style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+        >
+          {t("blueprint.eyebrow")}
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 18, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.6 }}
           transition={motionSpring}
-          className="mx-auto max-w-[900px] space-y-5 text-center"
+          className="mx-auto max-w-[900px] space-y-5 pt-6 text-center lg:pt-20"
         >
-          <p
-            className="text-[11px] uppercase tracking-[0.24em] text-[#F8FAFC]/75"
-            style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
-          >
-            {t("blueprint.eyebrow")}
-          </p>
           <h2
             className="text-[clamp(2rem,5.2vw,4.6rem)] font-black leading-[1.02] tracking-[-0.03em]"
             style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
@@ -343,12 +348,13 @@ export default function BlueprintSection() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.6 }}
           transition={motionSpring}
-          className="mx-auto mt-16 flex w-full max-w-[760px] flex-col items-center justify-center gap-4 text-center sm:flex-row sm:gap-5 lg:mt-10 lg:mb-24"
+          className="mx-auto mt-16 flex w-full max-w-[760px] flex-col items-center justify-center gap-4 text-center sm:flex-row sm:gap-5 lg:mt-10 lg:mb-6"
         >
           <Magnetic className="w-full sm:w-auto" strength={24}>
             <HeroPrimaryButton
               size="compact"
               label={t("blueprint.cta.primary")}
+              iconStart={Rocket}
               iconEnd={ArrowUpRight}
               showEndIconOnMobile
               onClick={() => navigateWithWipe(localizePathname(appRoutes.contact, locale))}
@@ -358,13 +364,12 @@ export default function BlueprintSection() {
           </Magnetic>
 
           <Magnetic className="w-full sm:w-auto" strength={24}>
-            <HeroPrimaryButton
+            <HeroSecondaryButton
               size="compact"
               label={t("blueprint.cta.secondary")}
-              iconEnd={ArrowUpRight}
-              showEndIconOnMobile
+              iconStart={Search}
               onClick={() => navigateWithWipe(localizePathname(appRoutes.solutions, locale))}
-              className="w-full border border-white/40 bg-white/12 px-8 py-4 !text-sm !font-bold uppercase !tracking-widest text-[#F8FAFC] shadow-[0_14px_30px_rgba(15,23,42,0.2)] hover:bg-white/20"
+              className="w-full !bg-[#8FD6CC]/78 px-8 py-4 !text-sm !font-bold uppercase !tracking-widest !text-[#1B365D] [--border:#8FD6CC] shadow-[0_14px_30px_rgba(15,23,42,0.2)] hover:!bg-[#8FD6CC] hover:!text-[#1B365D]"
               style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
             />
           </Magnetic>

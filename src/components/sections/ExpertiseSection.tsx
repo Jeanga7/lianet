@@ -4,10 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
-  useMotionValue,
   useReducedMotion,
-  useSpring,
-  useTransform,
 } from "framer-motion";
 import { ArrowUpRight, Compass, Users2, Zap } from "lucide-react";
 import { HeroPrimaryButton, Magnetic } from "@/components/ui";
@@ -35,13 +32,6 @@ const springTransition = {
   type: "spring" as const,
   stiffness: 150,
   damping: 20,
-};
-
-const parallaxSpring = {
-  type: "spring" as const,
-  stiffness: 120,
-  damping: 18,
-  mass: 0.9,
 };
 
 const poleIcons = {
@@ -90,17 +80,6 @@ export default function ExpertiseSection() {
       window.removeEventListener("resize", updateHeight);
     };
   }, [isMobile]);
-
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const textParallaxX = useSpring(
-    useTransform(pointerX, [-1, 1], shouldReduceMotion || isMobile ? [0, 0] : [14, -14]),
-    parallaxSpring
-  );
-  const textParallaxY = useSpring(
-    useTransform(pointerY, [-1, 1], shouldReduceMotion || isMobile ? [0, 0] : [9, -9]),
-    parallaxSpring
-  );
 
   const poles = useMemo<PoleContent[]>(
     () => [
@@ -167,20 +146,6 @@ export default function ExpertiseSection() {
     setSweepKey((previous) => previous + 1);
   };
 
-  const handleCanvasMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!canvasRef.current || shouldReduceMotion || isMobile) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
-    pointerX.set(Math.max(-1, Math.min(1, x)));
-    pointerY.set(Math.max(-1, Math.min(1, y)));
-  };
-
-  const handleCanvasLeave = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
-
   const handleCtaClick = () => {
     const href = localizePathname(appRoutes.solutions, locale);
     window.dispatchEvent(new CustomEvent("navigateWithWipe", { detail: { href } }));
@@ -198,23 +163,21 @@ export default function ExpertiseSection() {
       />
 
       <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-10 sm:gap-12 lg:grid lg:grid-cols-[40%_60%] lg:gap-16">
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="lg:absolute lg:left-1/2 lg:top-10 lg:z-20 lg:-translate-x-1/2 text-center text-[11px] uppercase tracking-[0.22em] text-[rgb(var(--primary))]/60"
+          style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+        >
+          {t("expertise.eyebrow")}
+        </motion.p>
+
         <aside
           className="relative z-10 flex flex-col items-center gap-8 text-center lg:items-start lg:text-left lg:pr-4"
           style={isMobile ? undefined : { minHeight: desktopCanvasHeight }}
         >
-          <div className="space-y-5 lg:pt-10">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.7 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[11px] uppercase tracking-[0.22em] text-[rgb(var(--primary))]/60"
-              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
-            >
-              {t("expertise.eyebrow")}
-            </motion.p>
-          </div>
-
           <motion.h2
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -288,33 +251,17 @@ export default function ExpertiseSection() {
         >
           <motion.div
             ref={canvasRef}
-            onMouseMove={handleCanvasMove}
-            onMouseLeave={handleCanvasLeave}
             role="region"
             aria-label={`${locale === "fr" ? "Contenu du pôle" : "Pole content"} ${activeContent.title}`}
             aria-live="polite"
             aria-atomic="true"
-            className="relative w-full max-w-[56rem] overflow-hidden rounded-[2rem] bg-white/20 p-12 backdrop-blur-[60px] xl:p-16"
+            className="relative z-10 w-full max-w-[56rem] overflow-hidden rounded-[2rem] bg-white/20 p-12 backdrop-blur-[60px] xl:p-16"
             style={{
               boxShadow: "0 34px 100px rgba(27,54,93,0.16)",
             }}
           >
             <span className="pointer-events-none absolute inset-0 rounded-[2rem] border-l border-t border-white/30" aria-hidden="true" />
             <SandGrain className="z-[1]" opacity={0.065} />
-
-            <motion.p
-              aria-hidden="true"
-              className="pointer-events-none absolute left-8 top-1/2 z-10 -translate-y-1/2 text-[15rem] font-black leading-none tracking-[-0.06em]"
-              style={{
-                x: textParallaxX,
-                y: textParallaxY,
-                color: "transparent",
-                WebkitTextStroke: "1px rgba(27,54,93,0.05)",
-                fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
-              }}
-            >
-              {activeContent.title}
-            </motion.p>
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -445,9 +392,9 @@ export default function ExpertiseSection() {
 
         <div className="grid gap-6 sm:gap-8 lg:hidden">
           {poles.map((pole, index) => (
-            <div key={pole.key} className="py-12 sm:py-16">
+            <div key={pole.key} className="relative py-12 sm:py-16">
               <motion.article
-                className="relative mx-auto w-full max-w-[42rem] overflow-hidden rounded-3xl border border-white/28 bg-white/20 p-6 text-center backdrop-blur-md sm:p-8"
+                className="relative z-10 mx-auto w-full max-w-[42rem] overflow-hidden rounded-3xl border border-white/28 bg-white/20 p-6 text-center backdrop-blur-md sm:p-8"
                 initial={{ opacity: 0, y: 30, filter: "blur(8px)", scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
                 viewport={{ amount: 0.35, once: false }}

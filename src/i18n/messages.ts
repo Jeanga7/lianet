@@ -79,6 +79,26 @@ const fr = {
       },
     },
   },
+  manifeste: {
+    title: "Lianet n'est pas une option, c'est une position.",
+    titleLine1: "Lianet n'est pas une option,",
+    titleLine2: "c'est une position.",
+    body:
+      "Nous croyons que la technologie ne doit plus être importée, mais domptée. Nous fusionnons la rigueur des grands groupes avec l'agilité des startups pour bâtir une souveraineté digitale africaine sans compromis.",
+    mantra: "Ici, l'élite ne se décrète pas, elle s'exécute.",
+    aboutText:
+      "Une nouvelle ère, une expertise cumulée. Notre structure est jeune, mais notre impact est déjà réel.",
+    aboutTitle: "Une nouvelle ère, une expertise cumulée.",
+    aboutCta: "Découvrir notre ADN",
+    formTitle: "Prêt à graver votre empreinte ?",
+    ambitionLabel: "Votre Ambition / Projet",
+    ambitionPlaceholder: "Décrivez votre ambition, votre enjeu ou votre projet...",
+    emailLabel: "Email Professionnel",
+    emailPlaceholder: "vous@entreprise.com",
+    primaryCta: "DEMANDER UNE EXPERTISE",
+    notePrefix: "Réponse sous 24h. Pour les urgences, visitez notre",
+    contactLink: "Page Contact",
+  },
   blueprint: {
     eyebrow: "BLUEPRINT — 03",
     title: "The Impact Blueprint",
@@ -261,6 +281,26 @@ const en = {
         valueProp: "Practical innovation that builds durable advantage.",
       },
     },
+  },
+  manifeste: {
+    title: "Lianet is not an option, it's a position.",
+    titleLine1: "Lianet is not an option,",
+    titleLine2: "it's a position.",
+    body:
+      "We believe technology should no longer be imported, but mastered. We blend enterprise rigor with startup agility to build uncompromising African digital sovereignty.",
+    mantra: "Here, elite is not declared, it is executed.",
+    aboutText:
+      "A new era, cumulative expertise. Our structure is young, but our impact is already real.",
+    aboutTitle: "A new era, cumulative expertise.",
+    aboutCta: "Discover our DNA",
+    formTitle: "Ready to carve your footprint?",
+    ambitionLabel: "Your Ambition / Project",
+    ambitionPlaceholder: "Describe your ambition, challenge, or project...",
+    emailLabel: "Business Email",
+    emailPlaceholder: "you@company.com",
+    primaryCta: "REQUEST AN EXPERT REVIEW",
+    notePrefix: "Response within 24h. For urgent needs, visit our",
+    contactLink: "Contact Page",
   },
   blueprint: {
     eyebrow: "BLUEPRINT — 03",

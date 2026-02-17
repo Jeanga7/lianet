@@ -24,7 +24,7 @@ export default function LocalizedHomePage() {
         <BlueprintSection />
         <ScrollZone targetSectionId="manifeste" />
       </section>
-      <section id="manifeste" className="relative h-auto min-h-screen w-full flex-shrink-0 lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always">
+      <section id="manifeste" className="relative h-auto min-h-screen w-full flex-shrink-0 lg:h-dvh lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always">
         <ManifesteSection />
         <ScrollZone targetSectionId="footer" />
       </section>

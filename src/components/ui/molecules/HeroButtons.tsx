@@ -111,7 +111,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
               }}
               className="flex-shrink-0"
             >
-              <StartIcon className="w-4 h-4 text-white" />
+              <StartIcon className="w-4 h-4 text-current" />
             </motion.span>
           )}
 
@@ -131,7 +131,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
               }}
               className={cn("flex-shrink-0", showEndIconOnMobile ? "inline-flex" : "hidden sm:inline-flex")}
             >
-              <EndIcon className="w-4 h-4 text-white" />
+              <EndIcon className="w-4 h-4 text-current" />
             </motion.span>
           )}
         </motion.span>
@@ -142,7 +142,11 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
 
 HeroPrimaryButton.displayName = "HeroPrimaryButton";
 
-export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseProps>(
+type HeroSecondaryButtonProps = HeroButtonBaseProps & {
+  iconStart?: ElementType | null;
+};
+
+export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryButtonProps>(
   (
     {
       label,
@@ -151,6 +155,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
       style,
       onMouseEnter,
       onMouseLeave,
+      iconStart: StartIcon = Rocket,
       ...props
     },
     ref
@@ -241,7 +246,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroButtonBaseP
         />
 
         <span className="relative z-40 flex items-center justify-center gap-2">
-          <Rocket className="w-4 h-4" />
+          {StartIcon && <StartIcon className="w-4 h-4 text-current" />}
           {label}
         </span>
       </motion.button>
