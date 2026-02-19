@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
+import { ArrowUpRight, Dna, Send } from "lucide-react";
 import { HeroPrimaryButton, HeroSecondaryButton, Magnetic } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
@@ -37,10 +38,17 @@ export default function ManifesteSection() {
 
   return (
     <section
-      className="relative h-auto min-h-screen w-full overflow-hidden bg-[#40B4A6] px-4 py-14 sm:px-6 lg:h-dvh lg:px-10 lg:py-16 xl:px-14"
+      className="relative h-auto min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-20 sm:px-6 lg:h-dvh lg:px-10 lg:py-20 xl:px-14"
+      style={{ backgroundImage: "url('/bg-dechirer.svg')" }}
       aria-label={t("manifeste.title")}
     >
-      <div className="mx-auto flex h-full w-full max-w-[1200px] flex-col justify-center gap-12 lg:gap-16">
+      {/* Background accent */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_85%,rgba(27,54,93,0.15),transparent_55%)]"
+      />
+
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1200px] flex-col justify-center gap-14 lg:gap-16">
         <div className="mx-auto w-full max-w-[980px] text-center">
           <motion.h2
             variants={revealVariants}
@@ -63,22 +71,22 @@ export default function ManifesteSection() {
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
             transition={{ ...springTransition, delay: 0.2 }}
-            className="flex flex-col justify-center space-y-6 text-center lg:text-left"
+            className="flex flex-col justify-center space-y-8 text-center lg:text-left"
           >
             <p
-              className="text-base font-light leading-relaxed text-[#F8FAFC]/94 lg:text-[1.15rem]"
+              className="text-base font-light leading-relaxed text-white/90 lg:text-[1.15rem]"
               style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
             >
               {t("manifeste.body")}
             </p>
             <p
-              className="text-lg font-bold italic leading-relaxed text-[#8FD6CC] lg:text-[1.35rem]"
+              className="text-xl font-black italic leading-relaxed text-[#1B365D] lg:text-[1.5rem]"
               style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
             >
               {t("manifeste.mantra")}
             </p>
             <p
-              className="text-base font-normal leading-relaxed text-[#F8FAFC]/92 lg:text-[1.1rem]"
+              className="text-base font-normal leading-relaxed text-white/75 lg:text-[1.1rem]"
               style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
             >
               {t("manifeste.aboutText")}
@@ -88,9 +96,9 @@ export default function ManifesteSection() {
                 <HeroSecondaryButton
                   size="compact"
                   label={t("manifeste.aboutCta")}
-                  iconStart={null}
+                  iconStart={Dna}
                   onClick={() => navigateWithWipe(localizePathname(appRoutes.about, locale))}
-                  className="!w-auto !bg-transparent !text-[#F8FAFC] [--border:#F8FAFC] hover:!bg-white/10 hover:!text-[#F8FAFC]"
+                  className="!w-auto !border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-md hover:!bg-[#0F2440] hover:!text-white"
                   style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                 />
               </Magnetic>
@@ -104,12 +112,17 @@ export default function ManifesteSection() {
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
             transition={{ ...springTransition, delay: 0.24 }}
-            className="relative w-full rounded-[2rem] border border-white/18 bg-black/20 p-6 shadow-[0_22px_56px_rgba(8,32,45,0.32)] sm:p-8 lg:p-10"
+            className="relative w-full overflow-hidden rounded-[2rem] border border-white/20 bg-[#1B365D]/30 p-6 shadow-[0_22px_56px_rgba(8,32,45,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-8 lg:p-10"
             style={{
-              backdropFilter: "blur(34px) saturate(120%) brightness(0.58)",
-              WebkitBackdropFilter: "blur(34px) saturate(120%) brightness(0.58)",
+              backdropFilter: "blur(40px) saturate(130%) brightness(0.55)",
+              WebkitBackdropFilter: "blur(40px) saturate(130%) brightness(0.55)",
             }}
           >
+            {/* Noise texture */}
+            <div className="pointer-events-none absolute inset-0 opacity-[0.04] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
+            {/* Inner glow */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(143,214,204,0.12),transparent_60%)]" />
+
             <div className="relative z-10">
               <h3
                 className="text-center text-[clamp(1.2rem,2.2vw,1.6rem)] font-bold leading-tight text-[#F8FAFC]"
@@ -135,7 +148,7 @@ export default function ManifesteSection() {
                       onFocus={() => setFocusField("ambition")}
                       onChange={(event) => setAmbition(event.target.value)}
                       placeholder={t("manifeste.ambitionPlaceholder")}
-                      className="min-h-[48px] max-h-[144px] w-full resize-y overflow-y-auto border-none border-b border-white/35 bg-transparent pb-3 pt-2 text-base font-light leading-normal text-[#F8FAFC] placeholder:text-[#F8FAFC]/55 focus:outline-none"
+                      className="min-h-[48px] max-h-[144px] w-full resize-y overflow-y-auto border-0 border-b-[1px] border-white/30 bg-transparent pb-3 pt-2 text-base font-light leading-normal text-white placeholder:text-white/45 focus:outline-none"
                       style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
                     />
                     <motion.span
@@ -171,7 +184,7 @@ export default function ManifesteSection() {
                       onFocus={() => setFocusField("email")}
                       onChange={(event) => setEmail(event.target.value)}
                       placeholder={t("manifeste.emailPlaceholder")}
-                      className="w-full border-none border-b border-white/35 bg-transparent pb-3 pt-1 text-base font-light text-[#F8FAFC] placeholder:text-[#F8FAFC]/55 focus:outline-none"
+                      className="w-full border-0 border-b-[1px] border-white/30 bg-transparent pb-3 pt-1 text-base font-light text-white placeholder:text-white/45 focus:outline-none"
                       style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
                     />
                     <motion.span
@@ -206,6 +219,8 @@ export default function ManifesteSection() {
                       type="submit"
                       size="compact"
                       label={t("manifeste.primaryCta")}
+                      iconStart={Send}
+                      iconEnd={ArrowUpRight}
                       showEndIconOnMobile
                       onMouseEnter={() => setFocusField("cta")}
                       onMouseLeave={() => setFocusField(null)}
