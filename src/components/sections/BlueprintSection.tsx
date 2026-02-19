@@ -11,7 +11,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { Activity, ArrowUpRight, PenTool, Rocket, Search } from "lucide-react";
-import { HeroPrimaryButton, HeroSecondaryButton, Magnetic } from "@/components/ui";
+import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
@@ -395,6 +395,7 @@ export default function BlueprintSection() {
           </Magnetic>
         </motion.div>
       </div>
+      <SectionColorBridge to="#8FD6CC" />
     </section>
   );
 }

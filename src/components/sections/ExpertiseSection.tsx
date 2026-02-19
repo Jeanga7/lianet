@@ -7,7 +7,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { ArrowUpRight, Compass, Users2, Zap } from "lucide-react";
-import { HeroPrimaryButton, Magnetic } from "@/components/ui";
+import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
@@ -502,6 +502,7 @@ export default function ExpertiseSection() {
           ))}
         </div>
       </div>
+      <SectionColorBridge to="#8FD6CC" />
     </section>
   );
 }
