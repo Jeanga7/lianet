@@ -20,14 +20,14 @@ const HeroSection = () => {
   const haloY = useTransform(scrollY, [0, 900], [0, -70]);
   // Parallax Clipping : le contenu Hero se translate légèrement pendant le défilement
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -20], { clamp: true });
-  
+
   // Interaction de scroll sur le titre : réduction du tracking et fade-out
   const titleTracking = useTransform(scrollYProgress, [0, 0.1], [-0.015, -0.04], { clamp: true });
   // Keep title color true (#1B365D) by avoiding opacity fade on scroll.
   const titleOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 1], { clamp: true });
 
-  
-  
+
+
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetUrl, setTargetUrl] = useState<string | null>(null);
   const [typedChars, setTypedChars] = useState(0);
@@ -146,14 +146,21 @@ const HeroSection = () => {
   }, []);
 
   const handleMapMouseEnter = useCallback(() => {
-    mapScale.set(1.015);
+    mapScale.set(1.05); // Slightly increased scale for better effect
   }, [mapScale]);
 
   const handleMapMouseLeave = useCallback(() => {
     mapScale.set(1);
   }, [mapScale]);
 
-  
+  const skipTyping = useCallback(() => {
+    if (!typingDone) {
+      setTypedChars(heroParagraph.length);
+      setTypingDone(true);
+    }
+  }, [typingDone, heroParagraph.length]);
+
+
 
   return (
     <div className="relative flex h-full w-full overflow-hidden bg-white grid-pattern lg:bg-transparent lg:grid-pattern-none">
@@ -184,7 +191,7 @@ const HeroSection = () => {
         }}
       >
         <Image
-          src="/logo-lianet-sans-bg.png"
+          src="/logo-lianet-ori.svg"
           alt="Lianet"
           width={128}
           height={42}
@@ -202,7 +209,7 @@ const HeroSection = () => {
       />
 
       {/* Layout principal : Sidebar à gauche + Contenu à droite */}
-      <motion.div 
+      <motion.div
         className="relative z-10 ml-0 flex flex-1 flex-col pt-24 sm:pt-32 pb-36 sm:pb-20 lg:pt-24 lg:pb-0 lg:flex-row lg:items-stretch"
         style={{
           y: contentY,
@@ -244,12 +251,12 @@ const HeroSection = () => {
                 WebkitFontSmoothing: "antialiased",
                 MozOsxFontSmoothing: "grayscale",
               }}
-              initial={{ y: 50 }}
-              animate={{ y: 0 }}
+              initial={{ y: 60, opacity: 0, filter: "blur(12px)" }}
+              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               transition={{
-                duration: 0.8,
+                duration: 1.1,
                 delay: 0.2,
-                ease: [0.25, 0.1, 0.25, 1],
+                ease: [0.2, 0.65, 0.3, 0.9],
               }}
             >
               {t("hero.titleLine1")}
@@ -259,7 +266,7 @@ const HeroSection = () => {
 
             {/* Paragraphe avec effet reveal */}
             <motion.p
-              className="max-w-[90%] sm:max-w-[45ch] text-[17px] md:text-[18px] lg:text-[17px] xl:text-[18px] text-foreground mx-auto lg:mx-0 pb-1 sm:pb-0"
+              className="max-w-[90%] sm:max-w-[45ch] text-[17px] md:text-[18px] lg:text-[17px] xl:text-[18px] text-foreground mx-auto lg:mx-0 pb-1 sm:pb-0 cursor-pointer"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -268,6 +275,8 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
               aria-label={heroParagraph}
+              onClick={skipTyping}
+              title={t("hero.skipTyping") || "Click to show full text"}
             >
               {heroParagraph.slice(0, typedChars)}
               {!typingDone && (
@@ -292,7 +301,7 @@ const HeroSection = () => {
                 onClick={handleButtonClick}
                 label={t("hero.primaryCta")}
               />
-              
+
               {/* CTA Secondaire - Glassmorphism premium avec barre de scan */}
               <HeroSecondaryButton label={t("hero.secondaryCta")} onClick={handleSecondaryButtonClick} />
             </motion.div>
@@ -303,9 +312,17 @@ const HeroSection = () => {
         <div className="relative hidden flex-1 lg:basis-[48%] xl:basis-1/2 lg:flex items-center justify-center px-6 lg:px-8 xl:px-12">
           <motion.div
             className="relative h-[56vh] lg:h-[60vh] xl:h-[66vh] 2xl:h-[72vh] w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[760px] 2xl:max-w-[900px]"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: 20, scale: 0.95 }}
+            animate={{
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              y: [0, -15, 0] // Floating effect
+            }}
+            transition={{
+              default: { duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }, // Faster container reveal
+              y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2.2 } // Floating loop
+            }}
             onMouseEnter={handleMapMouseEnter}
             onMouseLeave={handleMapMouseLeave}
             style={{
@@ -317,7 +334,7 @@ const HeroSection = () => {
               alt="Carte de l'Afrique"
               fill
               priority
-              className="object-contain opacity-95 drop-shadow-[0_22px_50px_rgba(64,180,166,0.18)] transition-transform duration-300"
+              className="object-contain opacity-95 drop-shadow-[0_22px_50px_rgba(64,180,166,0.18)] transition-all duration-500 ease-out hover:drop-shadow-[0_30px_60px_rgba(64,180,166,0.3)] hover:brightness-105"
             />
           </motion.div>
         </div>

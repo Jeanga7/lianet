@@ -47,6 +47,7 @@ export default function ExpertiseSection() {
   const [showSweep, setShowSweep] = useState(false);
   const [sweepKey, setSweepKey] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [desktopNavHeight, setDesktopNavHeight] = useState(72);
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
@@ -146,13 +147,32 @@ export default function ExpertiseSection() {
     setSweepKey((previous) => previous + 1);
   };
 
+  // Auto-rotation logic
+  useEffect(() => {
+    if (isPaused || isMobile) return;
+
+    const interval = setInterval(() => {
+      const currentIndex = poles.findIndex((p) => p.key === activePole);
+      const nextIndex = (currentIndex + 1) % poles.length;
+      const nextPole = poles[nextIndex].key;
+
+      setActivePole(nextPole);
+      setShowSweep(true);
+      setSweepKey((prev) => prev + 1);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activePole, isPaused, isMobile, poles]);
+
   const handleCtaClick = () => {
     const href = localizePathname(appRoutes.solutions, locale);
     window.dispatchEvent(new CustomEvent("navigateWithWipe", { detail: { href } }));
   };
 
   return (
-    <section className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-16 sm:px-6 lg:min-h-dvh lg:px-10 lg:py-24 xl:px-14">
+    <section
+      className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-16 sm:px-6 lg:min-h-dvh lg:px-10 lg:py-24 xl:px-14"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16),transparent_58%)]"
@@ -209,7 +229,12 @@ export default function ExpertiseSection() {
                     <motion.button
                       key={pole.key}
                       type="button"
-                      onClick={() => handlePoleChange(pole.key)}
+                      onClick={() => {
+                        handlePoleChange(pole.key);
+                        setIsPaused(true); // Pause on manual interaction
+                        // Optional: Resume after a delay? For now, let's keep it paused on hover, but if they click, it implies interest, so maybe pause until they leave the section? 
+                        // The onMouseEnter on the section handles the pause, so clicking is covered by that since they are inside the section.
+                      }}
                       aria-label={`${locale === "fr" ? "Sélectionner" : "Select"} ${pole.title}`}
                       aria-current={isActive ? "true" : "false"}
                       className="group relative flex w-full items-center gap-5 pl-7 pr-2 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--secondary))] focus-visible:ring-offset-4 focus-visible:ring-offset-[#8FD6CC]"
@@ -259,6 +284,8 @@ export default function ExpertiseSection() {
             style={{
               boxShadow: "0 34px 100px rgba(27,54,93,0.16)",
             }}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
             <span className="pointer-events-none absolute inset-0 rounded-[2rem] border-l border-t border-white/30" aria-hidden="true" />
             <SandGrain className="z-[1]" opacity={0.065} />
@@ -420,9 +447,9 @@ export default function ExpertiseSection() {
                   >
                     {pole.subtitle}
                   </p>
-                <p className="mb-10 text-base font-light leading-relaxed text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
-                  {pole.description}
-                </p>
+                  <p className="mb-10 text-base font-light leading-relaxed text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+                    {pole.description}
+                  </p>
 
                   <ul className="space-y-2 text-sm font-light text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
                     {pole.keyPoints.map((item) => (

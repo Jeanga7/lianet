@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { HeroPrimaryButton, Magnetic } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
@@ -11,6 +11,15 @@ export default function FooterSection() {
 
   const navigateWithWipe = (href: string) => {
     window.dispatchEvent(new CustomEvent("navigateWithWipe", { detail: { href } }));
+  };
+
+  const scrollToTop = () => {
+    const mainScroll = document.getElementById("main-scroll");
+    if (mainScroll) {
+      mainScroll.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -71,6 +80,19 @@ export default function FooterSection() {
           </Magnetic>
         </div>
       </div>
-    </section>
+
+
+      <div className="absolute bottom-6 right-6 z-20 lg:bottom-8 lg:right-8">
+        <Magnetic strength={20}>
+          <button
+            onClick={scrollToTop}
+            className="flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full border border-white/20 bg-white/5 text-[#F8FAFC] backdrop-blur-sm transition-all hover:bg-white/10 hover:scale-110"
+            aria-label={t("footer.backToTop") || "Back to Top"}
+          >
+            <ArrowUp className="h-5 w-5" />
+          </button>
+        </Magnetic>
+      </div>
+    </section >
   );
 }

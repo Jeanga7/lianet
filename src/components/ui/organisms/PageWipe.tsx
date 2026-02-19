@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface PageWipeProps {
@@ -39,9 +40,25 @@ const PageWipe = ({ isActive, targetUrl, color = "#40B4A6", onComplete }: PageWi
           animate={{ clipPath: "inset(0 0% 0 0)" }}
           exit={{ clipPath: "inset(0 0% 0 0)" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-[100] pointer-events-none"
+          className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center"
           style={{ backgroundColor: color }}
-        />
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="relative w-36 h-36 md:w-40 md:h-40"
+          >
+            <Image
+              src="/logo-lianet-ori.svg"
+              alt="Loading..."
+              fill
+              className="object-contain"
+              priority
+            />
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

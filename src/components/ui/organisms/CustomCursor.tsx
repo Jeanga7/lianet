@@ -14,10 +14,10 @@ interface CustomCursorProps {
 // Fonction helper récursive pour obtenir la couleur de fond (définie en dehors du composant)
 const getBackgroundColorRecursive = (element: HTMLElement | null, depth = 0): { r: number; g: number; b: number } => {
   if (!element || depth > 10) return { r: 255, g: 255, b: 255 }; // Par défaut blanc, limite de profondeur
-  
+
   const style = window.getComputedStyle(element);
   const bgColor = style.backgroundColor;
-  
+
   // Si la couleur est transparente ou rgba, remonter dans le DOM
   if (!bgColor || bgColor === "transparent" || bgColor === "rgba(0, 0, 0, 0)") {
     const parent = element.parentElement;
@@ -26,7 +26,7 @@ const getBackgroundColorRecursive = (element: HTMLElement | null, depth = 0): { 
     }
     return { r: 255, g: 255, b: 255 }; // Par défaut blanc
   }
-  
+
   // Parser la couleur RGB
   const rgbMatch = bgColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
   if (rgbMatch) {
@@ -36,7 +36,7 @@ const getBackgroundColorRecursive = (element: HTMLElement | null, depth = 0): { 
       b: parseInt(rgbMatch[3], 10),
     };
   }
-  
+
   return { r: 255, g: 255, b: 255 }; // Par défaut blanc
 };
 
@@ -83,6 +83,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
   const [backgroundType, setBackgroundType] = useState<"blue" | "turquoise" | "white" | "dark" | "light">("light");
   const lastPositionRef = useRef({ x: 0, y: 0 });
   const lastTimeRef = useRef(0);
+  const lastColorCheckRef = useRef(0);
   const isInScrollZoneRef = useRef(false);
 
   // Position du curseur (suivi direct, latence zéro pour le Dot)
@@ -146,7 +147,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
         break;
       case "scroll":
         // Ring s'étend de 40px à 100px avec spring physics
-        animate(ringSize, 100, { 
+        animate(ringSize, 100, {
           type: "spring",
           stiffness: 200,
           damping: 25,
@@ -178,18 +179,18 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
   // Position de l'indicateur hover (halo + point central)
   const hoverIndicatorX = useTransform([cursorX, magneticSpringX], ([x, mx]: number[]) => (x as number) + (mx as number));
   const hoverIndicatorY = useTransform([cursorY, magneticSpringY], ([y, my]: number[]) => (y as number) + (my as number));
-  
+
   // Position du halo externe (hover)
   const haloX = useTransform(hoverIndicatorX, (x: number) => x - 12);
   const haloY = useTransform(hoverIndicatorY, (y: number) => y - 12);
-  
+
   // Position du point central (hover)
   const hoverDotX = useTransform(hoverIndicatorX, (x: number) => x - 4);
   const hoverDotY = useTransform(hoverIndicatorY, (y: number) => y - 4);
 
   // Traînée de lumière (ghost effect)
   const trailOpacity = useMotionValue(0);
-  
+
   // Position de la traînée (doit être déclarée avant le return)
   const trailX = useTransform(ringX, (x: number) => x - 4);
   const trailY = useTransform(ringY, (y: number) => y - 4);
@@ -205,7 +206,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
     [ringYCombined, ringSize],
     ([y, size]: number[]) => (y as number) + (size as number) / 2
   );
-  
+
   // Template de transformation pour centrer le contenu
   const scrollTransform = useMotionTemplate`translate(${scrollContentX}px, ${scrollContentY}px) translate(-50%, -50%)`;
   const hoverLabelTransform = useMotionTemplate`translate(${scrollContentX}px, ${scrollContentY}px) translate(-50%, -50%)`;
@@ -264,7 +265,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
         const velX = (deltaX / deltaTime) * 10;
         const velY = (deltaY / deltaTime) * 10;
         const speed = Math.sqrt(velX * velX + velY * velY);
-        
+
         // Mettre à jour l'opacité de la traînée
         const intensity = Math.min(speed * 0.1, 0.3);
         animate(trailOpacity, intensity, { duration: 0.1 });
@@ -278,23 +279,26 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
       lastTimeRef.current = now;
       setIsVisible(true);
 
-      // Détecter la couleur du fond sous le curseur
-      try {
-        const elementUnderCursor = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
-        if (elementUnderCursor && typeof getBackgroundColorRecursive === 'function') {
-          const bgColor = getBackgroundColorRecursive(elementUnderCursor);
-          const luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
-          // Si la luminosité est > 0.5, c'est un fond clair
-          setIsLightBackground(luminance > 0.5);
-          // Détecter le type de fond
-          const bgType = getBackgroundType(bgColor.r, bgColor.g, bgColor.b);
-          setBackgroundType(bgType);
+      // Détecter la couleur du fond sous le curseur (Throttled)
+      if (now - lastColorCheckRef.current > 100) {
+        lastColorCheckRef.current = now;
+        try {
+          const elementUnderCursor = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement;
+          if (elementUnderCursor && typeof getBackgroundColorRecursive === 'function') {
+            const bgColor = getBackgroundColorRecursive(elementUnderCursor);
+            const luminance = getLuminance(bgColor.r, bgColor.g, bgColor.b);
+            // Si la luminosité est > 0.5, c'est un fond clair
+            setIsLightBackground(luminance > 0.5);
+            // Détecter le type de fond
+            const bgType = getBackgroundType(bgColor.r, bgColor.g, bgColor.b);
+            setBackgroundType(bgType);
+          }
+        } catch (error) {
+          // En cas d'erreur, utiliser le fond clair par défaut
+          console.warn('Error detecting background color:', error);
+          setIsLightBackground(true);
+          setBackgroundType("light");
         }
-      } catch (error) {
-        // En cas d'erreur, utiliser le fond clair par défaut
-        console.warn('Error detecting background color:', error);
-        setIsLightBackground(true);
-        setBackgroundType("light");
       }
 
       // Effet magnétique sur les éléments hover
@@ -359,7 +363,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
       // Vérifier d'abord les attributs data-cursor spécifiques
       const glowElement = target.closest('[data-cursor="glow"]');
       const hoverElement = target.closest('[data-cursor="hover"]');
-      
+
       if (glowElement) {
         setCursorState("glow");
         setIsHovering(true);
@@ -466,28 +470,28 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
             width: ringSize,
             height: ringSize,
             borderRadius: cursorState === "scroll" ? "50px" : "50%",
-            backgroundColor: cursorState === "scroll" 
-              ? "rgba(64, 180, 166, 0.15)" 
+            backgroundColor: cursorState === "scroll"
+              ? "rgba(64, 180, 166, 0.15)"
               : cursorState === "glow"
-              ? "rgba(64, 180, 166, 0.2)"
-              : "transparent",
+                ? "rgba(64, 180, 166, 0.2)"
+                : "transparent",
             backdropFilter: cursorState === "scroll" ? "blur(12px)" : cursorState === "glow" ? "blur(8px)" : "none",
             border: cursorState === "scroll"
               ? "1.5px solid rgba(64, 180, 166, 0.5)" // Bordure nette pour scroll
               : cursorState === "glow"
-              ? "2px solid rgba(64, 180, 166, 1)" // Bordure turquoise pour glow
-              : backgroundType === "turquoise"
-              ? "2px solid rgba(255, 255, 255, 0.9)" // Blanc sur fond turquoise
-              : isLightBackground
-              ? "2px solid rgba(64, 180, 166, 0.9)" // Turquoise sur fond clair
-              : "2px solid rgba(255, 255, 255, 0.9)", // Blanc sur fond sombre
+                ? "2px solid rgba(64, 180, 166, 1)" // Bordure turquoise pour glow
+                : backgroundType === "turquoise"
+                  ? "2px solid rgba(255, 255, 255, 0.9)" // Blanc sur fond turquoise
+                  : isLightBackground
+                    ? "2px solid rgba(64, 180, 166, 0.9)" // Turquoise sur fond clair
+                    : "2px solid rgba(255, 255, 255, 0.9)", // Blanc sur fond sombre
             boxShadow: cursorState === "glow"
               ? "0 0 0 2px rgba(64, 180, 166, 0.3), 0 0 20px rgba(64, 180, 166, 0.8), 0 0 40px rgba(64, 180, 166, 0.4)" // Glow intense pour l'état glow
               : backgroundType === "turquoise"
-              ? "0 0 0 1px rgba(27, 54, 93, 0.2), 0 0 8px rgba(255, 255, 255, 0.5)" // Ombre blanche sur turquoise
-              : isLightBackground
-              ? "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4)" // Contour sombre + glow turquoise
-              : "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3)", // Contour turquoise + glow blanc
+                ? "0 0 0 1px rgba(27, 54, 93, 0.2), 0 0 8px rgba(255, 255, 255, 0.5)" // Ombre blanche sur turquoise
+                : isLightBackground
+                  ? "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4)" // Contour sombre + glow turquoise
+                  : "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3)", // Contour turquoise + glow blanc
             x: ringXCombined,
             y: ringYCombined,
             opacity: ringOpacity,
@@ -496,47 +500,47 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
           animate={
             cursorState === "drag"
               ? {
-                  scale: [1, 1.1, 1],
-                  boxShadow: isLightBackground
-                    ? [
-                        "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4), 0 0 0px rgba(64, 180, 166, 0)",
-                        "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4), 0 0 20px rgba(64, 180, 166, 0.8)",
-                        "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4), 0 0 0px rgba(64, 180, 166, 0)",
-                      ]
-                    : [
-                        "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3), 0 0 0px rgba(255, 255, 255, 0)",
-                        "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.6)",
-                        "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3), 0 0 0px rgba(255, 255, 255, 0)",
-                      ],
-                }
+                scale: [1, 1.1, 1],
+                boxShadow: isLightBackground
+                  ? [
+                    "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4), 0 0 0px rgba(64, 180, 166, 0)",
+                    "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4), 0 0 20px rgba(64, 180, 166, 0.8)",
+                    "0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 8px rgba(64, 180, 166, 0.4), 0 0 0px rgba(64, 180, 166, 0)",
+                  ]
+                  : [
+                    "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3), 0 0 0px rgba(255, 255, 255, 0)",
+                    "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.6)",
+                    "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 8px rgba(255, 255, 255, 0.3), 0 0 0px rgba(255, 255, 255, 0)",
+                  ],
+              }
               : cursorState === "hover"
-              ? {
+                ? {
                   borderColor: backgroundType === "turquoise"
                     ? "rgba(255, 255, 255, 1)" // Blanc sur fond turquoise pour contraste
                     : isLightBackground
-                    ? "rgba(64, 180, 166, 1)" // Turquoise plein sur fond clair
-                    : "rgba(255, 255, 255, 1)", // Blanc plein sur fond sombre
+                      ? "rgba(64, 180, 166, 1)" // Turquoise plein sur fond clair
+                      : "rgba(255, 255, 255, 1)", // Blanc plein sur fond sombre
                   boxShadow: backgroundType === "turquoise"
                     ? "0 0 0 2px rgba(27, 54, 93, 0.3), 0 0 12px rgba(255, 255, 255, 0.6)" // Ombre blanche sur turquoise
                     : isLightBackground
-                    ? "0 0 0 2px rgba(0, 0, 0, 0.15), 0 0 12px rgba(64, 180, 166, 0.5)"
-                    : "0 0 0 2px rgba(64, 180, 166, 0.4), 0 0 12px rgba(255, 255, 255, 0.4)",
+                      ? "0 0 0 2px rgba(0, 0, 0, 0.15), 0 0 12px rgba(64, 180, 166, 0.5)"
+                      : "0 0 0 2px rgba(64, 180, 166, 0.4), 0 0 12px rgba(255, 255, 255, 0.4)",
                 }
-              : {}
+                : {}
           }
           transition={
             cursorState === "drag"
               ? {
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }
               : hoverTransition
           }
         />
 
-            {/* Dot (Point central) - latence zéro - Adaptation de couleur selon le fond */}
-            {cursorState !== "hover" && cursorState !== "scroll" && cursorState !== "glow" && (
+        {/* Dot (Point central) - latence zéro - Adaptation de couleur selon le fond */}
+        {cursorState !== "hover" && cursorState !== "scroll" && cursorState !== "glow" && (
           <motion.div
             className="absolute rounded-full"
             style={{
@@ -545,13 +549,13 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
               backgroundColor: backgroundType === "turquoise"
                 ? "rgb(255, 255, 255)" // Blanc sur fond turquoise
                 : isLightBackground
-                ? "rgb(64, 180, 166)" // Turquoise sur fond clair
-                : "rgb(255, 255, 255)", // Blanc sur fond sombre
+                  ? "rgb(64, 180, 166)" // Turquoise sur fond clair
+                  : "rgb(255, 255, 255)", // Blanc sur fond sombre
               boxShadow: backgroundType === "turquoise"
                 ? "0 0 0 1px rgba(27, 54, 93, 0.3), 0 0 4px rgba(255, 255, 255, 0.8)" // Ombre blanche sur turquoise
                 : isLightBackground
-                ? "0 0 0 1px rgba(0, 0, 0, 0.2), 0 0 4px rgba(64, 180, 166, 0.5)"
-                : "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 4px rgba(255, 255, 255, 0.5)",
+                  ? "0 0 0 1px rgba(0, 0, 0, 0.2), 0 0 4px rgba(64, 180, 166, 0.5)"
+                  : "0 0 0 1px rgba(64, 180, 166, 0.3), 0 0 4px rgba(255, 255, 255, 0.5)",
               x: dotX,
               y: dotY,
             }}
@@ -596,15 +600,15 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
                 border: backgroundType === "turquoise"
                   ? "2px solid rgba(255, 255, 255, 0.4)" // Blanc sur fond turquoise
                   : isLightBackground
-                  ? "2px solid rgba(64, 180, 166, 0.4)" // Turquoise sur fond clair
-                  : "2px solid rgba(255, 255, 255, 0.4)", // Blanc sur fond sombre
+                    ? "2px solid rgba(64, 180, 166, 0.4)" // Turquoise sur fond clair
+                    : "2px solid rgba(255, 255, 255, 0.4)", // Blanc sur fond sombre
                 x: haloX,
                 y: haloY,
                 boxShadow: backgroundType === "turquoise"
                   ? "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)"
                   : isLightBackground
-                  ? "0 0 0 0 rgba(64, 180, 166, 0.7), 0 0 0 0 rgba(64, 180, 166, 0.5)"
-                  : "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
+                    ? "0 0 0 0 rgba(64, 180, 166, 0.7), 0 0 0 0 rgba(64, 180, 166, 0.5)"
+                    : "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
               }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{
@@ -612,17 +616,17 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
                 scale: [1, 1.2, 1],
                 boxShadow: backgroundType === "turquoise"
                   ? [
-                      "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
-                      "0 0 0 8px rgba(255, 255, 255, 0), 0 0 0 12px rgba(255, 255, 255, 0)",
-                      "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
-                    ]
+                    "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
+                    "0 0 0 8px rgba(255, 255, 255, 0), 0 0 0 12px rgba(255, 255, 255, 0)",
+                    "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
+                  ]
                   : isLightBackground
-                  ? [
+                    ? [
                       "0 0 0 0 rgba(64, 180, 166, 0.7), 0 0 0 0 rgba(64, 180, 166, 0.5)",
                       "0 0 0 8px rgba(64, 180, 166, 0), 0 0 0 12px rgba(64, 180, 166, 0)",
                       "0 0 0 0 rgba(64, 180, 166, 0.7), 0 0 0 0 rgba(64, 180, 166, 0.5)",
                     ]
-                  : [
+                    : [
                       "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
                       "0 0 0 8px rgba(255, 255, 255, 0), 0 0 0 12px rgba(255, 255, 255, 0)",
                       "0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 0 rgba(255, 255, 255, 0.5)",
@@ -635,7 +639,7 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
                 ease: "easeInOut",
               }}
             />
-            
+
             {/* Point central solide */}
             <motion.div
               className="absolute rounded-full"
@@ -645,13 +649,13 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
                 backgroundColor: backgroundType === "turquoise"
                   ? "rgb(255, 255, 255)" // Blanc sur fond turquoise
                   : isLightBackground
-                  ? "rgb(64, 180, 166)" // Turquoise sur fond clair
-                  : "rgb(255, 255, 255)", // Blanc sur fond sombre
+                    ? "rgb(64, 180, 166)" // Turquoise sur fond clair
+                    : "rgb(255, 255, 255)", // Blanc sur fond sombre
                 boxShadow: backgroundType === "turquoise"
                   ? "0 0 0 2px rgba(27, 54, 93, 0.3), 0 0 8px rgba(255, 255, 255, 0.8)" // Ombre blanche sur turquoise
                   : isLightBackground
-                  ? "0 0 0 2px rgba(64, 180, 166, 0.3), 0 0 8px rgba(64, 180, 166, 0.6)"
-                  : "0 0 0 2px rgba(255, 255, 255, 0.3), 0 0 8px rgba(255, 255, 255, 0.6)",
+                    ? "0 0 0 2px rgba(64, 180, 166, 0.3), 0 0 8px rgba(64, 180, 166, 0.6)"
+                    : "0 0 0 2px rgba(255, 255, 255, 0.3), 0 0 8px rgba(255, 255, 255, 0.6)",
                 x: hoverDotX,
                 y: hoverDotY,
               }}
@@ -701,8 +705,8 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
               fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
             }}
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
+            animate={{
+              opacity: 1,
               scale: 1,
             }}
             exit={{ opacity: 0, scale: 0.8 }}
@@ -715,15 +719,15 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
             <span
               className="text-[10px] tracking-[0.2em] font-bold whitespace-nowrap"
               style={{
-                color: backgroundType === "blue" 
+                color: backgroundType === "blue"
                   ? "rgb(255, 255, 255)" // Blanc sur bleu profond
                   : backgroundType === "turquoise"
-                  ? "rgb(27, 54, 93)" // Bleu profond sur turquoise
-                  : backgroundType === "white"
-                  ? "rgb(27, 54, 93)" // Bleu profond sur blanc
-                  : isLightBackground
-                  ? "rgb(27, 54, 93)" // Bleu profond sur fond clair
-                  : "rgb(255, 255, 255)", // Blanc sur fond sombre
+                    ? "rgb(27, 54, 93)" // Bleu profond sur turquoise
+                    : backgroundType === "white"
+                      ? "rgb(27, 54, 93)" // Bleu profond sur blanc
+                      : isLightBackground
+                        ? "rgb(27, 54, 93)" // Bleu profond sur fond clair
+                        : "rgb(255, 255, 255)", // Blanc sur fond sombre
                 textShadow: backgroundType === "blue" || (!isLightBackground && backgroundType !== "turquoise" && backgroundType !== "white")
                   ? "0 1px 2px rgba(0, 0, 0, 0.5)"
                   : "0 1px 2px rgba(255, 255, 255, 0.8)",
@@ -746,15 +750,15 @@ const CustomCursor = ({ enabled = true }: CustomCursorProps) => {
               <ChevronDown
                 className="w-3 h-3"
                 style={{
-                  color: backgroundType === "blue" 
+                  color: backgroundType === "blue"
                     ? "rgb(255, 255, 255)" // Blanc sur bleu profond
                     : backgroundType === "turquoise"
-                    ? "rgb(27, 54, 93)" // Bleu profond sur turquoise
-                    : backgroundType === "white"
-                    ? "rgb(27, 54, 93)" // Bleu profond sur blanc
-                    : isLightBackground
-                    ? "rgb(27, 54, 93)" // Bleu profond sur fond clair
-                    : "rgb(255, 255, 255)", // Blanc sur fond sombre
+                      ? "rgb(27, 54, 93)" // Bleu profond sur turquoise
+                      : backgroundType === "white"
+                        ? "rgb(27, 54, 93)" // Bleu profond sur blanc
+                        : isLightBackground
+                          ? "rgb(27, 54, 93)" // Bleu profond sur fond clair
+                          : "rgb(255, 255, 255)", // Blanc sur fond sombre
                   filter: backgroundType === "blue" || (!isLightBackground && backgroundType !== "turquoise" && backgroundType !== "white")
                     ? "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))"
                     : "drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8))",

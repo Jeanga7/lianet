@@ -298,12 +298,12 @@ export default function BlueprintSection() {
                           shouldReduceMotion
                             ? undefined
                             : step.key === "immersion"
-                            ? { scale: isHovered ? [1, 1.08, 1] : 1 }
-                            : step.key === "architecture"
-                            ? { rotate: isHovered ? [0, -5, 5, 0] : 0 }
-                            : step.key === "execution"
-                            ? { y: isHovered ? [0, -3, 0] : 0 }
-                            : { scale: isHovered ? [1, 1.08, 1] : 1 }
+                              ? { scale: isHovered ? [1, 1.08, 1] : 1 }
+                              : step.key === "architecture"
+                                ? { rotate: isHovered ? [0, -5, 5, 0] : 0 }
+                                : step.key === "execution"
+                                  ? { y: isHovered ? [0, -3, 0] : 0 }
+                                  : { scale: isHovered ? [1, 1.08, 1] : 1 }
                         }
                         transition={
                           isHovered
