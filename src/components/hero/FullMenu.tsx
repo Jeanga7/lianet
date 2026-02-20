@@ -206,7 +206,7 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
               className="relative flex h-full flex-col overflow-hidden"
             >
               <div className="flex shrink-0 items-center justify-between px-6 pt-8 pb-4">
-                <p className="pl-4 text-[11px] font-semibold tracking-[0.22em] text-[#1B365D]/55 uppercase">
+                <p className="pl-4 text-[10px] font-bold tracking-[0.3em] text-[#1B365D]/40 uppercase">
                   {t("fullMenu.ecosystem")}
                 </p>
                 <motion.button
@@ -263,11 +263,12 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                                 event.preventDefault();
                                 openLocalizedHref(item.href);
                               }}
-                              className={`group flex min-h-11 items-center justify-center rounded-xl px-4 py-3 text-center text-[1.08rem] font-medium uppercase leading-tight tracking-[0.08em] transition-all active:scale-[0.98] ${isActive
+                              className={`group flex min-h-12 items-center justify-center rounded-xl px-4 py-3 text-center text-[1.25rem] font-extrabold tracking-[-0.01em] transition-all active:scale-[0.96] ${isActive
                                 ? "bg-[#1B365D]/5 text-[#40B4A6]"
                                 : "text-[#1B365D] active:bg-[#1B365D]/5"
                                 }`}
                               aria-current={isActive ? "page" : undefined}
+                              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                             >
                               <span className="relative">{item.label}</span>
                             </Link>

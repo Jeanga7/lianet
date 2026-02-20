@@ -170,36 +170,6 @@ const HeroSection = () => {
       {/* Motifs illustratifs élégants (mobile) */}
       <MobileBackgroundPattern />
 
-      {/* Logo mobile (fixe, hide/reveal selon la direction du scroll) */}
-      <motion.div
-        className="fixed left-4 sm:left-6 top-6 z-50 lg:hidden flex items-center h-10 sm:h-12"
-        animate={{
-          y: isMobileLogoVisible ? 0 : -24,
-          opacity: isMobileLogoVisible ? 1 : 0,
-        }}
-        style={{
-          backdropFilter: isMobileLogoVisible ? "blur(8px)" : "blur(0px)",
-          WebkitBackdropFilter: isMobileLogoVisible ? "blur(8px)" : "blur(0px)",
-          backgroundColor: "transparent",
-          borderRadius: "6px",
-          padding: "0px",
-          border: "none",
-        }}
-        transition={{
-          duration: 0.28,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
-        <Image
-          src="/logo-lianet-ori.svg"
-          alt="Lianet"
-          width={128}
-          height={42}
-          className="h-10 sm:h-12 w-auto"
-          priority
-          quality={90}
-        />
-      </motion.div>
 
       {/* Halo organique (mobile) + parallax léger */}
       <motion.div
@@ -210,10 +180,13 @@ const HeroSection = () => {
 
       {/* Layout principal : Sidebar à gauche + Contenu à droite */}
       <motion.div
-        className="relative z-10 ml-0 flex flex-1 flex-col pt-24 sm:pt-32 pb-36 sm:pb-20 lg:pt-24 lg:pb-0 lg:flex-row lg:items-stretch"
+        className="relative z-10 ml-0 flex flex-1 flex-col pt-32 sm:pt-40 pb-44 sm:pb-28 lg:pt-24 lg:pb-0 lg:flex-row lg:items-stretch"
         style={{
           y: contentY,
         }}
+        initial={{ opacity: 0, scale: 0.98, rotateX: 2 }}
+        animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
       >
         {/* Zone Texte/CTA (Gauche) */}
         <div className="flex flex-1 lg:basis-[52%] xl:basis-1/2 flex-col justify-center px-4 sm:px-6 py-16 lg:py-24 lg:pl-16 lg:pr-10 xl:pr-12 relative z-10">
@@ -239,41 +212,43 @@ const HeroSection = () => {
             </motion.p>
 
             {/* Titre massif avec effet reveal et interaction de scroll */}
-            <motion.h1
-              className="w-full mx-auto lg:mx-0 text-[clamp(3.1rem,12vw,6.2rem)] md:text-[clamp(3.6rem,8.8vw,6.8rem)] lg:text-[clamp(4rem,6.8vw,7.8rem)] font-black leading-[1.06] relative z-20 text-center lg:text-left"
-              style={{
-                letterSpacing: titleTracking,
-                opacity: titleOpacity,
-                willChange: "opacity, letter-spacing",
-                color: "rgb(27, 54, 93)",
-                isolation: "isolate",
-                position: "relative",
-                WebkitFontSmoothing: "antialiased",
-                MozOsxFontSmoothing: "grayscale",
-                fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
-              }}
-              initial={{ y: 60, opacity: 0, filter: "blur(12px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              transition={{
-                duration: 1.1,
-                delay: 0.2,
-                ease: [0.2, 0.65, 0.3, 0.9],
-              }}
-            >
-              {t("hero.titleLine1")}
-              <br className="block" />
-              <span className="inline-block whitespace-nowrap">{t("hero.titleLine2")}</span>
-            </motion.h1>
+            <div className="overflow-hidden w-full">
+              <motion.h1
+                className="w-full mx-auto lg:mx-0 text-[clamp(3.3rem,13vw,6.5rem)] md:text-[clamp(3.8rem,9vw,7rem)] lg:text-[clamp(4rem,6.8vw,7.8rem)] font-black leading-[1.04] relative z-20 text-center lg:text-left"
+                style={{
+                  letterSpacing: titleTracking,
+                  opacity: titleOpacity,
+                  willChange: "opacity, letter-spacing, transform",
+                  color: "rgb(27, 54, 93)",
+                  isolation: "isolate",
+                  position: "relative",
+                  WebkitFontSmoothing: "antialiased",
+                  MozOsxFontSmoothing: "grayscale",
+                  fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+                }}
+                initial={{ y: "100%", rotate: 2 }}
+                animate={{ y: 0, rotate: 0 }}
+                transition={{
+                  duration: 1.2,
+                  delay: 0.3,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                {t("hero.titleLine1")}
+                <br className="block" />
+                <span className="inline-block whitespace-nowrap">{t("hero.titleLine2")}</span>
+              </motion.h1>
+            </div>
 
             {/* Paragraphe avec effet reveal */}
             <motion.p
-              className="max-w-[90%] sm:max-w-[45ch] text-[17px] md:text-[18px] lg:text-[17px] xl:text-[18px] text-foreground mx-auto lg:mx-0 pb-1 sm:pb-0 cursor-pointer"
-              initial={{ opacity: 0, y: 30 }}
+              className="max-w-[90%] sm:max-w-[45ch] text-[17.5px] md:text-[19px] lg:text-[17px] xl:text-[18px] text-foreground/90 mx-auto lg:mx-0 pb-2 sm:pb-0 cursor-pointer leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.6,
-                delay: 0.4,
-                ease: [0.25, 0.1, 0.25, 1],
+                duration: 0.8,
+                delay: 0.6,
+                ease: [0.22, 1, 0.36, 1],
               }}
               aria-label={heroParagraph}
               onClick={skipTyping}
@@ -301,7 +276,7 @@ const HeroSection = () => {
                 <HeroPrimaryButton
                   onClick={handleButtonClick}
                   label={t("hero.primaryCta")}
-                  className="sm:min-w-[18rem]"
+                  className=""
                 />
               </Magnetic>
 
@@ -309,7 +284,7 @@ const HeroSection = () => {
                 <HeroSecondaryButton
                   label={t("hero.secondaryCta")}
                   onClick={handleSecondaryButtonClick}
-                  className="sm:min-w-[18rem]"
+                  className=""
                 />
               </Magnetic>
             </motion.div>

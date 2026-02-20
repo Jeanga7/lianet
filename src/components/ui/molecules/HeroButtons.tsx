@@ -39,8 +39,8 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
     const [isHovered, setIsHovered] = useState(false);
     const sizeClassName =
       size === "compact"
-        ? "px-5 md:px-7 py-4 md:py-4.5 text-xs md:text-sm uppercase tracking-[0.15em] font-bold min-w-[14rem]"
-        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-black uppercase tracking-[0.2em] min-w-[18rem]";
+        ? "px-5 md:px-7 py-4 md:py-4.5 text-xs md:text-sm uppercase tracking-[0.15em] font-bold lg:min-w-[14rem]"
+        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-black uppercase tracking-[0.2em] lg:min-w-[18rem]";
 
     return (
       <motion.button
@@ -55,7 +55,7 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full text-white bg-[#40B4A6] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 overflow-hidden group whitespace-nowrap",
+          "relative w-full lg:w-auto lg:inline-flex items-center justify-center rounded-full text-white bg-[#40B4A6] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 overflow-hidden group whitespace-nowrap",
           sizeClassName,
           className
         )}
@@ -170,8 +170,8 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
     const [isHovered, setIsHovered] = useState(false);
     const sizeClassName =
       size === "compact"
-        ? "px-5 md:px-7 py-4 md:py-4.5 text-xs md:text-sm uppercase tracking-[0.15em] font-bold min-w-[14rem]"
-        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-black uppercase tracking-[0.2em] min-w-[18rem]";
+        ? "px-5 md:px-7 py-4 md:py-4.5 text-xs md:text-sm uppercase tracking-[0.15em] font-bold lg:min-w-[14rem]"
+        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-black uppercase tracking-[0.2em] lg:min-w-[18rem]";
 
     return (
       <motion.button
@@ -186,7 +186,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/15 backdrop-blur-[14px] backdrop-saturate-[180%] text-[#1B365D] hover:bg-white/25 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden whitespace-nowrap shadow-sm",
+          "relative w-full lg:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/15 backdrop-blur-[14px] backdrop-saturate-[180%] text-[#1B365D] hover:bg-white/25 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden whitespace-nowrap shadow-sm",
           sizeClassName,
           className
         )}

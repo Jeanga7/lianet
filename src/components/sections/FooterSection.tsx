@@ -145,7 +145,7 @@ export default function FooterSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="max-w-[15ch] text-[clamp(2.2rem,8vw,6.5rem)] font-black leading-[1.05] tracking-tight text-[#F8FAFC]"
+            className="max-w-[15ch] text-[clamp(2.6rem,11vw,6.5rem)] font-black leading-[1.04] tracking-tight text-[#F8FAFC] text-center lg:text-left mx-auto lg:mx-0"
             style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
           >
             {t("footer.heroLine1")} <br />
@@ -157,7 +157,7 @@ export default function FooterSection() {
         <div className="grid gap-12 lg:grid-cols-4 lg:gap-8 xl:gap-16">
 
           {/* Column 1: Identity (Spans 2) */}
-          <div className="flex flex-col items-start gap-8 lg:col-span-2 lg:pr-12">
+          <div className="flex flex-col items-center lg:items-start gap-8 lg:col-span-2 lg:pr-12 text-center lg:text-left">
             {/* Logo Parallax */}
             <Link href={localizePathname(appRoutes.home, locale)} className="relative block">
               <motion.div style={{ x: logoX, y: logoY }}>
@@ -177,7 +177,7 @@ export default function FooterSection() {
               {t("footer.brandStatement")}
             </p>
 
-            <div className="flex gap-4 mt-2">
+            <div className="flex gap-4 mt-2 justify-center lg:justify-start">
               {socialLinks.map((item) => (
                 <a
                   key={item.label}

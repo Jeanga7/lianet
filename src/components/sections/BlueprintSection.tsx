@@ -190,10 +190,10 @@ export default function BlueprintSection() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.6 }}
           transition={motionSpring}
-          className="mx-auto max-w-[900px] space-y-6 pt-2 text-center lg:pt-16"
+          className="mx-auto max-w-[900px] space-y-7 pt-4 text-center lg:pt-16"
         >
           <h2
-            className="text-[clamp(2rem,5.2vw,4.6rem)] font-black leading-[1.02] tracking-[-0.03em]"
+            className="text-[clamp(2.4rem,9vw,4.6rem)] font-black leading-[1.04] tracking-[-0.03em]"
             style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
           >
             {t("blueprint.title")}
@@ -275,7 +275,7 @@ export default function BlueprintSection() {
                     filter: isDimmed ? "blur(2px) grayscale(0.6)" : "blur(0px) grayscale(0)",
                     scale: isDimmed ? 0.98 : 1,
                   }}
-                  className="group relative z-10 flex flex-col overflow-hidden rounded-[2rem] border border-white/15 bg-[#1B365D]/20 p-6 text-center backdrop-blur-xl transition-colors duration-500 hover:border-white/30 hover:bg-[#1B365D]/30 md:p-8 lg:text-left"
+                  className="group relative z-10 flex flex-col overflow-hidden rounded-[2.2rem] sm:rounded-[2.5rem] border border-white/15 bg-[#1B365D]/20 p-8 text-center backdrop-blur-xl transition-all duration-500 hover:border-white/30 hover:bg-[#1B365D]/30 lg:text-left"
                 >
                   {/* Glass Noise Texture */}
                   <div className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
@@ -378,7 +378,7 @@ export default function BlueprintSection() {
               iconEnd={ArrowUpRight}
               showEndIconOnMobile
               onClick={() => navigateWithWipe(localizePathname(appRoutes.contact, locale))}
-              className="!w-full bg-[#F8FAFC] !text-[#1B365D] shadow-[0_14px_32px_rgba(15,23,42,0.25)] hover:bg-[#ffffff]"
+              className="bg-[#F8FAFC] !text-[#1B365D] shadow-[0_14px_32px_rgba(15,23,42,0.25)] hover:bg-[#ffffff]"
             />
           </Magnetic>
 
@@ -388,7 +388,7 @@ export default function BlueprintSection() {
               label={t("blueprint.cta.secondary")}
               iconStart={Search}
               onClick={() => navigateWithWipe(localizePathname(appRoutes.solutions, locale))}
-              className="!w-full !border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-[0_14px_32px_rgba(15,23,42,0.32)] hover:!bg-[#0F2440] hover:!text-white"
+              className="!border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-[0_14px_32px_rgba(15,23,42,0.32)] hover:!bg-[#0F2440] hover:!text-white"
             />
           </Magnetic>
         </motion.div>

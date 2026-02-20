@@ -21,11 +21,21 @@ export const useI18n = () => {
   const dictionary = messages[locale];
 
   const t = (path: string): string => getValueByPath(dictionary, path);
+  const tArray = (path: string): string[] => {
+    const value = path.split(".").reduce<unknown>((acc, key) => {
+      if (typeof acc === "object" && acc !== null && key in acc) {
+        return (acc as Record<string, unknown>)[key];
+      }
+      return undefined;
+    }, dictionary);
+    return Array.isArray(value) ? (value as string[]) : [];
+  };
 
   return {
     locale,
     dictionary,
     t,
+    tArray,
   };
 };
 

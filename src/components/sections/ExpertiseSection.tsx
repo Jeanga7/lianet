@@ -7,7 +7,8 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { ArrowUpRight, Compass, Users2, Zap } from "lucide-react";
-import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
+import { EliteButton, HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
@@ -416,83 +417,99 @@ export default function ExpertiseSection() {
           </motion.div>
         </div>
 
-        <div className="grid gap-6 sm:gap-8 lg:hidden">
+        <div className="grid gap-10 sm:gap-12 lg:hidden">
           {poles.map((pole, index) => (
-            <div key={pole.key} className="relative py-12 sm:py-16">
+            <div key={pole.key} className="relative py-8">
               <motion.article
-                className="relative z-10 mx-auto w-full max-w-[42rem] overflow-hidden rounded-3xl border border-white/28 bg-white/20 p-6 text-center backdrop-blur-md sm:p-8"
-                initial={{ opacity: 0, y: 30, filter: "blur(8px)", scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-                viewport={{ amount: 0.35, once: false }}
-                transition={{ type: "spring", stiffness: 150, damping: 20, delay: index * 0.08 }}
+                className="relative z-10 mx-auto w-full max-w-[44rem] overflow-hidden rounded-[2.5rem] border border-white/25 bg-white/10 p-8 text-center backdrop-blur-xl sm:p-12"
+                initial={{ opacity: 0, y: 40, scale: 0.94 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ amount: 0.25, once: true }}
+                transition={{
+                  duration: 0.8,
+                  delay: index * 0.1,
+                  ease: [0.22, 1, 0.36, 1]
+                }}
+                style={{
+                  boxShadow: "0 20px 50px rgba(27, 54, 93, 0.08)"
+                }}
               >
-                <SandGrain className="z-[1]" opacity={0.065} />
-                <div className="relative z-10 space-y-4">
-                  <p
-                    className="text-[11px] uppercase tracking-[0.22em] text-[rgb(var(--primary))]/60"
+                <SandGrain className="z-[1]" opacity={0.05} />
+                <div className="relative z-10 space-y-7">
+                  <motion.p
+                    className="text-[10px] uppercase tracking-[0.3em] text-[rgb(var(--primary))]/50"
                     style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
                   >
-                    {pole.number} / {pole.title}
-                  </p>
+                    {pole.number} &mdash; {pole.title}
+                  </motion.p>
+
                   <h3
-                    className="text-[clamp(1.9rem,8vw,2.4rem)] font-black leading-[1.04] tracking-[-0.03em] text-[rgb(var(--primary))]"
+                    className="text-[clamp(2.2rem,9vw,2.8rem)] font-black leading-[1.06] tracking-[-0.03em] text-[rgb(var(--primary))]"
                     style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                   >
                     {pole.hook}
                   </h3>
+
                   <p
-                    className="text-[clamp(1rem,4vw,1.2rem)] font-semibold leading-snug text-[rgb(var(--secondary))]"
+                    className="text-[15px] font-bold uppercase tracking-[0.18em] text-[rgb(var(--secondary))]"
                     style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                   >
                     {pole.subtitle}
                   </p>
-                  <p className="mb-10 text-base font-light leading-relaxed text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+
+                  <div className="mx-auto h-px w-12 bg-[rgb(var(--primary))]/10" />
+
+                  <p className="text-[17px] font-light leading-relaxed text-[rgb(var(--primary))]/80" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
                     {pole.description}
                   </p>
 
-                  <ul className="space-y-2 text-sm font-light text-[rgb(var(--primary))]/86" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
-                    {pole.keyPoints.map((item) => (
-                      <li key={item} className="flex items-center justify-center gap-2">
-                        <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[rgb(var(--secondary))]" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="mx-auto w-fit text-left">
+                    <ul className="flex flex-col items-start space-y-3 text-[15px] font-light text-[rgb(var(--primary))]/80" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+                      {pole.keyPoints.map((item, i) => (
+                        <motion.li
+                          key={item}
+                          className="flex items-start gap-2"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.4 + i * 0.1 }}
+                        >
+                          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[rgb(var(--secondary))]" />
+                          <span>{item}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
 
-                  <p className="text-sm font-light italic leading-relaxed text-[rgb(var(--primary))]/82" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+                  <p className="text-[15px] font-light italic leading-relaxed text-[rgb(var(--primary))]/70" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
                     {pole.valueProp}
                   </p>
                 </div>
 
-                <div className="relative z-10 mt-8 w-full px-2 text-center sm:px-6">
+                <div className="relative z-10 mt-10 w-full text-center">
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.96, y: 8 }}
-                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                    viewport={{ amount: 0.5, once: false }}
-                    transition={{ ...springTransition, delay: 0.2 }}
-                    className="space-y-2"
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
+                    className="space-y-4"
                   >
                     <p
-                      className="text-[10px] font-light uppercase tracking-[0.18em] text-[rgb(var(--primary))]/50"
+                      className="text-[10px] font-light uppercase tracking-[0.2em] text-[rgb(var(--primary))]/40"
                       style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
                     >
                       {pole.ctaMeta}
                     </p>
-                    <Magnetic className="block w-full" strength={16}>
-                      <HeroPrimaryButton
-                        size="compact"
-                        label={pole.cta}
-                        iconStart={poleIcons[pole.key]}
-                        iconEnd={ArrowUpRight}
-                        iconHoverRotate={5}
-                        showEndIconOnMobile
+                    <div className="flex justify-center">
+                      <EliteButton
                         onClick={handleCtaClick}
-                        data-cursor="hover"
-                        data-cursor-label="VOIR"
-                        data-cursor-profile="expertise"
-                        className="w-full bg-[rgb(var(--secondary))] shadow-[0_14px_32px_rgba(64,180,166,0.35)] hover:bg-[#58c5b7]"
-                      />
-                    </Magnetic>
+                        arrow="right"
+                        className=""
+                      >
+                        {pole.cta}
+                      </EliteButton>
+                    </div>
                   </motion.div>
                 </div>
               </motion.article>

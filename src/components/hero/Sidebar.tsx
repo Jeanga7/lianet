@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Menu } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useI18n } from "@/lib/useI18n";
+import { usePathname } from "next/navigation";
 
 interface SidebarProps {
   onMenuClick?: () => void;
@@ -13,8 +14,13 @@ const SECTION_IDS = ["hero", "expertise", "blueprint", "manifeste", "footer"] as
 
 const Sidebar = ({ onMenuClick }: SidebarProps) => {
   const [activeSection, setActiveSection] = useState<string>("hero");
+  const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+
+  // On n'affiche les dots que sur la Home Page (locale "/")
+  const isHomePage = pathname === `/${locale}` || pathname === "/" || pathname === `/${locale}/`;
+
   const sections = [
     { id: "hero", label: t("sidebar.hero") },
     { id: "expertise", label: t("sidebar.expertise") },
@@ -124,7 +130,7 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
         </motion.button>
 
         <div className="mb-auto mt-auto flex flex-col items-center gap-4">
-          {sections.map((section, index) => {
+          {isHomePage && sections.map((section, index) => {
             const isActive = activeSection === section.id;
 
             return (
@@ -155,33 +161,32 @@ const Sidebar = ({ onMenuClick }: SidebarProps) => {
                       prefersReducedMotion
                         ? undefined
                         : {
-                            boxShadow: [
-                              "0 0 0 0 rgba(143,214,204,0.18)",
-                              "0 0 0 6px rgba(143,214,204,0)",
-                              "0 0 0 0 rgba(143,214,204,0.18)",
-                            ],
-                          }
+                          boxShadow: [
+                            "0 0 0 0 rgba(143,214,204,0.18)",
+                            "0 0 0 6px rgba(143,214,204,0)",
+                            "0 0 0 0 rgba(143,214,204,0.18)",
+                          ],
+                        }
                     }
                     transition={
                       prefersReducedMotion
                         ? { type: "spring", stiffness: 520, damping: 34 }
                         : {
-                            type: "spring",
-                            stiffness: 520,
-                            damping: 34,
-                            boxShadow: {
-                              duration: 1.8,
-                              repeat: Infinity,
-                              ease: "easeInOut",
-                            },
-                          }
+                          type: "spring",
+                          stiffness: 520,
+                          damping: 34,
+                          boxShadow: {
+                            duration: 1.8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          },
+                        }
                     }
                   />
                 )}
                 <motion.span
-                  className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                    isActive ? "bg-secondary" : "bg-primary-foreground/30 group-hover:bg-secondary/60"
-                  }`}
+                  className={`h-2.5 w-2.5 rounded-full transition-colors ${isActive ? "bg-secondary" : "bg-primary-foreground/30 group-hover:bg-secondary/60"
+                    }`}
                   transition={{ duration: 0.24, ease: "easeOut" }}
                 />
               </motion.button>

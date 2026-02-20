@@ -66,7 +66,7 @@ export default function ManifesteSection() {
             whileInView="show"
             viewport={{ once: true, amount: 0.35 }}
             transition={{ ...springTransition, delay: 0 }}
-            className="text-[clamp(2.1rem,4.6vw,3.45rem)] font-black leading-[1.04] tracking-tighter text-[#F8FAFC]"
+            className="text-[clamp(2.4rem,10vw,3.45rem)] font-black leading-[1.06] tracking-tighter text-[#F8FAFC]"
             style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
           >
             <span className="block">{t("manifeste.titleLine1")}</span>

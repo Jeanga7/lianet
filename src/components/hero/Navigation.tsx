@@ -77,7 +77,7 @@ const Navigation = ({ onNavigateWithWipe }: NavigationProps) => {
   };
 
   return (
-    <nav className="fixed left-20 right-0 top-0 z-50 hidden lg:block">
+    <nav className="fixed left-0 lg:left-20 right-0 top-0 z-50 hidden lg:block">
       <motion.div
         className={`relative flex items-center px-8 transition-all duration-300 ${isCondensed
           ? "gap-6 py-2.5 border-b border-[#1B365D]/18"

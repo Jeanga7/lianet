@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Sidebar, Navigation, FullMenu, ScrollProgressBar, MobileMenuButton } from "@/components/hero";
+import { Sidebar, Navigation, FullMenu, ScrollProgressBar, MobileHeader } from "@/components/hero";
 import { CustomCursor, PageWipe, WhatsAppButton } from "@/components/ui";
 
 interface SiteLayoutProps {
@@ -43,7 +43,7 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
       {/* Éléments fixes globaux */}
       <Sidebar onMenuClick={() => setIsFullMenuOpen(true)} />
       <Navigation onNavigateWithWipe={navigateWithWipe} />
-      <MobileMenuButton onMenuClick={() => setIsFullMenuOpen(true)} />
+      <MobileHeader onMenuClick={() => setIsFullMenuOpen(true)} />
       <WhatsAppButton />
       <FullMenu
         isOpen={isFullMenuOpen}
@@ -52,8 +52,9 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
       />
       <ScrollProgressBar className="fixed left-0 top-0 z-[90] w-full" />
 
-      {/* Contenu de la page */}
-      {children}
+      <div className="relative h-screen w-full overflow-hidden lg:pl-20">
+        {children}
+      </div>
 
       <PageWipe
         isActive={isTransitioning}
