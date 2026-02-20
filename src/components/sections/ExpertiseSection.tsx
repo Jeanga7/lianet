@@ -388,8 +388,7 @@ export default function ExpertiseSection() {
                       data-cursor-label="VOIR"
                       data-cursor-profile="expertise"
                       data-cursor-strength="strong"
-                      className="!w-auto min-w-[16rem] bg-[rgb(var(--secondary))] px-8 py-4 !text-sm !font-bold uppercase !tracking-widest shadow-[0_14px_30px_rgba(64,180,166,0.34)] hover:bg-[#58c5b7]"
-                      style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                      className="!w-auto min-w-[16rem] bg-[rgb(var(--secondary))] shadow-[0_14px_32px_rgba(64,180,166,0.35)] hover:bg-[#58c5b7]"
                     />
                   </Magnetic>
                 </motion.div>
@@ -491,8 +490,7 @@ export default function ExpertiseSection() {
                         data-cursor="hover"
                         data-cursor-label="VOIR"
                         data-cursor-profile="expertise"
-                        className="w-full bg-[rgb(var(--secondary))] px-8 py-4 !text-sm !font-bold uppercase !tracking-widest hover:bg-[#58c5b7]"
-                        style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                        className="w-full bg-[rgb(var(--secondary))] shadow-[0_14px_32px_rgba(64,180,166,0.35)] hover:bg-[#58c5b7]"
                       />
                     </Magnetic>
                   </motion.div>

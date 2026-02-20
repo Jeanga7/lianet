@@ -109,7 +109,6 @@ export default function ManifesteSection() {
                   iconStart={Dna}
                   onClick={() => navigateWithWipe(localizePathname(appRoutes.about, locale))}
                   className="!w-auto !border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-md hover:!bg-[#0F2440] hover:!text-white"
-                  style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                 />
               </Magnetic>
             </div>
@@ -236,8 +235,7 @@ export default function ManifesteSection() {
                       onMouseLeave={() => setFocusField(null)}
                       onFocus={() => setFocusField("cta")}
                       onBlur={() => setFocusField(null)}
-                      className="!w-full px-6 py-4 !text-sm !font-bold uppercase !tracking-widest"
-                      style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+                      className="!w-full"
                     />
                   </Magnetic>
                 </div>

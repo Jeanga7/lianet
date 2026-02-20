@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { HeroPrimaryButton, HeroSecondaryButton, PageWipe } from "@/components/ui";
+import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, PageWipe } from "@/components/ui";
 import InteractiveLottie from "@/components/ui/molecules/InteractiveLottie";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
@@ -240,7 +240,7 @@ const HeroSection = () => {
 
             {/* Titre massif avec effet reveal et interaction de scroll */}
             <motion.h1
-              className="w-full mx-auto lg:mx-0 text-[clamp(3.1rem,12vw,6.2rem)] md:text-[clamp(3.6rem,8.8vw,6.8rem)] lg:text-[clamp(4rem,6.8vw,7.8rem)] font-extrabold leading-[1.06] relative z-20 text-center lg:text-left"
+              className="w-full mx-auto lg:mx-0 text-[clamp(3.1rem,12vw,6.2rem)] md:text-[clamp(3.6rem,8.8vw,6.8rem)] lg:text-[clamp(4rem,6.8vw,7.8rem)] font-black leading-[1.06] relative z-20 text-center lg:text-left"
               style={{
                 letterSpacing: titleTracking,
                 opacity: titleOpacity,
@@ -250,6 +250,7 @@ const HeroSection = () => {
                 position: "relative",
                 WebkitFontSmoothing: "antialiased",
                 MozOsxFontSmoothing: "grayscale",
+                fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
               }}
               initial={{ y: 60, opacity: 0, filter: "blur(12px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
@@ -286,7 +287,7 @@ const HeroSection = () => {
 
             {/* Duo CTA avec effet reveal - Conteneur séparé pour isolation */}
             <motion.div
-              className="hidden sm:flex mt-6 lg:mt-8 flex-col sm:flex-row gap-3 sm:gap-4 relative z-10 items-center lg:items-start"
+              className="hidden sm:flex mt-6 lg:mt-8 flex-col gap-4 relative z-10 items-center lg:items-start"
               style={{ isolation: "isolate" }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -296,14 +297,21 @@ const HeroSection = () => {
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              {/* CTA Primaire - Focus avec solidité premium */}
-              <HeroPrimaryButton
-                onClick={handleButtonClick}
-                label={t("hero.primaryCta")}
-              />
+              <Magnetic strength={20}>
+                <HeroPrimaryButton
+                  onClick={handleButtonClick}
+                  label={t("hero.primaryCta")}
+                  className="sm:min-w-[18rem]"
+                />
+              </Magnetic>
 
-              {/* CTA Secondaire - Glassmorphism premium avec barre de scan */}
-              <HeroSecondaryButton label={t("hero.secondaryCta")} onClick={handleSecondaryButtonClick} />
+              <Magnetic strength={20}>
+                <HeroSecondaryButton
+                  label={t("hero.secondaryCta")}
+                  onClick={handleSecondaryButtonClick}
+                  className="sm:min-w-[18rem]"
+                />
+              </Magnetic>
             </motion.div>
           </motion.div>
         </div>

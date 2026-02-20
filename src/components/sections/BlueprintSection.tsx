@@ -368,9 +368,9 @@ export default function BlueprintSection() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.6 }}
           transition={motionSpring}
-          className="mx-auto mt-14 flex w-full max-w-[760px] flex-col items-center justify-center gap-4 text-center sm:flex-row sm:gap-5 lg:mt-12 lg:mb-8"
+          className="mx-auto mt-14 grid w-full max-w-[38rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:mt-12 lg:mb-8"
         >
-          <Magnetic className="w-full sm:w-auto" strength={24}>
+          <Magnetic className="flex w-full" strength={24}>
             <HeroPrimaryButton
               size="compact"
               label={t("blueprint.cta.primary")}
@@ -378,19 +378,17 @@ export default function BlueprintSection() {
               iconEnd={ArrowUpRight}
               showEndIconOnMobile
               onClick={() => navigateWithWipe(localizePathname(appRoutes.contact, locale))}
-              className="w-full bg-[#F8FAFC] px-8 py-4 !text-sm !font-bold uppercase !tracking-widest !text-[#1B365D] shadow-[0_14px_30px_rgba(15,23,42,0.24)] hover:bg-[#ffffff]"
-              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+              className="!w-full bg-[#F8FAFC] !text-[#1B365D] shadow-[0_14px_32px_rgba(15,23,42,0.25)] hover:bg-[#ffffff]"
             />
           </Magnetic>
 
-          <Magnetic className="w-full sm:w-auto" strength={24}>
+          <Magnetic className="flex w-full" strength={24}>
             <HeroSecondaryButton
               size="compact"
               label={t("blueprint.cta.secondary")}
               iconStart={Search}
               onClick={() => navigateWithWipe(localizePathname(appRoutes.solutions, locale))}
-              className="w-full !border-0 !bg-[#1B365D] px-8 py-4 !text-sm !font-bold uppercase !tracking-widest !text-[#F8FAFC] shadow-[0_14px_30px_rgba(15,23,42,0.3)] hover:!bg-[#0F2440] hover:!text-white"
-              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+              className="!w-full !border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-[0_14px_32px_rgba(15,23,42,0.32)] hover:!bg-[#0F2440] hover:!text-white"
             />
           </Magnetic>
         </motion.div>

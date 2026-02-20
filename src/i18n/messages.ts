@@ -29,7 +29,7 @@ const fr = {
     titleLine2: "the Future",
     paragraph:
       "Lianet connecte les entreprises africaines aux meilleurs talents digitaux pour bâtir des solutions impactantes et évolutives.",
-    primaryCta: "Nos Solutions",
+    primaryCta: "Découvrir nos solutions",
     secondaryCta: "Démarrer un projet",
     scrollCta: "Scroller vers la section suivante",
   },
@@ -42,7 +42,7 @@ const fr = {
         title: "Talent",
         hook: "Elite Squads",
         subtitle: "Le capital humain comme moteur de performance.",
-        cta: "Mobiliser l'Équipe",
+        cta: "Mobiliser l'équipe",
         ctaMeta: "READY TO DEPLOY",
         description:
           "Bâtissez des équipes capables d'exécuter l'impossible. Accédez au top 3% des experts digitaux africains.",
@@ -135,8 +135,8 @@ const fr = {
       },
     },
     cta: {
-      primary: "Démarrer votre projet",
-      secondary: "Découvrir nos solutions",
+      primary: "Démarrer un projet",
+      secondary: "Nos solutions",
       protocol: "Appliquer le Protocole",
     },
   },
@@ -148,8 +148,8 @@ const fr = {
     heroLine2: "ensemble.",
     brandStatement: "Lianet — L'alliance de l'audace africaine et de la précision internationale.",
     cta: {
-      primary: "Démarrer votre projet",
-      secondary: "Explorer nos solutions",
+      primary: "Démarrer un projet",
+      secondary: "Nos solutions",
     },
     columns: {
       expertise: "Expertise",
@@ -255,8 +255,8 @@ const en = {
     titleLine2: "the Future",
     paragraph:
       "Lianet connects African businesses with top digital talents to build impactful, scalable solutions.",
-    primaryCta: "Our Solutions",
-    secondaryCta: "Start Project",
+    primaryCta: "Explore our solutions",
+    secondaryCta: "Start a project",
     scrollCta: "Scroll to next section",
   },
   expertise: {
@@ -361,8 +361,8 @@ const en = {
       },
     },
     cta: {
-      primary: "Start your project",
-      secondary: "Explore our solutions",
+      primary: "Start a project",
+      secondary: "Our solutions",
       protocol: "Apply the Protocol",
     },
   },
@@ -374,8 +374,8 @@ const en = {
     heroLine2: "together.",
     brandStatement: "Lianet — The alliance of African audacity and international precision.",
     cta: {
-      primary: "Start your project",
-      secondary: "Explore our solutions",
+      primary: "Start a project",
+      secondary: "Our solutions",
     },
     columns: {
       expertise: "Expertise",

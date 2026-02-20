@@ -283,7 +283,7 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                       onClick={() => openRoute(appRoutes.contact)}
                       label={t("fullMenu.startProject")}
                       size="compact"
-                      className="w-full sm:w-full bg-[#40B4A6]/12 hover:bg-[#40B4A6]/20 backdrop-blur-md border border-[#40B4A6]/30"
+                      className="w-full sm:w-full bg-[#40B4A6]/20 hover:bg-[#40B4A6]/32 border border-[#40B4A6]/35 shadow-lg shadow-[#40B4A6]/5"
                     />
                   </motion.div>
 
@@ -805,7 +805,7 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                           onClick={() => openRoute(appRoutes.contact)}
                           label={t("fullMenu.startProject")}
                           size="compact"
-                          className="w-full sm:w-full bg-[#40B4A6]/15 hover:bg-[#40B4A6]/25 backdrop-blur-md border border-[#40B4A6]/25"
+                          className="w-full sm:w-full bg-[#40B4A6]/18 hover:bg-[#40B4A6]/28 border border-[#40B4A6]/30 shadow-xl shadow-[#40B4A6]/8"
                         />
                       </div>
                     </div>

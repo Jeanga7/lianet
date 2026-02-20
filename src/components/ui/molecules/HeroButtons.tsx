@@ -39,8 +39,8 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
     const [isHovered, setIsHovered] = useState(false);
     const sizeClassName =
       size === "compact"
-        ? "px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter"
-        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-bold";
+        ? "px-5 md:px-7 py-4 md:py-4.5 text-xs md:text-sm uppercase tracking-[0.15em] font-bold min-w-[14rem]"
+        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-black uppercase tracking-[0.2em] min-w-[18rem]";
 
     return (
       <motion.button
@@ -80,10 +80,17 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
         {...props}
       >
         <div
-          className="absolute inset-0 rounded-full pointer-events-none"
+          className="absolute inset-0 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          style={{
+            background: "radial-gradient(circle at center, rgba(255, 255, 255, 0.45) 0%, transparent 70%)",
+            filter: "blur(12px)",
+          }}
+        />
+        <div
+          className="absolute inset-[1px] rounded-full pointer-events-none"
           style={{
             boxShadow:
-              "inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.1)",
+              "inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.1)",
           }}
         />
 
@@ -121,13 +128,13 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
             <motion.span
               animate={{
                 opacity: isHovered ? 1 : 0,
-                x: isHovered ? 0 : -8,
+                x: isHovered ? 0 : -12,
                 scale: isHovered ? 1 : 0.8,
               }}
               transition={{
                 type: "spring",
-                stiffness: 400,
-                damping: 25,
+                stiffness: 500,
+                damping: 28,
               }}
               className={cn("flex-shrink-0", showEndIconOnMobile ? "inline-flex" : "hidden sm:inline-flex")}
             >
@@ -163,8 +170,8 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
     const [isHovered, setIsHovered] = useState(false);
     const sizeClassName =
       size === "compact"
-        ? "px-4 md:px-6 py-4.5 md:py-4.5 text-xs md:text-sm uppercase tracking-tighter"
-        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-bold";
+        ? "px-5 md:px-7 py-4 md:py-4.5 text-xs md:text-sm uppercase tracking-[0.15em] font-bold min-w-[14rem]"
+        : "px-8 sm:px-12 py-4 sm:py-4.5 text-xs sm:text-sm font-black uppercase tracking-[0.2em] min-w-[18rem]";
 
     return (
       <motion.button
@@ -179,7 +186,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
           onMouseLeave?.(event);
         }}
         className={cn(
-          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/10 backdrop-blur-[6px] backdrop-saturate-150 sm:bg-white/5 sm:backdrop-blur-0 sm:backdrop-saturate-100 text-[#1B365D] hover:bg-white/15 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden whitespace-nowrap",
+          "relative w-full sm:w-auto lg:inline-flex items-center justify-center rounded-full transition-all duration-500 bg-[#40B4A6]/15 backdrop-blur-[14px] backdrop-saturate-[180%] text-[#1B365D] hover:bg-white/25 hover:text-[#40B4A6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#40B4A6] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden whitespace-nowrap shadow-sm",
           sizeClassName,
           className
         )}
@@ -209,7 +216,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
             background:
               "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)",
             boxShadow:
-              "inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.05)",
+              "inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)",
           }}
         />
 
@@ -230,17 +237,16 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
             }}
             style={{
               background:
-                "linear-gradient(90deg, transparent 0%, rgba(64, 180, 166, 0.6) 50%, transparent 100%)",
-              filter: "blur(1px)",
+                "linear-gradient(90deg, transparent 0%, rgba(64, 180, 166, 0.8) 50%, transparent 100%)",
+              filter: "blur(0.5px)",
             }}
           />
         </div>
 
         <span
-          className="absolute inset-0 z-30 rounded-full pointer-events-none mix-blend-normal transition-[border-color,box-shadow] duration-300 [--border:#1B365D] group-hover:[--border:#40B4A6]"
+          className="absolute inset-0 z-30 rounded-full pointer-events-none mix-blend-normal transition-[border-color,box-shadow] duration-300 [--border:rgba(27,54,93,0.3)] group-hover:[--border:#40B4A6]"
           style={{
-            border: "2px solid var(--border)",
-            boxShadow: "0 0 0 2px var(--border)",
+            border: "1px solid var(--border)",
             filter: "none",
           }}
         />
