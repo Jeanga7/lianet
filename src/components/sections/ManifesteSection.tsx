@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Dna, Send } from "lucide-react";
-import { HeroPrimaryButton, HeroSecondaryButton, Magnetic } from "@/components/ui";
+import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
@@ -38,7 +38,7 @@ export default function ManifesteSection() {
 
   return (
     <section
-      className="relative h-auto min-h-screen w-full overflow-hidden bg-cover bg-center px-4 py-20 sm:px-6 lg:h-dvh lg:px-10 lg:py-20 xl:px-14"
+      className="relative h-auto min-h-screen w-full overflow-hidden bg-[#8FD6CC] bg-cover bg-center px-4 py-16 sm:px-6 lg:px-10 lg:py-24 xl:px-14 xl:py-32"
       style={{ backgroundImage: "url('/bg-dechirer.svg')" }}
       aria-label={t("manifeste.title")}
     >
@@ -48,8 +48,18 @@ export default function ManifesteSection() {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_85%,rgba(27,54,93,0.15),transparent_55%)]"
       />
 
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1200px] flex-col justify-center gap-14 lg:gap-16">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1600px] flex-col justify-center gap-14 lg:gap-16">
         <div className="mx-auto w-full max-w-[980px] text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.7 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-4 text-[10px] uppercase tracking-[0.3em] text-[#1B365D]/60"
+            style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
+          >
+            {t("manifeste.eyebrow")}
+          </motion.p>
           <motion.h2
             variants={revealVariants}
             initial="hidden"
@@ -143,12 +153,12 @@ export default function ManifesteSection() {
                   <div className="relative mt-2">
                     <textarea
                       id="manifeste-ambition"
-                      rows={1}
+                      rows={2}
                       value={ambition}
                       onFocus={() => setFocusField("ambition")}
                       onChange={(event) => setAmbition(event.target.value)}
                       placeholder={t("manifeste.ambitionPlaceholder")}
-                      className="min-h-[48px] max-h-[144px] w-full resize-y overflow-y-auto border-0 border-b-[1px] border-white/30 bg-transparent pb-3 pt-2 text-base font-light leading-normal text-white placeholder:text-white/45 focus:outline-none"
+                      className="min-h-[64px] max-h-[144px] w-full resize-y overflow-y-auto border-0 border-b-[1px] border-white/30 bg-transparent pb-2 pt-2 text-base font-light leading-relaxed text-white placeholder:text-white/45 focus:outline-none"
                       style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
                     />
                     <motion.span
@@ -250,6 +260,7 @@ export default function ManifesteSection() {
           </motion.form>
         </div>
       </div>
+      <SectionColorBridge to="#1B365D" />
     </section>
   );
 }

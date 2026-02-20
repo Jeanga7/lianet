@@ -60,16 +60,16 @@ export const HeroPrimaryButton = forwardRef<HTMLButtonElement, HeroPrimaryButton
           className
         )}
         style={{
-          fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
-          letterSpacing: "0.1em",
+          fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+          letterSpacing: "0.15em",
           isolation: "isolate",
           zIndex: 1,
           ...style,
         }}
         whileHover={{
-          scale: 1.02,
+          scale: 1.025,
           boxShadow:
-            "0 8px 24px rgba(64, 180, 166, 0.4), 0 4px 12px rgba(64, 180, 166, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+            "0 12px 32px rgba(64, 180, 166, 0.45), 0 6px 16px rgba(64, 180, 166, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
         }}
         whileTap={{ scale: 0.98 }}
         transition={{
@@ -184,16 +184,16 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
           className
         )}
         style={{
-          fontFamily: "var(--font-varela), 'Varela Round', sans-serif",
-          letterSpacing: "0.1em",
+          fontFamily: "var(--font-nunito), 'Nunito', sans-serif",
+          letterSpacing: "0.15em",
           isolation: "isolate",
           zIndex: 1,
           ...style,
         }}
         whileHover={{
-          scale: 1.02,
+          scale: 1.025,
           boxShadow:
-            "0 8px 24px rgba(27, 54, 93, 0.12), 0 4px 12px rgba(64, 180, 166, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+            "0 12px 32px rgba(27, 54, 93, 0.16), 0 6px 16px rgba(64, 180, 166, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.25)",
         }}
         whileTap={{ scale: 0.98 }}
         transition={{

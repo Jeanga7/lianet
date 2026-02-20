@@ -225,8 +225,8 @@ const HeroSection = () => {
           >
             {/* Eyebrow text */}
             <motion.p
-              className="-mt-6 sm:mt-0 text-[9px] sm:text-[10px] tracking-[0.4em] text-[#1B365D]/40 uppercase"
-              style={{ fontFamily: "var(--font-varela), 'Varela Round', sans-serif" }}
+              className="-mt-6 sm:mt-0 text-[10px] tracking-[0.3em] text-[#1B365D]/60 uppercase"
+              style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{

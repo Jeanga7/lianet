@@ -171,7 +171,7 @@ export default function ExpertiseSection() {
 
   return (
     <section
-      className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-16 sm:px-6 lg:min-h-dvh lg:px-10 lg:py-24 xl:px-14"
+      className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-16 sm:px-6 lg:min-h-screen lg:px-10 lg:py-24 xl:px-14 xl:py-32"
     >
       <div
         aria-hidden="true"
@@ -188,7 +188,7 @@ export default function ExpertiseSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.7 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:absolute lg:left-1/2 lg:top-10 lg:z-20 lg:-translate-x-1/2 text-center text-[11px] uppercase tracking-[0.22em] text-[rgb(var(--primary))]/60"
+          className="lg:absolute lg:left-1/2 lg:top-10 lg:z-20 lg:-translate-x-1/2 text-center text-[10px] uppercase tracking-[0.3em] text-[rgb(var(--primary))]/60"
           style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
         >
           {t("expertise.eyebrow")}

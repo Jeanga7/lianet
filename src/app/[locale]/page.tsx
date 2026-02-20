@@ -28,7 +28,7 @@ export default function LocalizedHomePage() {
         <ManifesteSection />
         <ScrollZone targetSectionId="footer" />
       </section>
-      <section id="footer" className="relative h-auto min-h-[70vh] w-full flex-shrink-0 lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always">
+      <section id="footer" className="relative h-auto lg:min-h-screen w-full flex-shrink-0 bg-[#1B365D] lg:w-[calc(100%-5rem)] lg:ml-20 lg:snap-start lg:snap-always">
         <FooterSection />
       </section>
     </main>

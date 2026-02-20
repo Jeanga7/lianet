@@ -150,7 +150,7 @@ export default function BlueprintSection() {
       ref={sectionRef}
       onMouseMove={handleCanvasMove}
       onMouseLeave={handleCanvasLeave}
-      className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-20 text-[#1B365D] sm:px-6 lg:min-h-dvh lg:px-10 lg:py-28 xl:px-14"
+      className="relative isolate min-h-screen overflow-hidden bg-[#8FD6CC] px-4 py-16 text-[#1B365D] sm:px-6 lg:min-h-screen lg:px-10 lg:py-24 xl:px-14 xl:py-32"
       aria-label={t("blueprint.title")}
     >
       <SandGrain className="z-[1]" opacity={0.04} />
@@ -169,7 +169,7 @@ export default function BlueprintSection() {
       </motion.p>
 
       <div
-        className="relative z-10 mx-auto flex w-full max-w-[1500px] flex-col justify-center lg:pb-8 xl:pb-10"
+        className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col justify-center lg:pb-8 xl:pb-10"
         style={{
           minHeight: `calc(100dvh - ${desktopNavHeight}px - 3.5rem)`,
         }}
@@ -179,7 +179,7 @@ export default function BlueprintSection() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.7 }}
           transition={motionSpring}
-          className="mb-4 text-center text-[11px] uppercase tracking-[0.24em] text-[#1B365D]/75 lg:absolute lg:left-1/2 lg:top-10 lg:mb-0 lg:-translate-x-1/2"
+          className="mb-4 text-center text-[10px] uppercase tracking-[0.3em] text-[#1B365D]/60 lg:absolute lg:left-1/2 lg:top-10 lg:mb-0 lg:-translate-x-1/2"
           style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
         >
           {t("blueprint.eyebrow")}

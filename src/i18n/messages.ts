@@ -30,7 +30,7 @@ const fr = {
     paragraph:
       "Lianet connecte les entreprises africaines aux meilleurs talents digitaux pour bâtir des solutions impactantes et évolutives.",
     primaryCta: "Nos Solutions",
-    secondaryCta: "Start Project",
+    secondaryCta: "Démarrer un projet",
     scrollCta: "Scroller vers la section suivante",
   },
   expertise: {
@@ -80,6 +80,7 @@ const fr = {
     },
   },
   manifeste: {
+    eyebrow: "MANIFESTE — 04",
     title: "Lianet n'est pas une option, c'est une position.",
     titleLine1: "Lianet n'est pas une option,",
     titleLine2: "c'est une position.",
@@ -143,6 +144,9 @@ const fr = {
     eyebrow: "LIANET — 05",
     title: "Transformons vos ambitions en trajectoire de leadership.",
     subtitle: "Parlons de vos priorités business et construisons un plan d'exécution concret, mesurable et durable.",
+    heroLine1: "Déployons l'avenir",
+    heroLine2: "ensemble.",
+    brandStatement: "Lianet — L'alliance de l'audace africaine et de la précision internationale.",
     cta: {
       primary: "Démarrer votre projet",
       secondary: "Explorer nos solutions",
@@ -152,11 +156,25 @@ const fr = {
       company: "Société",
       legal: "Légal",
     },
+    links: {
+      talent: "Talent Solutions",
+      strategy: "Digital Strategy",
+      lab: "Innovation Lab",
+      stories: "Success Stories",
+      about: "Notre ADN (À Propos)",
+      careers: "Carrières",
+      contact: "Contact",
+      legalNotices: "Mentions Légales",
+      privacy: "Confidentialité",
+      terms: "CGU",
+    },
+    rights: "Tous droits réservés.",
+    qualityBadge: "Built for Excellence",
   },
   fullMenu: {
     ecosystem: "Lianet Ecosystem",
     close: "Fermer le menu",
-    startProject: "Start a Project",
+    startProject: "Démarrer un projet",
     sections: {
       poles: "Pôles",
       resources: "Ressources",
@@ -288,6 +306,7 @@ const en = {
     },
   },
   manifeste: {
+    eyebrow: "MANIFESTO — 04",
     title: "Lianet is not an option, it's a position.",
     titleLine1: "Lianet is not an option,",
     titleLine2: "it's a position.",
@@ -351,6 +370,9 @@ const en = {
     eyebrow: "LIANET — 05",
     title: "Turn ambition into market leadership.",
     subtitle: "Let's align on your business priorities and build a concrete, measurable execution plan.",
+    heroLine1: "Let's deploy the future",
+    heroLine2: "together.",
+    brandStatement: "Lianet — The alliance of African audacity and international precision.",
     cta: {
       primary: "Start your project",
       secondary: "Explore our solutions",
@@ -360,6 +382,20 @@ const en = {
       company: "Company",
       legal: "Legal",
     },
+    links: {
+      talent: "Talent Solutions",
+      strategy: "Digital Strategy",
+      lab: "Innovation Lab",
+      stories: "Success Stories",
+      about: "Our DNA (About)",
+      careers: "Careers",
+      contact: "Contact",
+      legalNotices: "Legal Notices",
+      privacy: "Privacy",
+      terms: "Terms of Use",
+    },
+    rights: "All rights reserved.",
+    qualityBadge: "Built for Excellence",
   },
   fullMenu: {
     ecosystem: "Lianet Ecosystem",
