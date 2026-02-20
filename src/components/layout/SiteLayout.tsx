@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Sidebar, Navigation, FullMenu, ScrollProgressBar, MobileMenuButton } from "@/components/hero";
-import { CustomCursor, PageWipe } from "@/components/ui";
+import { CustomCursor, PageWipe, WhatsAppButton } from "@/components/ui";
 
 interface SiteLayoutProps {
   children: React.ReactNode;
@@ -36,14 +36,15 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
     <>
       {/* Texture de grain globale - Fixed pour lier toutes les sections */}
       <div className="grain-bg" aria-hidden="true" />
-      
+
       {/* Curseur personnalisé haute performance */}
       <CustomCursor enabled={true} />
-      
+
       {/* Éléments fixes globaux */}
       <Sidebar onMenuClick={() => setIsFullMenuOpen(true)} />
       <Navigation onNavigateWithWipe={navigateWithWipe} />
       <MobileMenuButton onMenuClick={() => setIsFullMenuOpen(true)} />
+      <WhatsAppButton />
       <FullMenu
         isOpen={isFullMenuOpen}
         onClose={() => setIsFullMenuOpen(false)}

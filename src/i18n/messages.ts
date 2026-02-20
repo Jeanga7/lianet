@@ -4,6 +4,11 @@ const fr = {
     description:
       "Lianet connecte les entreprises africaines avec des talents digitaux d'élite pour concevoir des solutions impactantes et évolutives.",
   },
+  common: {
+    whatsapp: {
+      tooltip: "Discuter avec un expert",
+    },
+  },
   navigation: {
     solutions: "Solutions",
     experts: "Experts",
@@ -229,6 +234,11 @@ const en = {
     title: "Lianet",
     description:
       "Lianet connects African businesses with top-tier digital talent to craft impactful and scalable solutions.",
+  },
+  common: {
+    whatsapp: {
+      tooltip: "Chat with an expert",
+    },
   },
   navigation: {
     solutions: "Solutions",
