@@ -10,7 +10,6 @@ export const appRoutes = {
   insights: "/insights",
   careers: "/careers",
   caseStudies: "/case-studies",
-  pageTracker: "/page-tracker",
 } as const;
 
 export const mainNavigationRoutes = [
@@ -38,5 +37,4 @@ export const sitemapRoutes = [
   appRoutes.insights,
   appRoutes.careers,
   appRoutes.caseStudies,
-  appRoutes.pageTracker,
 ] as const;
