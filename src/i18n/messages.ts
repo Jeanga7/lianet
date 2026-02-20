@@ -147,6 +147,11 @@ const fr = {
       primary: "Démarrer votre projet",
       secondary: "Explorer nos solutions",
     },
+    columns: {
+      expertise: "Expertise",
+      company: "Société",
+      legal: "Légal",
+    },
   },
   fullMenu: {
     ecosystem: "Lianet Ecosystem",
@@ -349,6 +354,11 @@ const en = {
     cta: {
       primary: "Start your project",
       secondary: "Explore our solutions",
+    },
+    columns: {
+      expertise: "Expertise",
+      company: "Company",
+      legal: "Legal",
     },
   },
   fullMenu: {

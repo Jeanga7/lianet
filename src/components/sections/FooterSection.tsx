@@ -43,7 +43,7 @@ export default function FooterSection() {
   const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
     <Link
       href={localizePathname(href, locale)}
-      className="group relative inline-block text-base font-light text-[#1B365D]/70 transition-colors duration-300 hover:text-[#1B365D]"
+      className="group relative inline-block text-base font-light text-[#F8FAFC]/70 transition-colors duration-300 hover:text-white"
       style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
     >
       {children}
@@ -53,7 +53,7 @@ export default function FooterSection() {
 
   const ColumnHeader = ({ children }: { children: React.ReactNode }) => (
     <h3
-      className="mb-8 text-xs font-bold uppercase tracking-widest text-[#1B365D]"
+      className="mb-8 text-xs font-bold uppercase tracking-widest text-[#F8FAFC]"
       style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
     >
       {children}
@@ -65,13 +65,13 @@ export default function FooterSection() {
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative z-10 overflow-hidden bg-[#F8FAFC] pb-8 pt-20 text-[#1B365D] lg:pt-32"
+      className="relative z-10 overflow-hidden bg-[#1B365D] pb-8 pt-20 text-[#F8FAFC] lg:pt-32"
       aria-label={t("footer.title")}
     >
       {/* Background Decor */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(64,180,166,0.03),transparent_40%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(64,180,166,0.1),transparent_40%)]"
       />
 
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10 xl:px-14">
@@ -84,7 +84,7 @@ export default function FooterSection() {
             <Link href={localizePathname(appRoutes.home, locale)} className="relative block">
               <motion.div style={{ x: logoX, y: logoY }}>
                 <span
-                  className="text-4xl font-black tracking-tighter text-[#1B365D] lg:text-5xl"
+                  className="text-4xl font-black tracking-tighter text-[#F8FAFC] lg:text-5xl"
                   style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                 >
                   LIANET<span className="text-[#40B4A6]">.</span>
@@ -93,7 +93,7 @@ export default function FooterSection() {
             </Link>
 
             <p
-              className="max-w-[42ch] text-lg font-light leading-relaxed text-[#1B365D]/80"
+              className="max-w-[42ch] text-lg font-light leading-relaxed text-[#F8FAFC]/80"
               style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}
             >
               Lianet — L'alliance de l'audace africaine et de la précision internationale.
@@ -106,7 +106,7 @@ export default function FooterSection() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#1B365D]/10 bg-white text-[#1B365D] transition-colors duration-300 hover:border-[#40B4A6] hover:bg-[#40B4A6] hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-colors duration-300 hover:border-[#40B4A6] hover:bg-[#40B4A6] hover:text-white"
                   aria-label={item.label}
                 >
                   <item.icon className="h-4 w-4" />
@@ -135,7 +135,7 @@ export default function FooterSection() {
           </div>
 
           {/* Column 3: Société & Légal */}
-          <div className="flex flex-col items-start bg-[#F8FAFC]">
+          <div className="flex flex-col items-start bg-transparent">
             {/* Combined for cleaner layout on mobile, distinct sections visually if needed */}
             <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-1 lg:gap-10">
 
@@ -153,7 +153,7 @@ export default function FooterSection() {
                     Contact
                   </FooterLink>
                   <div className="pt-2">
-                    <a href="mailto:contact@lianet.com" className="text-sm font-medium text-[#1B365D] hover:text-[#40B4A6] transition-colors">
+                    <a href="mailto:contact@lianet.com" className="text-sm font-medium text-[#F8FAFC] hover:text-[#40B4A6] transition-colors">
                       contact@lianet.com
                     </a>
                   </div>
@@ -166,24 +166,24 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-20 border-t border-[#1B365D]/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light text-[#1B365D]/60 mb-20">
+        <div className="mt-20 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-light text-white/60">
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 md:justify-start">
             <span>&copy; {currentYear} Lianet. Tous droits réservés.</span>
-            <div className="hidden md:block w-[1px] h-3 bg-[#1B365D]/20 self-center" />
-            <Link href={localizePathname("/legal", locale)} className="hover:text-[#1B365D] transition-colors">
+            <div className="hidden md:block w-[1px] h-3 bg-white/20 self-center" />
+            <Link href={localizePathname("/legal", locale)} className="hover:text-white transition-colors">
               Mentions Légales
             </Link>
-            <Link href={localizePathname("/privacy", locale)} className="hover:text-[#1B365D] transition-colors">
+            <Link href={localizePathname("/privacy", locale)} className="hover:text-white transition-colors">
               Confidentialité
             </Link>
-            <Link href={localizePathname("/cgu", locale)} className="hover:text-[#1B365D] transition-colors">
+            <Link href={localizePathname("/cgu", locale)} className="hover:text-white transition-colors">
               CGU
             </Link>
           </div>
 
           <div className="flex items-center gap-2">
             <div className="h-1.5 w-1.5 rounded-full bg-[#40B4A6]" />
-            <span className="uppercase tracking-widest font-bold text-[10px] text-[#1B365D]">Built for Excellence</span>
+            <span className="uppercase tracking-widest font-bold text-[10px] text-[#F8FAFC]">Built for Excellence</span>
           </div>
         </div>
       </div>
