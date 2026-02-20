@@ -37,7 +37,8 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
             description: t("solutions.talent.description"),
             features: tArray("solutions.talent.features"),
             image: "/images/solutions/talent.png",
-            detail: t("solutions.talent.detail")
+            detail: t("solutions.talent.detail"),
+            cta: t("solutions.talent.cta")
         },
         strategy: {
             title: t("solutions.strategy.title"),
@@ -45,7 +46,8 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
             description: t("solutions.strategy.description"),
             features: tArray("solutions.strategy.features"),
             image: "/images/solutions/strategy.png",
-            detail: t("solutions.strategy.detail")
+            detail: t("solutions.strategy.detail"),
+            cta: t("solutions.strategy.cta")
         },
         lab: {
             title: t("solutions.lab.title"),
@@ -53,7 +55,8 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
             description: t("solutions.lab.description"),
             features: tArray("solutions.lab.features"),
             image: "/images/solutions/lab.png",
-            detail: t("solutions.lab.detail")
+            detail: t("solutions.lab.detail"),
+            cta: t("solutions.lab.cta")
         }
     }[activeId as "talent" | "strategy" | "lab"];
 
@@ -130,7 +133,7 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
 
                                 <div className="mt-12 space-y-4">
                                     <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-[#1B365D]">
-                                        Points Clés du Protocole
+                                        {t("solutions.common.protocolTitle")}
                                     </h4>
                                     <div className="mx-auto lg:mx-0 w-fit">
                                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-left">
@@ -156,16 +159,16 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
                                     <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
                                         <div>
                                             <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-[#1B365D]/40">
-                                                Prêt à passer à l&apos;action ?
+                                                {t("solutions.common.ctaPrompt")}
                                             </p>
-                                            <p className="mt-1 text-lg font-bold text-[#1B365D]">Consultez notre expert dédié.</p>
+                                            <p className="mt-1 text-lg font-bold text-[#1B365D]">{t("solutions.common.ctaExpert")}</p>
                                         </div>
                                         <EliteButton
                                             onClick={() => {/* potential contact action */ }}
                                             arrow="right"
                                             className="h-14 px-6 py-0 text-[12px] tracking-[0.14em] whitespace-nowrap sm:h-auto sm:px-8 sm:py-4 sm:text-[13px] sm:tracking-[0.2em]"
                                         >
-                                            {activeId === 'talent' ? 'Mobiliser une Squad' : activeId === 'strategy' ? 'Tracer la Vision' : 'Explorer le Futur'}
+                                            {content.cta}
                                         </EliteButton>
                                     </div>
                                 </div>

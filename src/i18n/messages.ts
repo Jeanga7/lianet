@@ -151,6 +151,11 @@ const fr = {
       title: "Des solutions d'élite pour une souveraineté digitale africaine.",
       description: "Nous fusionnons l'excellence stratégique, le talent technologique et l'expérimentation agile pour propulser votre croissance dans l'ère numérique.",
     },
+    common: {
+      protocolTitle: "Points Clés du Protocole",
+      ctaPrompt: "Prêt à passer à l'action ?",
+      ctaExpert: "Consultez notre expert dédié.",
+    },
     talent: {
       title: "Talent Solutions",
       subtitle: "Accédez au top 3% des experts digitaux africains.",
@@ -427,6 +432,11 @@ const en = {
       eyebrow: "SOLUTIONS — HUB",
       title: "Elite solutions for African digital sovereignty.",
       description: "We merge strategic excellence, technological talent, and agile experimentation to propel your growth in the digital era.",
+    },
+    common: {
+      protocolTitle: "Protocol Key Points",
+      ctaPrompt: "Ready to take action?",
+      ctaExpert: "Consult our dedicated expert.",
     },
     talent: {
       title: "Talent Solutions",

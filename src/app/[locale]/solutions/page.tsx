@@ -7,7 +7,10 @@ interface PageProps {
 
 export default async function SolutionsPage({ params }: PageProps) {
   const { locale } = await params;
-  const currentLocale: Locale = isLocale(locale) ? locale : "fr";
+
+  if (!isLocale(locale)) {
+    return null; // The layout handles the notFound()
+  }
 
   return <SolutionsHub />;
 }
