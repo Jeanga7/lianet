@@ -194,7 +194,7 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="h-full max-w-[38rem] justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
+            className="h-full max-w-[42rem] xl:max-w-[52rem] justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
           >
             {/* Eyebrow text */}
             <motion.p
@@ -214,7 +214,7 @@ const HeroSection = () => {
             {/* Titre massif avec effet reveal et interaction de scroll */}
             <div className="overflow-hidden w-full">
               <motion.h1
-                className="w-full mx-auto lg:mx-0 text-[clamp(3.3rem,13vw,6.5rem)] md:text-[clamp(3.8rem,9vw,7rem)] lg:text-[clamp(4rem,6.8vw,7.8rem)] font-black leading-[1.04] relative z-20 text-center lg:text-left"
+                className="w-full mx-auto lg:mx-0 text-[clamp(3.3rem,13vw,6.5rem)] md:text-[clamp(3.8rem,9vw,7rem)] lg:text-[clamp(4rem,6.5vw,7.5rem)] xl:text-[clamp(4.2rem,6.8vw,8.2rem)] font-black leading-[1.04] relative z-20 text-center lg:text-left"
                 style={{
                   letterSpacing: titleTracking,
                   opacity: titleOpacity,
@@ -236,7 +236,7 @@ const HeroSection = () => {
               >
                 {t("hero.titleLine1")}
                 <br className="block" />
-                <span className="inline-block whitespace-nowrap">{t("hero.titleLine2")}</span>
+                <span className="inline-block">{t("hero.titleLine2")}</span>
               </motion.h1>
             </div>
 

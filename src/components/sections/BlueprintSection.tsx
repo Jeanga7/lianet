@@ -370,7 +370,7 @@ export default function BlueprintSection() {
           transition={motionSpring}
           className="mx-auto mt-14 grid w-full max-w-[38rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:mt-12 lg:mb-8"
         >
-          <Magnetic className="flex w-full" strength={24}>
+          <Magnetic className="flex w-full min-w-0" strength={24}>
             <HeroPrimaryButton
               size="compact"
               label={t("blueprint.cta.primary")}
@@ -378,17 +378,17 @@ export default function BlueprintSection() {
               iconEnd={ArrowUpRight}
               showEndIconOnMobile
               onClick={() => navigateWithWipe(localizePathname(appRoutes.contact, locale))}
-              className="bg-[#F8FAFC] !text-[#1B365D] shadow-[0_14px_32px_rgba(15,23,42,0.25)] hover:bg-[#ffffff]"
+              className="bg-[#F8FAFC] !text-[#1B365D] shadow-[0_14px_32px_rgba(15,23,42,0.25)] hover:bg-[#ffffff] !w-full"
             />
           </Magnetic>
 
-          <Magnetic className="flex w-full" strength={24}>
+          <Magnetic className="flex w-full min-w-0" strength={24}>
             <HeroSecondaryButton
               size="compact"
               label={t("blueprint.cta.secondary")}
               iconStart={Search}
               onClick={() => navigateWithWipe(localizePathname(appRoutes.solutions, locale))}
-              className="!border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-[0_14px_32px_rgba(15,23,42,0.32)] hover:!bg-[#0F2440] hover:!text-white"
+              className="!border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-[0_14px_32px_rgba(15,23,42,0.32)] hover:!bg-[#0F2440] hover:!text-white !w-full"
             />
           </Magnetic>
         </motion.div>

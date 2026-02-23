@@ -74,7 +74,7 @@ export default function ManifesteSection() {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 items-stretch gap-10 lg:mt-6 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
+        <div className="grid grid-cols-1 items-stretch gap-10 lg:mt-6 lg:grid-cols-[1.1fr_1fr] lg:gap-12 xl:gap-20">
           <motion.div
             variants={revealVariants}
             initial="hidden"
@@ -90,7 +90,7 @@ export default function ManifesteSection() {
               {t("manifeste.body")}
             </p>
             <p
-              className="text-xl font-black italic leading-relaxed text-[#1B365D] lg:text-[1.5rem]"
+              className="text-xl font-black italic leading-relaxed text-[#1B365D] lg:text-[1.50rem]"
               style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
             >
               {t("manifeste.mantra")}
@@ -121,7 +121,7 @@ export default function ManifesteSection() {
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
             transition={{ ...springTransition, delay: 0.24 }}
-            className="relative w-full overflow-hidden rounded-[2rem] border border-white/20 bg-[#1B365D]/30 p-6 shadow-[0_22px_56px_rgba(8,32,45,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-8 lg:p-10"
+            className="relative w-full lg:max-w-[680px] xl:max-w-[720px] 2xl:max-w-[780px] lg:ml-auto overflow-hidden rounded-[2rem] border border-white/20 bg-[#1B365D]/30 p-6 shadow-[0_22px_56px_rgba(8,32,45,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-8 lg:p-10"
             style={{
               backdropFilter: "blur(40px) saturate(130%) brightness(0.55)",
               WebkitBackdropFilter: "blur(40px) saturate(130%) brightness(0.55)",

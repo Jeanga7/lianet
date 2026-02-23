@@ -251,7 +251,7 @@ export const HeroSecondaryButton = forwardRef<HTMLButtonElement, HeroSecondaryBu
           }}
         />
 
-        <span className="relative z-40 flex items-center justify-center gap-2">
+        <span className="relative z-40 flex w-full items-center justify-center gap-2">
           {StartIcon && <StartIcon className="w-4 h-4 text-current" />}
           {label}
         </span>

@@ -183,7 +183,7 @@ export default function ExpertiseSection() {
         className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#8FD6CC]/75 to-transparent lg:h-20"
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-10 sm:gap-12 lg:grid lg:grid-cols-[40%_60%] lg:gap-16">
+      <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-10 sm:gap-12 lg:grid lg:grid-cols-[35%_1fr] lg:gap-16 xl:gap-24">
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -216,7 +216,7 @@ export default function ExpertiseSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.65 }}
               transition={{ duration: 0.55, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-[24ch] text-[clamp(2.1rem,3.4vw,4rem)] font-black leading-[1.02] tracking-[-0.03em] text-[rgb(var(--primary))]"
+              className="max-w-[24ch] text-[clamp(2.1rem,3.2vw,3.6rem)] font-black leading-[1.02] tracking-[-0.03em] text-[rgb(var(--primary))]"
               style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
             >
               {t("expertise.headline")}
@@ -232,9 +232,7 @@ export default function ExpertiseSection() {
                       type="button"
                       onClick={() => {
                         handlePoleChange(pole.key);
-                        setIsPaused(true); // Pause on manual interaction
-                        // Optional: Resume after a delay? For now, let's keep it paused on hover, but if they click, it implies interest, so maybe pause until they leave the section? 
-                        // The onMouseEnter on the section handles the pause, so clicking is covered by that since they are inside the section.
+                        setIsPaused(true);
                       }}
                       aria-label={`${locale === "fr" ? "Sélectionner" : "Select"} ${pole.title}`}
                       aria-current={isActive ? "true" : "false"}
@@ -258,7 +256,7 @@ export default function ExpertiseSection() {
                         {pole.number}
                       </span>
                       <span
-                        className={`text-[clamp(1.05rem,1.55vw,1.2rem)] font-black ${isActive ? "text-[rgb(var(--primary))]" : "text-[rgb(var(--primary))]/40"}`}
+                        className={`text-[clamp(1.05rem,1.4vw,1.15rem)] font-black ${isActive ? "text-[rgb(var(--primary))]" : "text-[rgb(var(--primary))]/40"}`}
                         style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                       >
                         {pole.hook}
@@ -272,7 +270,7 @@ export default function ExpertiseSection() {
         </aside>
 
         <div
-          className="relative hidden items-center justify-start lg:flex lg:pl-8 lg:pr-[clamp(2.5rem,6vw,7rem)]"
+          className="relative hidden items-center justify-start lg:flex lg:pl-0 lg:pr-[clamp(1.5rem,4vw,6rem)]"
           style={{ minHeight: desktopCanvasHeight }}
         >
           <motion.div
@@ -281,7 +279,7 @@ export default function ExpertiseSection() {
             aria-label={`${locale === "fr" ? "Contenu du pôle" : "Pole content"} ${activeContent.title}`}
             aria-live="polite"
             aria-atomic="true"
-            className="relative z-10 w-full max-w-[56rem] overflow-hidden rounded-[2rem] bg-white/20 p-12 backdrop-blur-[60px] xl:p-16"
+            className="relative z-10 w-full max-w-[62rem] overflow-hidden rounded-[2rem] bg-white/20 p-10 lg:p-12 backdrop-blur-[60px] xl:p-16"
             style={{
               boxShadow: "0 34px 100px rgba(27,54,93,0.16)",
             }}
@@ -298,7 +296,7 @@ export default function ExpertiseSection() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={{ opacity: 0, y: -18, filter: "blur(7px)" }}
                 transition={springTransition}
-                className="relative z-20 max-w-[640px] space-y-7"
+                className="relative z-20 max-w-[680px] space-y-7"
               >
                 <p
                   className="text-[12px] uppercase tracking-[0.22em] text-[rgb(var(--primary))]/64"
@@ -312,7 +310,7 @@ export default function ExpertiseSection() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -10, opacity: 0 }}
                   transition={springTransition}
-                  className="text-[clamp(2.2rem,3.5vw,3.4rem)] font-black leading-[1.03] tracking-[-0.03em] text-[rgb(var(--primary))]"
+                  className="text-[clamp(2.2rem,3.2vw,3.2rem)] font-black leading-[1.03] tracking-[-0.03em] text-[rgb(var(--primary))]"
                   style={{ fontFamily: "var(--font-nunito), 'Nunito', sans-serif" }}
                 >
                   {activeContent.hook}
