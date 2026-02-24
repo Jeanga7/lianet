@@ -20,6 +20,7 @@ interface SolutionPillarCardProps {
 }
 
 export default function SolutionPillarCard({
+    id,
     image,
     title,
     subtitle,
@@ -68,9 +69,12 @@ export default function SolutionPillarCard({
 
             {/* Text Content */}
             <div className="flex w-full flex-col justify-center text-center lg:text-left lg:w-1/2">
-                <h2 className="font-nunito text-[32px] font-extrabold tracking-tight text-[#1B365D] sm:text-[42px] lg:text-[48px] leading-[1.1]">
+                <motion.h2
+                    layoutId={`pillar-title-${id}`}
+                    className="font-nunito text-[32px] font-extrabold tracking-tight text-[#1B365D] sm:text-[42px] lg:text-[48px] leading-[1.1]"
+                >
                     {title}
-                </h2>
+                </motion.h2>
 
                 <p className="mt-4 font-nunito text-[14px] font-bold uppercase tracking-[0.2em] text-[#40B4A6]">
                     {subtitle}

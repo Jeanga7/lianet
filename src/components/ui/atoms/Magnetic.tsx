@@ -41,6 +41,7 @@ const Magnetic = ({ children, className, strength = 12 }: MagneticProps) => {
       style={{ x: springX, y: springY, willChange: "transform" }}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
+      whileHover={{ scale: 1.03 }}
     >
       {children}
     </motion.div>

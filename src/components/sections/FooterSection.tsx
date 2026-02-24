@@ -195,13 +195,13 @@ export default function FooterSection() {
 
           {/* Column 2: Expertise */}
           <AccordionColumn title={t("footer.columns.expertise") || "EXPERTISE"}>
-            <FooterLink href={appRoutes.solutionsTalent}>
+            <FooterLink href={`${appRoutes.solutions}?p=talent`}>
               {t("footer.links.talent")}
             </FooterLink>
-            <FooterLink href={appRoutes.solutionsStrategy}>
+            <FooterLink href={`${appRoutes.solutions}?p=strategy`}>
               {t("footer.links.strategy")}
             </FooterLink>
-            <FooterLink href={appRoutes.solutionsLab}>
+            <FooterLink href={`${appRoutes.solutions}?p=lab`}>
               {t("footer.links.lab")}
             </FooterLink>
             <FooterLink href={appRoutes.caseStudies}>

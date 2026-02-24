@@ -112,10 +112,13 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
                                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#40B4A6] lg:text-[11px]">
                                     {content.subtitle}
                                 </p>
-                                <h3 className="mt-3 text-[2rem] font-extrabold leading-none text-white lg:mt-4 lg:text-[4rem]">
+                                <motion.h3
+                                    layoutId={`pillar-title-${activeId}`}
+                                    className="mt-3 text-[2rem] font-extrabold leading-none text-white lg:mt-4 lg:text-[4rem]"
+                                >
                                     {content.title.split(" ")[0]}<br />
                                     <span className="text-[#40B4A6]">{content.title.split(" ")[1]}</span>
-                                </h3>
+                                </motion.h3>
                             </div>
                         </div>
 
@@ -143,7 +146,7 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
                                                     initial={{ opacity: 0, x: -20 }}
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: 0.3 + i * 0.1 }}
-                                                    className="flex items-center gap-3 rounded-2xl bg-[#F8FAFC] p-4 border border-[#1B365D]/5"
+                                                    className="flex items-center gap-3 rounded-2xl bg-white/5 border border-white/10 p-4 backdrop-blur-md"
                                                 >
                                                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#40B4A6]/20 text-[#40B4A6]">
                                                         <Check className="h-3 w-3" strokeWidth={4} />

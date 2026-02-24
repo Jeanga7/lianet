@@ -54,6 +54,21 @@ export default function EliteButton({
                 {Icon && !arrow && (
                     <Icon className="relative z-10 h-4 w-4" />
                 )}
+
+                {/* Looping Shine Effect */}
+                <motion.div
+                    className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[150%]"
+                    animate={{
+                        x: ["150%", "-150%"],
+                    }}
+                    transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        repeatDelay: 5,
+                        ease: "linear",
+                    }}
+                    style={{ skewX: -20 }}
+                />
             </button>
         </Magnetic>
     );

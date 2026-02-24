@@ -1,9 +1,6 @@
 export const appRoutes = {
   home: "/",
   solutions: "/solutions",
-  solutionsTalent: "/solutions/talent",
-  solutionsStrategy: "/solutions/strategy",
-  solutionsLab: "/solutions/lab",
   experts: "/experts",
   about: "/about",
   contact: "/contact",
@@ -28,9 +25,6 @@ export const resourceNavigationRoutes = [
 export const sitemapRoutes = [
   appRoutes.home,
   appRoutes.solutions,
-  appRoutes.solutionsTalent,
-  appRoutes.solutionsStrategy,
-  appRoutes.solutionsLab,
   appRoutes.experts,
   appRoutes.about,
   appRoutes.contact,
