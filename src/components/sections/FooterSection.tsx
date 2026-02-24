@@ -204,6 +204,9 @@ export default function FooterSection() {
             <FooterLink href={`${appRoutes.solutions}?p=lab`}>
               {t("footer.links.lab")}
             </FooterLink>
+            <FooterLink href={appRoutes.network}>
+              {t("navigation.network")}
+            </FooterLink>
             <FooterLink href={appRoutes.caseStudies}>
               {t("footer.links.stories")}
             </FooterLink>
@@ -213,9 +216,6 @@ export default function FooterSection() {
           <AccordionColumn title={t("footer.columns.company") || "SOCIÉTÉ"}>
             <FooterLink href={appRoutes.about}>
               {t("footer.links.about")}
-            </FooterLink>
-            <FooterLink href={appRoutes.careers}>
-              {t("footer.links.careers")}
             </FooterLink>
             <FooterLink href={appRoutes.contact}>
               {t("footer.links.contact")}

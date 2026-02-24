@@ -13,6 +13,8 @@ interface EliteButtonProps {
     icon?: LucideIcon;
     arrow?: "up-right" | "right" | "none";
     strength?: number;
+    disabled?: boolean;
+    "aria-label"?: string;
 }
 
 export default function EliteButton({
@@ -23,18 +25,23 @@ export default function EliteButton({
     icon: Icon,
     arrow = "up-right",
     strength = 20,
+    disabled = false,
+    "aria-label": ariaLabel,
 }: EliteButtonProps) {
     const isPrimary = variant === "primary";
 
     return (
-        <Magnetic strength={strength}>
+        <Magnetic strength={disabled ? 0 : strength}>
             <button
-                onClick={onClick}
+                onClick={disabled ? undefined : onClick}
+                disabled={disabled}
+                aria-label={ariaLabel}
                 className={cn(
                     "group relative inline-flex items-center justify-center gap-4 rounded-full px-8 py-4 text-[13px] font-bold uppercase tracking-[0.2em] transition-all w-full lg:w-auto",
                     isPrimary
                         ? "bg-[#1B365D] text-white shadow-xl shadow-[#1B365D]/20 hover:bg-[#0F2440] hover:shadow-2xl"
                         : "bg-white/10 text-[#1B365D] backdrop-blur-md border border-[#1B365D]/10 hover:bg-white/20",
+                    disabled && "opacity-50 cursor-not-allowed grayscale pointer-events-none",
                     className
                 )}
             >

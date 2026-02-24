@@ -11,7 +11,7 @@ const fr = {
   },
   navigation: {
     solutions: "Solutions",
-    experts: "Experts",
+    network: "Réseau",
     about: "À Propos",
     contact: "Contact",
     search: "Rechercher",
@@ -259,8 +259,6 @@ const fr = {
     },
     resources: {
       insights: "Blog & Insights",
-      careers: "Carrières",
-      careersSuffix: "(Join the Liane)",
       caseStudies: "Études de cas",
       caseStudiesSuffix: "(Success Stories)",
     },
@@ -278,6 +276,116 @@ const fr = {
     langSwitchEn: "Passer en anglais",
     langActiveEn: "Langue anglaise active",
   },
+  network: {
+    hero: {
+      eyebrow: "JOIN THE SQUADS",
+      title: "L'Élite Digitale\nAfricaine se lève ici.",
+      pitch: "Lianet n'est pas une plateforme, c'est un sanctuaire pour les talents d'exception au Sénégal et en Afrique. Nous connectons le top 3% des experts aux projets les plus ambitieux du continent.",
+      subpitch: "Débutant ou chevronné — chez Lianet, seules les compétences et les résultats ouvrent les portes.",
+      stats: [
+        { value: "3%", label: "des candidats sont retenus" },
+        { value: "40+", label: "projets d'impact livrés" },
+        { value: "5 pays", label: "de présence active" },
+      ],
+    },
+    selector: {
+      title: "Quel bâtisseur êtes-vous ?",
+      expert: {
+        label: "Expert Freelance",
+        tagline: "Missions premium. Liberté totale.",
+      },
+      team: {
+        label: "Bâtisseur Interne",
+        tagline: "Construire Lianet de l'intérieur.",
+      },
+    },
+    poles: {
+      title: "Nos Pôles de Force",
+      description: "Quatre verticales d'excellence pour propulser l'ambition africaine.",
+      items: [
+        {
+          id: "software",
+          label: "Software Engineering",
+          description: "Architectes Full-stack, experts Mobile (iOS/Android), Ingénieurs DevOps & Cloud.",
+          tag: "Technique",
+        },
+        {
+          id: "creative",
+          label: "Creative Design",
+          description: "Product Designers UI/UX, Brand Strategists, Infographistes & Motion Designers.",
+          tag: "Créatif",
+        },
+        {
+          id: "growth",
+          label: "Digital Growth",
+          description: "Community Managers stratégiques, Experts SEO/Ads, Content Creators & Copywriters.",
+          tag: "Croissance",
+        },
+        {
+          id: "intelligence",
+          label: "Data & Intelligence",
+          description: "Analystes de données, Spécialistes IA/ML, Consultants en transformation digitale.",
+          tag: "Stratégie",
+        },
+      ],
+    },
+    protocol: {
+      eyebrow: "LE PROTOCOLE D'EXCELLENCE",
+      title: "3 étapes qui garantissent l'élite.",
+      description: "Notre processus de sélection est conçu pour identifier les talents exceptionnels, quelle que soit leur expérience. Ici, on vous juge sur ce que vous faites, pas sur les années.",
+      steps: [
+        {
+          num: "01",
+          title: "Vetting Technique",
+          desc: "Un défi technique concret, calibré sur votre domaine. Nous cherchons la qualité d'exécution, pas l'expérience sur un CV.",
+        },
+        {
+          num: "02",
+          title: "Culture de l'Impact",
+          desc: "Un entretien pour valider votre vision, votre agilité et votre alignement avec la mission de Lianet.",
+        },
+        {
+          num: "03",
+          title: "Lianet Certification",
+          desc: "Les profils validés rejoignent nos Squads avec l'accès complet à l'écosystème de projets et notre réseau de clients.",
+        },
+      ],
+    },
+    tracks: {
+      expert: {
+        title: "Le Collectif Stratégique",
+        description: "Une rampe de lancement pour le génie africain. Rejoignez une communauté où votre talent est respecté, protégé et propulsé — qu'il soit chevronné ou en pleine ascension.",
+        benefits: [
+          { title: "Missions d'Envergure", desc: "Accédez à des projets porteurs de sens pour les entreprises leaders du continent." },
+          { title: "Cadre Sécurisé & Éthique", desc: "Accompagnement transparent, paiements garantis et respect de votre autonomie." },
+          { title: "Communauté & Montée en Compétence", desc: "Apprenez des meilleurs et faites grandir votre impact collectif." },
+        ],
+        cta: "Rejoindre la Squad",
+        ctaSub: "SÉLECTION RIGOUREUSE",
+      },
+      team: {
+        title: "Les Bâtisseurs Internes",
+        description: "La tranquillité d'esprit par l'excellence humaine. Rejoignez le moteur de Lianet et participez à construire des solutions durables — des experts sélectionnés un par un pour relever les défis les plus complexes d'Afrique.",
+        benefits: [
+          { title: "Vision Long Terme", desc: "Construire des actifs durables pour le continent digital africain." },
+          { title: "Culture de l'Ownership", desc: "Agilité, initiative et responsabilité totale sur votre domaine." },
+          { title: "Croissance Accélérée", desc: "Évoluez dans un environnement ultra-stimulant avec des pairs d'exception." },
+        ],
+        cta: "Nous Rejoindre",
+        ctaSub: "PROFIL AMBITIEUX UNIQUEMENT",
+      },
+    },
+    drawer: {
+      title: "Votre Candidature",
+      subtitle: "Nous cherchons l'excellence brute. Votre parcours est votre signature.",
+      dropZone: "Glissez votre CV ici",
+      dropHint: "Format PDF ou DOCX. Tolérance zéro pour les CV standardisés.",
+      cta: "Soumettre ma Candidature",
+      successTitle: "Candidature reçue.",
+      successDesc: "Notre équipe revient vers vous sous 48h.",
+      encryption: "Chiffrement Lianet Standard · Vos données sont protégées",
+    },
+  },
 } as const;
 
 const en = {
@@ -293,7 +401,7 @@ const en = {
   },
   navigation: {
     solutions: "Solutions",
-    experts: "Experts",
+    network: "Network",
     about: "About",
     contact: "Contact",
     search: "Search",
@@ -541,8 +649,6 @@ const en = {
     },
     resources: {
       insights: "Blog & Insights",
-      careers: "Careers",
-      careersSuffix: "(Join the Liane)",
       caseStudies: "Case Studies",
       caseStudiesSuffix: "(Success Stories)",
     },
@@ -559,6 +665,116 @@ const en = {
     langSwitchFr: "Switch to French",
     langSwitchEn: "English language active",
     langActiveEn: "English language active",
+  },
+  network: {
+    hero: {
+      eyebrow: "JOIN THE SQUADS",
+      title: "Africa's Digital Elite\nRises Here.",
+      pitch: "Lianet is not a platform, it's a sanctuary for exceptional talent in Senegal and Africa. We connect the top 3% of experts to the most ambitious projects on the continent.",
+      subpitch: "Junior or seasoned — at Lianet, only your skills and results open doors.",
+      stats: [
+        { value: "3%", label: "of candidates are selected" },
+        { value: "40+", label: "impact projects delivered" },
+        { value: "5 countries", label: "of active presence" },
+      ],
+    },
+    selector: {
+      title: "What kind of builder are you?",
+      expert: {
+        label: "Freelance Expert",
+        tagline: "Premium missions. Total freedom.",
+      },
+      team: {
+        label: "Internal Builder",
+        tagline: "Build Lianet from the inside.",
+      },
+    },
+    poles: {
+      title: "Our Poles of Force",
+      description: "Four verticals of excellence to propel African ambition.",
+      items: [
+        {
+          id: "software",
+          label: "Software Engineering",
+          description: "Full-stack architects, Mobile experts (iOS/Android), DevOps & Cloud Engineers.",
+          tag: "Technical",
+        },
+        {
+          id: "creative",
+          label: "Creative Design",
+          description: "UI/UX Product Designers, Brand Strategists, Infographers & Motion Designers.",
+          tag: "Creative",
+        },
+        {
+          id: "growth",
+          label: "Digital Growth",
+          description: "Strategic Community Managers, SEO/Ads specialists, Content Creators & Copywriters.",
+          tag: "Growth",
+        },
+        {
+          id: "intelligence",
+          label: "Data & Intelligence",
+          description: "Data analysts, AI/ML specialists, Digital transformation consultants.",
+          tag: "Strategy",
+        },
+      ],
+    },
+    protocol: {
+      eyebrow: "THE EXCELLENCE PROTOCOL",
+      title: "3 steps that guarantee the elite.",
+      description: "Our selection process is designed to identify exceptional talent, regardless of experience. Here, you're judged on what you do, not how many years you have.",
+      steps: [
+        {
+          num: "01",
+          title: "Technical Vetting",
+          desc: "A concrete technical challenge, calibrated to your field. We look for quality of execution, not years on a resume.",
+        },
+        {
+          num: "02",
+          title: "Culture of Impact",
+          desc: "An interview to validate your vision, agility, and alignment with Lianet's mission.",
+        },
+        {
+          num: "03",
+          title: "Lianet Certification",
+          desc: "Validated profiles join our Squads with full access to the project ecosystem and our client network.",
+        },
+      ],
+    },
+    tracks: {
+      expert: {
+        title: "The Strategic Collective",
+        description: "Join a pool of excellence. Work on critical missions for Africa's leading companies and institutions. Freelance or inexperienced — here, your skills speak for you.",
+        benefits: [
+          { title: "Premium Missions", desc: "Access projects that have meaning and value." },
+          { title: "Freedom & Autonomy", desc: "You choose your missions. You manage your time." },
+          { title: "Community & Growth", desc: "Learn from the best and grow your expertise." },
+        ],
+        cta: "Join the Squad",
+        ctaSub: "RIGOROUS SELECTION",
+      },
+      team: {
+        title: "The Lianet Core Team",
+        description: "Join the engine of Lianet. Work on our own products, strategy, and expansion. Open to ambitious talent who want to build something that lasts.",
+        benefits: [
+          { title: "Long-Term Vision", desc: "Build durable assets for digital Africa." },
+          { title: "Culture of Ownership", desc: "Agility, initiative, and total responsibility for your domain." },
+          { title: "Accelerated Growth", desc: "Evolve in an ultra-stimulating environment with exceptional peers." },
+        ],
+        cta: "Join Us",
+        ctaSub: "AMBITIOUS PROFILES ONLY",
+      },
+    },
+    drawer: {
+      title: "Your Application",
+      subtitle: "We look for raw excellence. Your journey is your signature.",
+      dropZone: "Drop your CV here",
+      dropHint: "PDF or DOCX format. Zero tolerance for generic resumes.",
+      cta: "Submit my Application",
+      successTitle: "Application received.",
+      successDesc: "Our team will get back to you within 48h.",
+      encryption: "Lianet Encryption Standard · Your data is protected",
+    },
   },
 } as const;
 
