@@ -4,8 +4,9 @@ import { useState, useRef } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { useI18n } from "@/lib/useI18n";
 import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 import { FilmGrain, FooterSection } from "@/components/sections";
-import { Magnetic } from "@/components/ui/atoms";
+import { Magnetic, ScrollZone } from "@/components/ui/atoms";
 import EliteSideDrawer from "@/components/ui/molecules/EliteSideDrawer";
 
 // ─── ICON MAP ───────────────────────────────────────────────────────────────
@@ -47,36 +48,43 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
     return (
         <section
             ref={ref}
-            className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-20 pb-24 sm:px-10 lg:px-16 overflow-hidden"
+            className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-32 pb-24 sm:px-10 lg:px-14 lg:pt-48 overflow-hidden"
         >
             {/* Gradient Orbs — desktop only for mobile cleanliness */}
             <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.06, 0.12, 0.06] }} transition={{ duration: 8, repeat: Infinity }} className="hidden lg:block absolute -top-56 -right-56 w-[700px] h-[700px] rounded-full bg-[#40B4A6] pointer-events-none blur-[120px]" />
             <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.04, 0.08, 0.04] }} transition={{ duration: 10, delay: 2, repeat: Infinity }} className="hidden lg:block absolute bottom-0 -left-40 w-[500px] h-[500px] rounded-full bg-[#1B365D] pointer-events-none blur-[100px]" />
 
-            <motion.div style={{ y, opacity }} className="relative z-10 mx-auto max-w-[1400px] w-full">
+            <motion.div style={{ y, opacity }} className="relative z-10 mx-auto max-w-[1600px] w-full">
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-                    className="font-nunito text-[11px] sm:text-[13px] font-black uppercase tracking-[0.45em] text-[#40B4A6] mb-8 text-center lg:text-left"
+                    initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+                    className="font-nunito text-[11px] font-bold uppercase tracking-[0.3em] text-[#1B365D]/60 lg:text-[12px]"
                 >
                     {t("network.hero.eyebrow")}
                 </motion.p>
 
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-nunito font-black text-[clamp(3rem,10vw,7.5rem)] leading-[0.96] tracking-[-0.04em] text-[#1B365D] text-center lg:text-left whitespace-pre-line"
+                    className="mt-8 max-w-4xl font-nunito text-[clamp(2.5rem,8vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-[#1B365D] text-left"
                 >
                     {t("network.hero.title")}
                 </motion.h1>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+                    className="mt-4 font-nunito text-[clamp(1.2rem,3vw,1.8rem)] font-bold text-[#1B365D]/60 text-left"
+                >
+                    {t("network.hero.subtitle")}
+                </motion.p>
 
                 <div className="mt-10 lg:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
                         className="space-y-6"
                     >
-                        <p className="font-lato font-light text-[18px] sm:text-[21px] lg:text-[24px] leading-relaxed text-[#1B365D]/80 text-center lg:text-left">
+                        <p className="max-w-2xl font-lato text-[18px] leading-relaxed text-[#1B365D]/75 lg:text-[22px] lg:leading-relaxed text-left">
                             {t("network.hero.pitch")}
                         </p>
-                        <p className="font-nunito font-bold text-sm uppercase tracking-widest text-[#40B4A6] text-center lg:text-left">
+                        <p className="font-nunito font-bold text-sm uppercase tracking-widest text-[#40B4A6] text-left">
                             → {t("network.hero.subpitch")}
                         </p>
                     </motion.div>
@@ -90,13 +98,13 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
                             <div className="w-8 h-8 rounded-full bg-[#40B4A6]/15 flex items-center justify-center flex-shrink-0">
                                 <svg className="w-4 h-4 text-[#40B4A6]" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                             </div>
-                            <p className="font-nunito font-black text-xs uppercase tracking-widest text-[#40B4A6]">Curation Manuelle</p>
+                            <p className="font-nunito font-black text-xs uppercase tracking-widest text-[#40B4A6]">{t("network.hero.curation.title")}</p>
                         </div>
                         <p className="font-lato font-light text-[15px] text-[#1B365D]/75 leading-relaxed">
-                            Chaque talent est validé individuellement. Pas d&apos;algorithmes froids — une sélection humaine pour des synergies réelles.
+                            {t("network.hero.curation.desc")}
                         </p>
                         <div className="pt-2 border-t border-[#1B365D]/5">
-                            <p className="font-nunito font-black text-xs uppercase tracking-widest text-[#1B365D]/40">Home of African Digital Talents</p>
+                            <p className="font-nunito font-black text-xs uppercase tracking-widest text-[#1B365D]/40">{t("network.hero.curation.signature")}</p>
                         </div>
                     </motion.div>
                 </div>
@@ -104,14 +112,14 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
                 {/* Dual CTA Below */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-                    className="mt-16 flex flex-col items-center gap-3 justify-center lg:items-start"
+                    className="mt-16 flex flex-col items-center gap-4 justify-center lg:items-start"
                 >
                     <Magnetic strength={30}>
                         <button
                             onClick={() => onSelectTrack("expert")}
-                            className="group relative flex items-center gap-4 rounded-full bg-[#1B365D] px-8 py-5 text-white text-sm font-black uppercase tracking-[0.2em] shadow-2xl shadow-[#1B365D]/25 hover:bg-[#0F2440] transition-all duration-500 overflow-hidden"
+                            className="group relative w-full sm:w-auto flex items-center justify-center gap-4 rounded-full bg-[#1B365D] px-8 py-4 text-white text-sm font-bold uppercase tracking-[0.2em] shadow-xl shadow-[#1B365D]/20 hover:bg-[#0F2440] transition-all duration-500 overflow-hidden"
                         >
-                            <span className="relative z-10">Rejoindre la Squad</span>
+                            <span className="relative z-10">{t("network.tracks.expert.cta")}</span>
                             <span className="relative z-10 text-[#40B4A6] text-lg">→</span>
                             {/* Shine */}
                             <motion.div
@@ -121,18 +129,68 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
                             />
                         </button>
                     </Magnetic>
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#40B4A6] text-center lg:text-left">
-                        ✦ SÉLECTION RIGOUREUSE
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#40B4A6]/70 text-center lg:text-left">
+                        ✦ {t("network.tracks.expert.ctaSub")}
                     </p>
                 </motion.div>
             </motion.div>
 
-            {/* Scroll indicator */}
+            {/* Scroll indicator - Bottom Center */}
+            <ScrollZone targetSectionId="poles" />
+
+            {/* Desktop Scroll Indicator (Subtle animated line) */}
             <motion.div
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+                className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2"
             >
-                <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="w-px h-10 bg-gradient-to-b from-[#40B4A6] to-transparent" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1B365D]/30 mb-2">{t("network.hero.scrollLabel")}</span>
+                <motion.div
+                    animate={{ y: [0, 8, 0], opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-px h-12 bg-gradient-to-b from-[#40B4A6] to-transparent"
+                />
+            </motion.div>
+
+            {/* Mobile Scroll Indicator (Three animated chevrons like Hero) */}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="lg:hidden absolute bottom-10 left-1/2 -translate-x-1/2"
+            >
+                <motion.button
+                    type="button"
+                    onClick={() => document.getElementById("poles")?.scrollIntoView({ behavior: "smooth" })}
+                    whileTap={{ scale: 0.94 }}
+                    className="inline-flex flex-col items-center justify-center p-1 text-[#1B365D]/40"
+                    aria-label="Scroll to discover"
+                >
+                    <span className="relative flex flex-col items-center leading-none">
+                        <motion.span
+                            className="-mb-1 block"
+                            animate={{ y: [-2, 1, -2], opacity: [0.35, 0.95, 0.35] }}
+                            transition={{ duration: 1.35, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <ChevronDown className="h-5 w-5" />
+                        </motion.span>
+                        <motion.span
+                            className="-mb-1 block"
+                            animate={{ y: [-1, 2, -1], opacity: [0.35, 1, 0.35] }}
+                            transition={{ duration: 1.35, delay: 0.14, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <ChevronDown className="h-5 w-5" />
+                        </motion.span>
+                        <motion.span
+                            className="block"
+                            animate={{ y: [0, 3, 0], opacity: [0.35, 1, 0.35] }}
+                            transition={{ duration: 1.35, delay: 0.28, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <ChevronDown className="h-5 w-5" />
+                        </motion.span>
+                    </span>
+                </motion.button>
             </motion.div>
         </section>
     );
@@ -147,36 +205,34 @@ const polesData = [
 ];
 
 function PolesDeForce() {
-    const { t } = useI18n();
+    const { t, tArray } = useI18n();
     const ref = useRef<HTMLDivElement>(null);
     const inView = useInView(ref, { once: true, margin: "-100px" });
 
-    const frPoles = [
-        { id: "software", label: "Software Engineering", description: "Architectes Full-stack & Mobile, ingénieurs DevOps & Cloud. Des bâtisseurs de produits robustes et scalables.", tag: "Technique" },
-        { id: "creative", label: "Creative Design", description: "Product Designers UI/UX, Brand Strategists & Motion Designers. L'identité visuelle au service de l'impact.", tag: "Créatif" },
-        { id: "growth", label: "Digital Growth", description: "Experts SEO/Ads, Content Creators & Community Managers stratégiques. La croissance comme discipline.", tag: "Croissance" },
-        { id: "intelligence", label: "Data & Intelligence", description: "Data Analysts, Spécialistes IA/ML & Consultants en transformation. La donnée au cœur de chaque décision.", tag: "Stratégie" },
-    ];
+    const items = tArray("network.poles.items");
 
     return (
-        <section ref={ref} className="relative px-6 py-28 sm:px-10 lg:px-16 lg:py-36">
+        <section id="poles" ref={ref} className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-32">
             <div className="mx-auto max-w-[1400px]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-20 lg:mb-28"
+                    className="text-center mb-16 lg:mb-24"
                 >
-                    <p className="font-nunito text-[11px] font-black uppercase tracking-[0.4em] text-[#40B4A6] mb-6">
+                    <p className="font-nunito text-[12px] font-bold uppercase tracking-[0.2em] text-[#40B4A6] mb-6">
                         {t("network.poles.title")}
                     </p>
-                    <h2 className="font-nunito font-black text-[clamp(2.4rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.03em] text-[#1B365D]">
+                    <h2 className="font-nunito font-black text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] tracking-[-0.03em] text-[#1B365D]">
                         {t("network.poles.description")}
                     </h2>
+                    <p className="mt-6 font-lato font-light text-lg text-[#1B365D]/60 max-w-2xl mx-auto leading-relaxed">
+                        {t("network.poles.subtitle")}
+                    </p>
                 </motion.div>
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {frPoles.map((pole, i) => {
+                    {items.map((pole: any, i: number) => {
                         const meta = polesData[i];
                         return (
                             <motion.div
@@ -224,18 +280,14 @@ function PolesDeForce() {
 
 // ─── PROTOCOL D'EXCELLENCE ───────────────────────────────────────────────────
 function ExcellenceProtocol() {
-    const { t } = useI18n();
+    const { t, tArray } = useI18n();
     const ref = useRef<HTMLDivElement>(null);
     const inView = useInView(ref, { once: true, margin: "-80px" });
 
-    const frSteps = [
-        { num: "01", title: "Évaluation Humaine", desc: "Un défi concret calibré sur votre domaine. Pas d'algorithmes froids — un regard expert pour valider la qualité réelle de votre exécution." },
-        { num: "02", title: "Alignement & Culture", desc: "Un entretien pour valider votre vision, votre éthique professionnelle et votre alignement avec les valeurs d'impact de Lianet." },
-        { num: "03", title: "Intégration Squad", desc: "Bienvenue dans le réseau. Accès complet aux projets d'envergure, accompagnement transparent et garantie d'un environnement sécurisé." },
-    ];
+    const steps = tArray("network.protocol.steps");
 
     return (
-        <section className="relative bg-[#8FD6CC] px-6 py-32 sm:px-10 lg:px-16 lg:py-48 overflow-hidden">
+        <section className="relative bg-[#8FD6CC] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 overflow-hidden">
             <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(27,54,93,0.4) 1px, transparent 0)", backgroundSize: "32px 32px" }} />
             <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.08, 0.16, 0.08] }} transition={{ duration: 12, repeat: Infinity }} className="absolute -top-40 right-0 w-[600px] h-[600px] rounded-full bg-white pointer-events-none blur-[140px]" />
 
@@ -244,12 +296,12 @@ function ExcellenceProtocol() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-20 lg:mb-28"
+                    className="text-center mb-16 lg:mb-24"
                 >
-                    <p className="font-nunito text-[11px] font-black uppercase tracking-[0.4em] text-[#1B365D]/75 mb-6">
+                    <p className="font-nunito text-[12px] font-bold uppercase tracking-[0.2em] text-[#1B365D]/70 mb-6">
                         {t("network.protocol.eyebrow")}
                     </p>
-                    <h2 className="font-nunito font-black text-[clamp(2.4rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.03em] text-[#1B365D]">
+                    <h2 className="font-nunito font-black text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] tracking-[-0.03em] text-[#1B365D]">
                         {t("network.protocol.title")}
                     </h2>
                     <p className="mt-6 font-lato font-light text-lg text-[#1B365D]/70 max-w-2xl mx-auto leading-relaxed">
@@ -258,7 +310,7 @@ function ExcellenceProtocol() {
                 </motion.div>
 
                 <div className="grid lg:grid-cols-3 gap-8">
-                    {frSteps.map((step, i) => (
+                    {steps.map((step: any, i: number) => (
                         <motion.div
                             key={step.num}
                             initial={{ opacity: 0, y: 40 }}
@@ -322,7 +374,7 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
     const current = data[active];
 
     return (
-        <section ref={ref} className="relative px-6 py-32 sm:px-10 lg:px-16 lg:py-48 bg-[#F8FAFC]">
+        <section ref={ref} className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-32 bg-[#F8FAFC]">
             <div className="mx-auto max-w-[1400px]">
                 {/* Section label */}
                 <motion.div
@@ -330,9 +382,9 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     className="text-center mb-16"
                 >
-                    <p className="font-nunito font-black text-[11px] uppercase tracking-[0.4em] text-[#40B4A6] mb-4">{t("network.selector.title")}</p>
+                    <p className="font-nunito font-bold text-[12px] uppercase tracking-[0.2em] text-[#40B4A6] mb-4">{t("network.selector.eyebrow")}</p>
                     <h2 className="font-nunito font-black text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] text-[#1B365D]">
-                        Choisissez votre voie
+                        {t("network.selector.title")}
                     </h2>
                 </motion.div>
 
@@ -353,7 +405,7 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                                 {active === track && (
                                     <motion.div layoutId="track-bg" className="absolute inset-0 bg-[#1B365D] rounded-full" transition={{ type: "spring", bounce: 0.2, duration: 0.5 }} />
                                 )}
-                                <span className="relative z-10 font-nunito font-black text-sm">
+                                <span className="relative z-10 font-nunito font-bold text-sm">
                                     {track === "expert" ? t("network.selector.expert.label") : t("network.selector.team.label")}
                                 </span>
                             </button>
@@ -373,7 +425,7 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                     >
                         <div className="space-y-8">
                             <div className="space-y-3">
-                                <h3 className="font-nunito font-black text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] text-[#1B365D] leading-tight">
+                                <h3 className="font-nunito font-black text-[clamp(2rem,4vw,3rem)] tracking-[-0.03em] text-[#1B365D] leading-tight">
                                     {current.title}
                                 </h3>
                                 {/* Teal accent line under active track title */}
@@ -386,10 +438,10 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                                 <Magnetic strength={25}>
                                     <button
                                         onClick={() => onApply(active)}
-                                        className="group relative flex flex-col items-center gap-1 rounded-full bg-[#1B365D] px-10 py-5 text-white overflow-hidden hover:bg-[#0F2440] transition-colors duration-500 shadow-2xl shadow-[#1B365D]/20"
+                                        className="group relative w-full sm:w-auto flex flex-col items-center justify-center gap-1 rounded-full bg-[#1B365D] px-10 py-4 text-white overflow-hidden hover:bg-[#0F2440] transition-colors duration-500 shadow-xl shadow-[#1B365D]/20"
                                     >
-                                        <span className="font-nunito font-black text-[13px] uppercase tracking-[0.2em] relative z-10">{current.cta}</span>
-                                        <span className="text-[8px] font-black uppercase tracking-[0.35em] text-[#40B4A6] relative z-10">{current.ctaSub}</span>
+                                        <span className="font-nunito font-bold text-[13px] uppercase tracking-[0.2em] relative z-10">{current.cta}</span>
+                                        <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-[#40B4A6] relative z-10">{current.ctaSub}</span>
                                         {/* shine */}
                                         <motion.div animate={{ x: ["-150%", "150%"] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 5, ease: "linear" }} className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12" />
                                     </button>
