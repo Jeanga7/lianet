@@ -48,11 +48,27 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
     return (
         <section
             ref={ref}
-            className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-32 pb-24 sm:px-10 lg:px-14 lg:pt-48 overflow-hidden"
+            className="relative min-h-[100svh] flex flex-col justify-center px-6 pt-32 pb-24 sm:px-10 lg:px-14 lg:pt-48 overflow-hidden bg-[#F8FAFC]"
         >
-            {/* Gradient Orbs — desktop only for mobile cleanliness */}
-            <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.06, 0.12, 0.06] }} transition={{ duration: 8, repeat: Infinity }} className="hidden lg:block absolute -top-56 -right-56 w-[700px] h-[700px] rounded-full bg-[#40B4A6] pointer-events-none blur-[120px]" />
-            <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.04, 0.08, 0.04] }} transition={{ duration: 10, delay: 2, repeat: Infinity }} className="hidden lg:block absolute bottom-0 -left-40 w-[500px] h-[500px] rounded-full bg-[#1B365D] pointer-events-none blur-[100px]" />
+            {/* Background Image with Parallax & Light Overlay */}
+            <motion.div
+                className="absolute inset-0 z-0"
+                style={{
+                    y: useTransform(scrollYProgress, [0, 1], ["0%", "15%"]),
+                    scale: 1.05
+                }}
+            >
+                <div
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
+                    style={{ backgroundImage: "url('/images/hero-bg-talent-light.png')" }}
+                />
+                {/* Soft Light Overlays for Depth and Cleanliness */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC]/60 via-transparent to-[#F8FAFC]/80" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#F8FAFC]/90 via-[#F8FAFC]/10 to-transparent lg:block hidden" />
+            </motion.div>
+
+            {/* Subtle Accent Orbs for Light Theme */}
+            <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.45, 0.3] }} transition={{ duration: 8, repeat: Infinity }} className="hidden lg:block absolute -top-56 -right-56 w-[700px] h-[700px] rounded-full bg-[#40B4A6]/5 pointer-events-none blur-[150px]" />
 
             <motion.div style={{ y, opacity }} className="relative z-10 mx-auto max-w-[1600px] w-full">
                 <motion.p
@@ -287,9 +303,9 @@ function ExcellenceProtocol() {
     const steps = tArray("network.protocol.steps");
 
     return (
-        <section className="relative bg-[#8FD6CC] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(27,54,93,0.4) 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-            <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.08, 0.16, 0.08] }} transition={{ duration: 12, repeat: Infinity }} className="absolute -top-40 right-0 w-[600px] h-[600px] rounded-full bg-white pointer-events-none blur-[140px]" />
+        <section className="relative bg-[#F8FAFC] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 overflow-hidden">
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(27,54,93,0.4) 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+            <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.04, 0.1, 0.04] }} transition={{ duration: 12, repeat: Infinity }} className="absolute -top-40 right-0 w-[600px] h-[600px] rounded-full bg-[#40B4A6]/10 pointer-events-none blur-[140px]" />
 
             <div ref={ref} className="relative z-10 mx-auto max-w-[1400px]">
                 <motion.div
@@ -316,7 +332,7 @@ function ExcellenceProtocol() {
                             initial={{ opacity: 0, y: 40 }}
                             animate={inView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.7, delay: i * 0.15 }}
-                            className="relative p-8 lg:p-10 rounded-3xl bg-white/70 border border-white backdrop-blur-xl hover:bg-white/90 hover:shadow-xl hover:shadow-[#1B365D]/8 transition-all duration-500 group"
+                            className="relative p-8 lg:p-10 rounded-3xl bg-white border border-[#1B365D]/5 shadow-sm hover:shadow-xl hover:shadow-[#1B365D]/5 transition-all duration-500 group"
                         >
                             {/* Top accent line */}
                             <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#1B365D]/15 to-transparent" />
@@ -374,7 +390,9 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
     const current = data[active];
 
     return (
-        <section ref={ref} className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-32 bg-[#F8FAFC]">
+        <section ref={ref} className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-32 bg-[#8FD6CC]">
+            <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(27,54,93,0.4) 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+            <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.08, 0.16, 0.08] }} transition={{ duration: 12, repeat: Infinity }} className="absolute -bottom-40 left-0 w-[600px] h-[600px] rounded-full bg-white pointer-events-none blur-[140px]" />
             <div className="mx-auto max-w-[1400px]">
                 {/* Section label */}
                 <motion.div
@@ -431,7 +449,7 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                                 {/* Teal accent line under active track title */}
                                 <motion.div layoutId="track-accent" className="w-12 h-1 rounded-full bg-[#40B4A6]" transition={{ type: "spring", bounce: 0.25, duration: 0.5 }} />
                             </div>
-                            <p className="font-lato font-light text-[17px] lg:text-[20px] text-[#1B365D]/70 leading-relaxed">
+                            <p className="font-lato font-light text-[17px] lg:text-[20px] text-[#1B365D]/80 leading-relaxed">
                                 {current.description}
                             </p>
                             <div className="pt-4">

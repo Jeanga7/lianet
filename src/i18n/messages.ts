@@ -355,7 +355,7 @@ const fr = {
     },
     tracks: {
       expert: {
-        title: "L'Expert Freelance (Le Commando)",
+        title: "L'Expert Freelance",
         description: "Un spécialiste de haut vol mobilisé sur des missions spécifiques.",
         benefits: [
           { title: "Liberté totale", desc: "Choisissez vos combats et gérez votre temps librement." },
@@ -366,7 +366,7 @@ const fr = {
         ctaSub: "SÉLECTIONNÉ POUR L'IMPACT",
       },
       team: {
-        title: "Le Bâtisseur Interne (L'Architecte)",
+        title: "Le Bâtisseur Interne",
         description: "Un partenaire stratégique qui construit l'infrastructure et l'écosystème de Lianet.",
         benefits: [
           { title: "Ownership de Projet", desc: "Devenez le propriétaire des produits et services que vous développez." },
@@ -743,7 +743,7 @@ const en = {
     },
     tracks: {
       expert: {
-        title: "The Independent Expert (The Commando)",
+        title: "The Independent Expert",
         description: "A high-flying specialist mobilized for specific missions.",
         benefits: [
           { title: "Total Freedom", desc: "Choose your battles and manage your own time freely." },
@@ -754,7 +754,7 @@ const en = {
         ctaSub: "SELECTED FOR IMPACT",
       },
       team: {
-        title: "The Internal Builder (The Architect)",
+        title: "The Internal Builder",
         description: "A strategic partner building Lianet's infrastructure and ecosystem.",
         benefits: [
           { title: "Project Ownership", desc: "Become the owner of the products and services you develop." },
