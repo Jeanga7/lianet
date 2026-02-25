@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useMotionTemplate } from "framer-motion";
 import { useI18n } from "@/lib/useI18n";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -67,34 +67,81 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
                 <div className="absolute inset-0 bg-gradient-to-r from-[#F8FAFC]/90 via-[#F8FAFC]/10 to-transparent lg:block hidden" />
             </motion.div>
 
-            {/* Subtle Accent Orbs for Light Theme */}
-            <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.45, 0.3] }} transition={{ duration: 8, repeat: Infinity }} className="hidden lg:block absolute -top-56 -right-56 w-[700px] h-[700px] rounded-full bg-[#40B4A6]/5 pointer-events-none blur-[150px]" />
+            {/* Premium Floating Shapes (Glassmorphic) */}
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                <motion.div
+                    animate={{
+                        x: [0, 40, 0],
+                        y: [0, -30, 0],
+                        scale: [1, 1.1, 1],
+                        rotate: [0, 45, 0]
+                    }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-[10%] -right-[10%] w-[500px] h-[500px] rounded-full bg-[#40B4A6]/10 blur-[120px]"
+                />
+                <motion.div
+                    animate={{
+                        x: [0, -50, 0],
+                        y: [0, 60, 0],
+                        scale: [1, 1.2, 1],
+                        rotate: [0, -30, 0]
+                    }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute -bottom-[20%] -left-[10%] w-[600px] h-[600px] rounded-full bg-[#1B365D]/5 blur-[120px]"
+                />
+            </div>
 
             <motion.div style={{ y, opacity }} className="relative z-10 mx-auto max-w-[1600px] w-full">
                 <motion.p
-                    initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.1 }}
                     className="font-nunito text-[11px] font-bold uppercase tracking-[0.3em] text-[#1B365D]/60 lg:text-[12px]"
                 >
                     {t("network.hero.eyebrow")}
                 </motion.p>
 
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="mt-8 max-w-4xl font-nunito text-[clamp(2.5rem,8vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-[#1B365D] text-left"
-                >
-                    {t("network.hero.title")}
-                </motion.h1>
+                <h1 className="mt-8 max-w-4xl font-nunito text-[clamp(2.5rem,8vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-[#1B365D] text-left flex flex-wrap gap-x-[0.3em]">
+                    {t("network.hero.title").split(" ").map((word, i) => (
+                        <motion.span
+                            key={i}
+                            className="inline-block"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.4 + i * 0.1,
+                                ease: [0.21, 1.11, 0.81, 0.99]
+                            }}
+                        >
+                            {word}
+                        </motion.span>
+                    ))}
+                </h1>
 
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
-                    className="mt-4 font-nunito text-[clamp(1.2rem,3vw,1.8rem)] font-bold text-[#1B365D]/60 text-left"
-                >
-                    {t("network.hero.subtitle")}
-                </motion.p>
+                <div className="mt-4 flex flex-wrap gap-x-[0.3em] text-left">
+                    {t("network.hero.subtitle").split(" ").map((word, i) => (
+                        <motion.span
+                            key={i}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.6,
+                                delay: 1.2 + i * 0.08,
+                                ease: "easeOut"
+                            }}
+                            className="font-nunito text-[clamp(1.2rem,3vw,1.8rem)] font-bold text-[#1B365D]/60"
+                        >
+                            {word}
+                        </motion.span>
+                    ))}
+                </div>
 
                 <div className="mt-10 lg:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 1.5 }}
                         className="space-y-6"
                     >
                         <p className="max-w-2xl font-lato text-[18px] leading-relaxed text-[#1B365D]/75 lg:text-[22px] lg:leading-relaxed text-left">
@@ -107,7 +154,9 @@ function SquadsHero({ onSelectTrack }: { onSelectTrack: (track: "expert" | "team
 
                     {/* Curation Trust Card — replaces unverifiable stats */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}
+                        initial={{ opacity: 0, x: 20, scale: 0.98 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 1.6 }}
                         className="rounded-3xl bg-white/70 border border-[#1B365D]/8 shadow-sm p-8 space-y-4 backdrop-blur-sm"
                     >
                         <div className="flex items-center gap-3">
@@ -220,6 +269,71 @@ const polesData = [
     { id: "intelligence", tagColor: "bg-violet-50 text-violet-600" },
 ];
 
+function PoleCard({ pole, meta, i, inView }: { pole: any; meta: any; i: number; inView: boolean }) {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    }
+
+    return (
+        <motion.div
+            onMouseMove={handleMouseMove}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: i * 0.12, ease: [0.21, 1.11, 0.81, 0.99] }}
+            className="group relative rounded-3xl p-8 border border-[#1B365D]/5 bg-white hover:shadow-2xl hover:shadow-[#1B365D]/5 hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer"
+        >
+            {/* Interactive Spotlight Gradient */}
+            <motion.div
+                className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+                style={{
+                    background: useMotionTemplate`
+                        radial-gradient(
+                            400px circle at ${mouseX}px ${mouseY}px,
+                            rgba(64, 180, 166, 0.12),
+                            transparent 80%
+                        )
+                    `,
+                }}
+            />
+
+            {/* Light Sweep on Hover */}
+            <motion.div
+                initial={{ x: "-120%", opacity: 0 }}
+                whileHover={{ x: "120%", opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -skew-x-12 pointer-events-none"
+            />
+
+            {/* Ambient top gradient */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#40B4A6]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-3xl" />
+
+            <Magnetic strength={20}>
+                <div className="mb-8 w-12 h-12 flex items-center justify-center rounded-2xl bg-[#1B365D]/5 group-hover:bg-[#40B4A6]/10 text-[#1B365D]/40 group-hover:text-[#40B4A6] transition-all duration-500">
+                    <div className="w-7 h-7">
+                        <PoleIcon id={pole.id} />
+                    </div>
+                </div>
+            </Magnetic>
+
+            <span className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest mb-4", meta.tagColor)}>
+                {pole.tag}
+            </span>
+
+            <h3 className="font-nunito font-black text-lg text-[#1B365D] mb-3 group-hover:text-[#1B365D] leading-tight">
+                {pole.label}
+            </h3>
+            <p className="font-lato font-light text-sm text-[#1B365D]/60 leading-relaxed">
+                {pole.description}
+            </p>
+        </motion.div>
+    );
+}
+
 function PolesDeForce() {
     const { t, tArray } = useI18n();
     const ref = useRef<HTMLDivElement>(null);
@@ -247,48 +361,26 @@ function PolesDeForce() {
                     </p>
                 </motion.div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {items.map((pole: any, i: number) => {
-                        const meta = polesData[i];
-                        return (
-                            <motion.div
-                                key={pole.id}
-                                initial={{ opacity: 0, y: 40 }}
-                                animate={inView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.7, delay: i * 0.12 }}
-                                className="group relative rounded-3xl p-8 border border-[#1B365D]/5 bg-white hover:shadow-2xl hover:shadow-[#1B365D]/5 hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer"
-                            >
-                                {/* Light Sweep on Hover */}
-                                <motion.div
-                                    initial={{ x: "-120%", opacity: 0 }}
-                                    whileHover={{ x: "120%", opacity: 1 }}
-                                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -skew-x-12 pointer-events-none"
-                                />
-
-                                {/* Ambient top gradient */}
-                                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#40B4A6]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-3xl" />
-
-                                <div className="mb-8 w-12 h-12 flex items-center justify-center rounded-2xl bg-[#1B365D]/5 group-hover:bg-[#40B4A6]/10 text-[#1B365D]/40 group-hover:text-[#40B4A6] transition-all duration-500">
-                                    <div className="w-7 h-7">
-                                        <PoleIcon id={pole.id} />
-                                    </div>
-                                </div>
-
-                                <span className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest mb-4", meta.tagColor)}>
-                                    {pole.tag}
-                                </span>
-
-                                <h3 className="font-nunito font-black text-lg text-[#1B365D] mb-3 group-hover:text-[#1B365D] leading-tight">
-                                    {pole.label}
-                                </h3>
-                                <p className="font-lato font-light text-sm text-[#1B365D]/60 leading-relaxed">
-                                    {pole.description}
-                                </p>
-                            </motion.div>
-                        );
-                    })}
-                </div>
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0 },
+                        show: {
+                            opacity: 1,
+                            transition: {
+                                staggerChildren: 0.1,
+                                delayChildren: 0.2
+                            }
+                        }
+                    }}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
+                >
+                    {items.map((pole: any, i: number) => (
+                        <PoleCard key={pole.id} pole={pole} meta={polesData[i]} i={i} inView={inView} />
+                    ))}
+                </motion.div>
             </div>
         </section>
     );
@@ -297,17 +389,56 @@ function PolesDeForce() {
 // ─── PROTOCOL D'EXCELLENCE ───────────────────────────────────────────────────
 function ExcellenceProtocol() {
     const { t, tArray } = useI18n();
-    const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, margin: "-80px" });
+    const sectionRef = useRef<HTMLElement>(null);
+    const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+    const { scrollYProgress: pathScroll } = useScroll({
+        target: sectionRef,
+        offset: ["start 80%", "end 20%"]
+    });
 
     const steps = tArray("network.protocol.steps");
 
     return (
-        <section className="relative bg-[#F8FAFC] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 overflow-hidden">
+        <section ref={sectionRef} className="relative bg-[#F8FAFC] px-6 py-24 sm:px-10 lg:px-16 lg:py-32 overflow-hidden">
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(27,54,93,0.4) 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-            <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.04, 0.1, 0.04] }} transition={{ duration: 12, repeat: Infinity }} className="absolute -top-40 right-0 w-[600px] h-[600px] rounded-full bg-[#40B4A6]/10 pointer-events-none blur-[140px]" />
 
-            <div ref={ref} className="relative z-10 mx-auto max-w-[1400px]">
+            {/* Autonomous Floating Background Orbs */}
+            <motion.div
+                animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.04, 0.08, 0.04],
+                    x: [0, 30, 0],
+                    y: [0, 20, 0]
+                }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-40 right-0 w-[600px] h-[600px] rounded-full bg-[#40B4A6]/10 pointer-events-none blur-[140px]"
+            />
+            <motion.div
+                animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.03, 0.06, 0.03],
+                    x: [0, -40, 0],
+                    y: [0, -30, 0]
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute -bottom-40 left-0 w-[500px] h-[500px] rounded-full bg-[#1B365D]/5 pointer-events-none blur-[120px]"
+            />
+
+            {/* Animated SVG Connector Thread (Desktop) */}
+            <div className="hidden lg:block absolute top-[65%] left-[15%] right-[15%] h-32 z-0 pointer-events-none">
+                <svg width="100%" height="100%" viewBox="0 0 1000 100" fill="none" preserveAspectRatio="none">
+                    <motion.path
+                        d="M0,50 C150,0 350,100 500,50 C650,0 850,100 1000,50"
+                        stroke="#40B4A6"
+                        strokeWidth="1.5"
+                        strokeDasharray="8 12"
+                        strokeLinecap="round"
+                        style={{ pathLength: pathScroll }}
+                    />
+                </svg>
+            </div>
+
+            <div className="relative z-10 mx-auto max-w-[1400px]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -325,13 +456,28 @@ function ExcellenceProtocol() {
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-3 gap-8">
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0 },
+                        show: {
+                            opacity: 1,
+                            transition: {
+                                staggerChildren: 0.2
+                            }
+                        }
+                    }}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid lg:grid-cols-3 gap-8"
+                >
                     {steps.map((step: any, i: number) => (
                         <motion.div
                             key={step.num}
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.7, delay: i * 0.15 }}
+                            variants={{
+                                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                                show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: [0.21, 1.11, 0.81, 0.99] } }
+                            }}
                             className="relative p-8 lg:p-10 rounded-3xl bg-white border border-[#1B365D]/5 shadow-sm hover:shadow-xl hover:shadow-[#1B365D]/5 transition-all duration-500 group"
                         >
                             {/* Top accent line */}
@@ -350,7 +496,7 @@ function ExcellenceProtocol() {
                             )}
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
@@ -390,9 +536,33 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
     const current = data[active];
 
     return (
-        <section ref={ref} className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-32 bg-[#8FD6CC]">
+        <section
+            ref={ref}
+            className="relative px-6 py-24 sm:px-10 lg:px-16 lg:py-32 bg-[#8FD6CC] overflow-hidden"
+        >
             <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(27,54,93,0.4) 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-            <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.08, 0.16, 0.08] }} transition={{ duration: 12, repeat: Infinity }} className="absolute -bottom-40 left-0 w-[600px] h-[600px] rounded-full bg-white pointer-events-none blur-[140px]" />
+
+            {/* Autonomous White Light Orbs */}
+            <motion.div
+                animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.08, 0.16, 0.08],
+                    x: [0, 40, 0],
+                    y: [0, -30, 0]
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-40 left-0 w-[600px] h-[600px] rounded-full bg-white pointer-events-none blur-[140px]"
+            />
+            <motion.div
+                animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.05, 0.1, 0.05],
+                    x: [0, -50, 0],
+                    y: [0, 40, 0]
+                }}
+                transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute -top-40 right-0 w-[500px] h-[500px] rounded-full bg-white pointer-events-none blur-[120px]"
+            />
             <div className="mx-auto max-w-[1400px]">
                 {/* Section label */}
                 <motion.div
@@ -400,7 +570,7 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     className="text-center mb-16"
                 >
-                    <p className="font-nunito font-bold text-[12px] uppercase tracking-[0.2em] text-[#40B4A6] mb-4">{t("network.selector.eyebrow")}</p>
+                    <p className="font-nunito font-bold text-[12px] uppercase tracking-[0.2em] text-[#1B365D] mb-4">{t("network.selector.eyebrow")}</p>
                     <h2 className="font-nunito font-black text-[clamp(2rem,5vw,3.5rem)] tracking-[-0.03em] text-[#1B365D]">
                         {t("network.selector.title")}
                     </h2>
@@ -418,12 +588,12 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                             <button
                                 key={track}
                                 onClick={() => setActive(track)}
-                                className={cn("relative flex-1 py-4 px-6 rounded-full transition-colors duration-300 outline-none", active === track ? "text-white" : "text-[#1B365D]/50 hover:text-[#1B365D]")}
+                                className={cn("relative flex-1 py-2.5 px-2 lg:py-4 lg:px-6 rounded-full transition-colors duration-300 outline-none", active === track ? "text-white" : "text-[#1B365D]/50 hover:text-[#1B365D]")}
                             >
                                 {active === track && (
                                     <motion.div layoutId="track-bg" className="absolute inset-0 bg-[#1B365D] rounded-full" transition={{ type: "spring", bounce: 0.2, duration: 0.5 }} />
                                 )}
-                                <span className="relative z-10 font-nunito font-bold text-sm">
+                                <span className="relative z-10 font-nunito font-bold text-[11px] lg:text-sm whitespace-nowrap">
                                     {track === "expert" ? t("network.selector.expert.label") : t("network.selector.team.label")}
                                 </span>
                             </button>
@@ -431,65 +601,142 @@ function TrackSection({ onApply }: { onApply: (track: "expert" | "team") => void
                     </div>
                 </motion.div>
 
-                {/* Morphing Content */}
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={active}
-                        initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, y: -10, filter: "blur(8px)" }}
-                        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                        className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
-                    >
-                        <div className="space-y-8">
-                            <div className="space-y-3">
-                                <h3 className="font-nunito font-black text-[clamp(2rem,4vw,3rem)] tracking-[-0.03em] text-[#1B365D] leading-tight">
-                                    {current.title}
-                                </h3>
-                                {/* Teal accent line under active track title */}
-                                <motion.div layoutId="track-accent" className="w-12 h-1 rounded-full bg-[#40B4A6]" transition={{ type: "spring", bounce: 0.25, duration: 0.5 }} />
-                            </div>
-                            <p className="font-lato font-light text-[17px] lg:text-[20px] text-[#1B365D]/80 leading-relaxed">
-                                {current.description}
-                            </p>
-                            <div className="pt-4">
-                                <Magnetic strength={25}>
-                                    <button
-                                        onClick={() => onApply(active)}
-                                        className="group relative w-full sm:w-auto flex flex-col items-center justify-center gap-1 rounded-full bg-[#1B365D] px-10 py-4 text-white overflow-hidden hover:bg-[#0F2440] transition-colors duration-500 shadow-xl shadow-[#1B365D]/20"
-                                    >
-                                        <span className="font-nunito font-bold text-[13px] uppercase tracking-[0.2em] relative z-10">{current.cta}</span>
-                                        <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-[#40B4A6] relative z-10">{current.ctaSub}</span>
-                                        {/* shine */}
-                                        <motion.div animate={{ x: ["-150%", "150%"] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 5, ease: "linear" }} className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12" />
-                                    </button>
-                                </Magnetic>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-4">
-                            {current.benefits.map((b, i) => (
+                {/* Dynamic Content Track */}
+                <div className="mx-auto max-w-[1200px]">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={active}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="grid lg:grid-cols-[1.2fr,1fr] gap-12 lg:gap-24 items-start"
+                        >
+                            {/* Text part */}
+                            <div className="space-y-10">
                                 <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, x: 20 }}
+                                    initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.08 }}
-                                    className="group flex gap-6 p-6 rounded-2xl bg-white border border-[#1B365D]/5 hover:border-[#40B4A6]/30 hover:shadow-lg hover:shadow-[#40B4A6]/5 transition-all duration-500"
+                                    transition={{ delay: 0.2 }}
                                 >
-                                    <div className="flex-shrink-0 w-10 h-10 rounded-full border border-[#1B365D]/10 flex items-center justify-center group-hover:bg-[#40B4A6] group-hover:border-[#40B4A6] transition-all duration-500">
-                                        <svg className="w-4 h-4 text-[#1B365D]/30 group-hover:text-white transition-colors duration-500" fill="none" viewBox="0 0 16 16" strokeWidth={2.5} stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l4 4 6-6" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h4 className="font-nunito font-black text-sm uppercase tracking-widest text-[#1B365D] mb-1">{b.title}</h4>
-                                        <p className="font-lato font-light text-sm text-[#1B365D]/55 leading-relaxed">{b.desc}</p>
-                                    </div>
+                                    <h3 className="font-nunito font-black text-[clamp(2rem,4vw,3.5rem)] text-[#1B365D] leading-[1.1] mb-8">
+                                        {current.title}
+                                    </h3>
+                                    <p className="font-lato font-light text-[17px] lg:text-[21px] text-[#1B365D]/80 leading-relaxed">
+                                        {current.description}
+                                    </p>
                                 </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+
+                                <div className="space-y-6">
+                                    <motion.div
+                                        variants={{
+                                            hidden: { opacity: 0 },
+                                            show: {
+                                                opacity: 1,
+                                                transition: {
+                                                    staggerChildren: 0.1,
+                                                    delayChildren: 0.3
+                                                }
+                                            }
+                                        }}
+                                        initial="hidden"
+                                        animate="show"
+                                        className="space-y-6"
+                                    >
+                                        {current.benefits.map((benefit, i) => (
+                                            <motion.div
+                                                key={benefit.title}
+                                                variants={{
+                                                    hidden: { opacity: 0, x: -20 },
+                                                    show: { opacity: 1, x: 0 }
+                                                }}
+                                                className="flex items-start gap-4 p-5 rounded-2xl bg-white/70 border border-white/50 shadow-sm"
+                                            >
+                                                <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-[#40B4A6]/10 flex items-center justify-center">
+                                                    <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-[#40B4A6]">
+                                                        <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-nunito font-bold text-[#1B365D] text-lg">{benefit.title}</h4>
+                                                    <p className="font-lato text-sm text-[#1B365D]/70">{benefit.desc}</p>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                </div>
+                            </div>
+
+                            {/* Elite CTA Card */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className="h-full"
+                            >
+                                <div className="group relative rounded-[40px] p-8 lg:p-12 bg-white/40 backdrop-blur-2xl border border-white/50 shadow-3xl shadow-[#1B365D]/10 overflow-hidden text-center h-full flex flex-col justify-center transition-all duration-500 hover:shadow-[#1B365D]/20">
+                                    {/* Rotating ambient gradient */}
+                                    <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                        className="absolute -inset-[100%] bg-gradient-to-tr from-[#40B4A6]/10 via-transparent to-[#1B365D]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
+                                    />
+
+                                    {/* Spotlight overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-[#40B4A6]/5 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                                    <div className="relative z-10">
+                                        <p className="font-nunito font-black text-[12px] uppercase tracking-[0.3em] text-[#40B4A6] mb-6 lg:mb-8">{current.ctaSub}</p>
+                                        <button
+                                            onClick={() => onApply(active)}
+                                            className="w-full group/btn relative inline-flex items-center justify-center px-8 py-4 lg:px-10 lg:py-6 bg-[#1B365D] rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.05] active:scale-95 shadow-xl shadow-[#1B365D]/20 hover:shadow-2xl hover:shadow-[#1B365D]/40"
+                                        >
+                                            {/* Button Gradient */}
+                                            <div className="absolute inset-0 bg-gradient-to-r from-[#40B4A6] to-[#1B365D] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+
+                                            {/* Rhythmic Shimmer Overlay */}
+                                            <motion.div
+                                                animate={{
+                                                    x: ["-100%", "200%"],
+                                                }}
+                                                transition={{
+                                                    duration: 3,
+                                                    repeat: Infinity,
+                                                    ease: "easeInOut",
+                                                    repeatDelay: 2
+                                                }}
+                                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 pointer-events-none"
+                                            />
+
+                                            <span className="relative z-10 font-nunito font-black text-white text-base lg:text-lg tracking-wide uppercase">
+                                                {current.cta}
+                                            </span>
+                                        </button>
+
+                                        {/* Activity Dots with enhanced ripple */}
+                                        <div className="mt-8 lg:mt-12 flex justify-center gap-3">
+                                            {[1, 2, 3].map((i) => (
+                                                <motion.div
+                                                    key={i}
+                                                    animate={{
+                                                        scale: [1, 1.5, 1],
+                                                        opacity: [0.3, 1, 0.3]
+                                                    }}
+                                                    transition={{
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        delay: i * 0.3
+                                                    }}
+                                                    className="w-1.5 h-1.5 rounded-full bg-[#1B365D]/30"
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
             </div>
         </section>
     );

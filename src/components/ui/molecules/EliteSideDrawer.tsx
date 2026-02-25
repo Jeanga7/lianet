@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Upload, FileCheck, Loader2 } from "lucide-react";
+import { X, Upload, FileCheck, Loader2, ChevronDown, Check } from "lucide-react";
 import { useI18n } from "@/lib/useI18n";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface EliteSideDrawerProps {
@@ -17,8 +17,85 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
     const [isDragging, setIsDragging] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [currentStatus, setCurrentStatus] = useState<"verifying" | "aligning" | "authorizing" | "">("");
     const [isSuccess, setIsSuccess] = useState(false);
+
+    // Dropdown State
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Prospect Info State
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        role: "fullstack",
+        otherRole: "",
+        social: ""
+    });
+
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Business Strategy Categories & Role Mapping
+    const roleGroups = [
+        {
+            id: "code",
+            label: t("network.drawer.roleGroups.code"),
+            roles: [
+                { id: "fullstack", label: t("network.drawer.roles.fullstack") },
+                { id: "mobile", label: t("network.drawer.roles.mobile") },
+                { id: "cloud", label: t("network.drawer.roles.cloud") }
+            ]
+        },
+        {
+            id: "design",
+            label: t("network.drawer.roleGroups.design"),
+            roles: [
+                { id: "product", label: t("network.drawer.roles.product") },
+                { id: "brand", label: t("network.drawer.roles.brand") },
+                { id: "motion", label: t("network.drawer.roles.motion") }
+            ]
+        },
+        {
+            id: "content",
+            label: t("network.drawer.roleGroups.content"),
+            roles: [
+                { id: "community", label: t("network.drawer.roles.community") },
+                { id: "copywriter", label: t("network.drawer.roles.copywriter") }
+            ]
+        },
+        {
+            id: "growth",
+            label: t("network.drawer.roleGroups.growth"),
+            roles: [
+                { id: "seo", label: t("network.drawer.roles.seo") },
+                { id: "growth", label: t("network.drawer.roles.growth") }
+            ]
+        },
+        {
+            id: "other",
+            label: t("network.drawer.roleGroups.other"),
+            roles: [
+                { id: "other", label: t("network.drawer.roles.other") }
+            ]
+        }
+    ];
+
+    // Helper to find current role label
+    const currentRoleLabel = roleGroups
+        .flatMap(g => g.roles)
+        .find(r => r.id === formData.role)?.label || "";
+
+    // Map specific role IDs to their pole broad category for placeholders
+    const getPoleFromRole = (roleId: string) => {
+        if (["fullstack", "mobile", "cloud"].includes(roleId)) return "code";
+        if (["product", "brand", "motion"].includes(roleId)) return "design";
+        if (["community", "copywriter"].includes(roleId)) return "content";
+        if (["seo", "growth"].includes(roleId)) return "growth";
+        return "other";
+    };
+
+    // FIXED: Dynamic Placeholder derivation using full i18n paths
+    const impactPlaceholder = t(`network.drawer.socialPlaceholder.${getPoleFromRole(formData.role)}` as any);
 
     const handleDragOver = (e: React.DragEvent) => { e.preventDefault(); setIsDragging(true); };
     const handleDragLeave = () => setIsDragging(false);
@@ -32,141 +109,330 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
         const f = e.target.files?.[0];
         if (f) setFile(f);
     };
-    const handleSubmit = async () => {
-        if (!file) return;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.name || !formData.email || !formData.social) return;
+
         setIsSubmitting(true);
-        await new Promise(r => setTimeout(r, 2200));
+
+        setCurrentStatus("verifying");
+        await new Promise(r => setTimeout(r, 1400));
+        setCurrentStatus("aligning");
+        await new Promise(r => setTimeout(r, 1400));
+        setCurrentStatus("authorizing");
+        await new Promise(r => setTimeout(r, 1200));
+
         setIsSubmitting(false);
         setIsSuccess(true);
+        setCurrentStatus("");
+
         setTimeout(() => {
             onClose();
-            setTimeout(() => { setFile(null); setIsSuccess(false); }, 600);
-        }, 2200);
+            setTimeout(() => {
+                setFile(null);
+                setIsSuccess(false);
+                setFormData({ name: "", email: "", role: "fullstack", otherRole: "", social: "" });
+            }, 600);
+        }, 4000);
     };
+
+    // Close dropdown on click outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const inputClasses = "w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 font-lato font-light text-[#1B365D] placeholder:text-[#1B365D]/25 focus:outline-none focus:border-[#40B4A6]/30 focus:bg-white/10 transition-all duration-500 shadow-sm backdrop-blur-sm";
+    const labelClasses = "font-nunito font-black text-[10px] uppercase tracking-[0.4em] text-[#1B365D]/40 ml-1";
 
     return (
         <AnimatePresence>
             {isOpen && (
                 <>
+                    <style dangerouslySetInnerHTML={{
+                        __html: `
+                        .elite-scrollbar {
+                            scrollbar-width: thin;
+                            scrollbar-color: rgba(64, 180, 166, 0.4) transparent;
+                        }
+                        .elite-scrollbar::-webkit-scrollbar {
+                            width: 6px;
+                        }
+                        .elite-scrollbar::-webkit-scrollbar-track {
+                            background: transparent;
+                        }
+                        .elite-scrollbar::-webkit-scrollbar-thumb {
+                            background: rgba(64, 180, 166, 0.4);
+                            border-radius: 10px;
+                        }
+                        .elite-scrollbar::-webkit-scrollbar-thumb:hover {
+                            background: rgba(64, 180, 166, 0.6);
+                        }
+                    `}} />
                     <motion.div
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 z-[100] bg-[#1B365D]/30 backdrop-blur-lg cursor-crosshair"
+                        className="fixed inset-0 z-[100] bg-[#1B365D]/30 backdrop-blur-2xl cursor-crosshair"
                     />
                     <motion.div
                         initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
-                        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed right-0 top-0 bottom-0 z-[101] w-full max-w-lg bg-[#F8FAFC] shadow-2xl flex flex-col overflow-hidden"
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed right-0 top-0 bottom-0 z-[101] w-full max-w-lg bg-[#F8FAFC] shadow-2xl flex flex-col backdrop-blur-3xl"
                     >
                         {/* Header */}
-                        <div className="px-8 py-8 border-b border-[#1B365D]/5 flex items-center justify-between">
+                        <div className="px-8 py-8 border-b border-[#1B365D]/5 flex items-center justify-between flex-shrink-0">
                             <div>
-                                <h3 className="font-nunito font-black text-2xl text-[#1B365D]">{t("network.drawer.title")}</h3>
-                                <p className="font-lato font-light text-sm text-[#1B365D]/50 mt-1">{t("network.drawer.subtitle")}</p>
+                                <h3 className="font-nunito font-black text-2xl text-[#1B365D] tracking-tight uppercase">{t("network.drawer.title")}</h3>
+                                <p className="font-lato font-light text-sm text-[#1B365D]/50 mt-1 max-w-[280px] leading-relaxed italic">{t("network.drawer.subtitle")}</p>
                             </div>
-                            <button onClick={onClose} className="p-2 rounded-full hover:bg-[#1B365D]/5 transition-colors">
-                                <X className="w-5 h-5 text-[#1B365D]/40" />
+                            <button onClick={onClose} className="p-2 rounded-full hover:bg-[#1B365D]/5 transition-colors group">
+                                <X className="w-5 h-5 text-[#1B365D]/30 group-hover:text-[#1B365D]/60" />
                             </button>
                         </div>
 
-                        {/* Position label from CTA */}
-                        <div className="px-8 pt-8">
-                            <p className="font-nunito font-black text-xs uppercase tracking-[0.3em] text-[#40B4A6]">{title}</p>
-                        </div>
-
-                        {/* Drop Zone */}
-                        <div className="flex-1 px-8 py-6 flex flex-col gap-6">
-                            <div
-                                onDragOver={handleDragOver}
-                                onDragLeave={handleDragLeave}
-                                onDrop={handleDrop}
-                                onClick={() => fileInputRef.current?.click()}
-                                className={cn(
-                                    "relative flex-1 rounded-[2rem] border-2 border-dashed flex flex-col items-center justify-center gap-4 transition-all duration-400 cursor-pointer overflow-hidden min-h-[280px]",
-                                    isDragging
-                                        ? "border-[#40B4A6] bg-[#40B4A6]/5 scale-[0.98]"
-                                        : file
-                                            ? "border-[#40B4A6] bg-[#40B4A6]/5"
-                                            : "border-[#1B365D]/10 bg-white hover:border-[#1B365D]/20"
-                                )}
-                            >
-                                <input
-                                    type="file"
-                                    className="hidden"
-                                    ref={fileInputRef}
-                                    onChange={handleFileChange}
-                                    accept=".pdf,.doc,.docx"
-                                />
-
-                                {isSuccess ? (
+                        {/* Form Body */}
+                        <div className="flex-1 overflow-y-auto px-8 py-8 elite-scrollbar relative">
+                            {isSubmitting && (
+                                <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC]/90 backdrop-blur-xl">
                                     <motion.div
-                                        initial={{ scale: 0.6, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        className="flex flex-col items-center gap-4 p-8"
-                                    >
-                                        <div className="w-20 h-20 rounded-full bg-[#40B4A6] flex items-center justify-center">
-                                            <FileCheck className="w-10 h-10 text-white" />
+                                        initial={{ top: "0%" }}
+                                        animate={{ top: "100%" }}
+                                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                                        className="absolute left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#40B4A6] to-transparent shadow-[0_0_20px_#40B4A6] z-50 opacity-80"
+                                    />
+                                    <div className="flex flex-col items-center gap-8">
+                                        <div className="relative">
+                                            <motion.div
+                                                animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.3, 0.1] }}
+                                                transition={{ duration: 2, repeat: Infinity }}
+                                                className="absolute inset-0 bg-[#40B4A6] rounded-full blur-2xl"
+                                            />
+                                            <Loader2 className="w-12 h-12 animate-spin text-[#40B4A6] relative z-10" />
                                         </div>
-                                        <p className="font-nunito font-black text-xl text-[#1B365D] text-center">
+                                        <AnimatePresence mode="wait">
+                                            <motion.p
+                                                key={currentStatus}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -10 }}
+                                                className="font-nunito font-black text-[11px] uppercase tracking-[0.5em] text-[#1B365D] text-center px-8"
+                                            >
+                                                {(t as any)(`network.drawer.status.${currentStatus}`)}
+                                            </motion.p>
+                                        </AnimatePresence>
+                                    </div>
+                                </div>
+                            )}
+
+                            {isSuccess ? (
+                                <motion.div
+                                    initial={{ scale: 0.95, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    className="h-full flex flex-col items-center justify-center gap-10 p-8"
+                                >
+                                    <div className="relative">
+                                        <motion.div
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+                                            transition={{ duration: 3, repeat: Infinity }}
+                                            className="absolute inset-0 bg-[#40B4A6] rounded-full blur-3xl opacity-30"
+                                        />
+                                        <div className="relative w-32 h-32 rounded-full bg-[#1B365D] flex items-center justify-center shadow-[0_20px_50px_rgba(27,54,93,0.3)]">
+                                            <FileCheck className="w-14 h-14 text-[#40B4A6]" />
+                                        </div>
+                                    </div>
+                                    <div className="text-center space-y-4">
+                                        <p className="font-nunito font-black text-3xl text-[#1B365D] tracking-tight">
                                             {t("network.drawer.successTitle")}
                                         </p>
-                                        <p className="font-lato text-sm text-[#1B365D]/50 text-center">
+                                        <div className="w-12 h-[2px] bg-[#40B4A6]/30 mx-auto rounded-full" />
+                                        <p className="font-lato font-light text-base text-[#1B365D]/60 max-w-xs mx-auto leading-relaxed">
                                             {t("network.drawer.successDesc")}
                                         </p>
-                                    </motion.div>
-                                ) : file ? (
-                                    <div className="flex flex-col items-center gap-3 p-8">
-                                        <FileCheck className="w-12 h-12 text-[#40B4A6]" />
-                                        <p className="font-nunito font-black text-[#1B365D]">{file.name}</p>
-                                        <p className="text-xs font-black uppercase tracking-widest text-[#1B365D]/30">
-                                            {(file.size / 1024 / 1024).toFixed(2)} MB
-                                        </p>
                                     </div>
-                                ) : (
-                                    <div className="flex flex-col items-center gap-4 p-8">
-                                        <div className="w-14 h-14 rounded-full bg-[#1B365D]/5 flex items-center justify-center">
-                                            <Upload className="w-6 h-6 text-[#1B365D]/30" />
+                                </motion.div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="space-y-10">
+                                    <div className="space-y-8">
+                                        <div className="space-y-3">
+                                            <label className={labelClasses}>{t("network.drawer.nameLabel")}</label>
+                                            <input
+                                                required
+                                                type="text"
+                                                placeholder={t("network.drawer.namePlaceholder")}
+                                                className={inputClasses}
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            />
                                         </div>
-                                        <div className="text-center space-y-1">
-                                            <p className="font-nunito font-bold text-sm text-[#1B365D]/70">
-                                                {t("network.drawer.dropZone")}
+
+                                        <div className="space-y-3">
+                                            <label className={labelClasses}>{t("network.drawer.emailLabel")}</label>
+                                            <input
+                                                required
+                                                type="email"
+                                                placeholder={t("network.drawer.emailPlaceholder")}
+                                                className={inputClasses}
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            />
+                                        </div>
+
+                                        {/* CUSTOM ELITE DROPDOWN */}
+                                        <div className="space-y-3" ref={dropdownRef}>
+                                            <label className={labelClasses}>{t("network.drawer.roleLabel")}</label>
+                                            <div className="relative">
+                                                <div
+                                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                                    className={cn(inputClasses, "cursor-pointer flex items-center justify-between select-none relative z-20", isDropdownOpen && "border-[#40B4A6]/30 bg-white/10")}
+                                                >
+                                                    <span className={cn("transition-colors", formData.role ? "text-[#1B365D]" : "text-[#1B365D]/25")}>
+                                                        {currentRoleLabel}
+                                                    </span>
+                                                    <ChevronDown className={cn("w-4 h-4 text-[#1B365D]/40 transition-transform duration-500", isDropdownOpen && "rotate-180")} />
+                                                </div>
+
+                                                <AnimatePresence>
+                                                    {isDropdownOpen && (
+                                                        <motion.div
+                                                            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                                                            animate={{ opacity: 1, y: 5, scale: 1 }}
+                                                            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                                                            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                                            className="absolute left-0 right-0 z-[100] bg-[#F8FAFC]/95 backdrop-blur-2xl border border-[#1B365D]/10 rounded-3xl shadow-2xl overflow-hidden max-h-[400px] flex flex-col"
+                                                        >
+                                                            <div className="flex-1 overflow-y-auto pt-4 pb-4 elite-scrollbar">
+                                                                {roleGroups.map(group => (
+                                                                    <div key={group.id} className="mb-4">
+                                                                        <div className="px-6 py-2">
+                                                                            <span className="font-nunito font-black text-[9px] uppercase tracking-[0.4em] text-[#1B365D]/30">
+                                                                                {group.label}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div className="space-y-1">
+                                                                            {group.roles.map(role => (
+                                                                                <div
+                                                                                    key={role.id}
+                                                                                    onClick={() => {
+                                                                                        setFormData({ ...formData, role: role.id });
+                                                                                        setIsDropdownOpen(false);
+                                                                                    }}
+                                                                                    className={cn(
+                                                                                        "px-8 py-3 cursor-pointer flex items-center justify-between transition-all duration-300 hover:bg-[#1B365D]/5 group/item",
+                                                                                        formData.role === role.id && "bg-[#1B365D]/5"
+                                                                                    )}
+                                                                                >
+                                                                                    <span className={cn(
+                                                                                        "font-lato font-light text-sm text-[#1B365D]/70 transition-colors group-hover/item:text-[#1B365D]",
+                                                                                        formData.role === role.id && "text-[#1B365D] font-medium"
+                                                                                    )}>
+                                                                                        {role.label}
+                                                                                    </span>
+                                                                                    {formData.role === role.id && (
+                                                                                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                                                                                            <Check className="w-4 h-4 text-[#40B4A6]" />
+                                                                                        </motion.div>
+                                                                                    )}
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
+                                            </div>
+                                            <p className="font-lato font-light text-[11px] text-[#1B365D]/40 italic ml-1">
+                                                {t("network.drawer.roleHint")}
                                             </p>
-                                            <p className="font-lato text-xs text-[#1B365D]/40 italic">
-                                                {t("network.drawer.dropHint")}
-                                            </p>
+                                        </div>
+
+                                        <AnimatePresence>
+                                            {formData.role === "other" && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    className="space-y-3 overflow-hidden"
+                                                >
+                                                    <label className={labelClasses}>{t("network.drawer.otherLabel")}</label>
+                                                    <input
+                                                        required
+                                                        type="text"
+                                                        placeholder={t("network.drawer.otherPlaceholder")}
+                                                        className={cn(inputClasses, "border-[#40B4A6]/10")}
+                                                        value={formData.otherRole}
+                                                        onChange={(e) => setFormData({ ...formData, otherRole: e.target.value })}
+                                                    />
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+
+                                        <div className="space-y-3">
+                                            <label className={labelClasses}>{t("network.drawer.socialLabel")}</label>
+                                            <input
+                                                required
+                                                type="url"
+                                                placeholder={impactPlaceholder}
+                                                className={cn(inputClasses, "border-[#40B4A6]/20 bg-white/10")}
+                                                value={formData.social}
+                                                onChange={(e) => setFormData({ ...formData, social: e.target.value })}
+                                            />
                                         </div>
                                     </div>
-                                )}
 
-                                {/* Scan effect during submit */}
-                                {isSubmitting && (
-                                    <motion.div
-                                        initial={{ top: "-100%" }}
-                                        animate={{ top: "200%" }}
-                                        transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
-                                        className="absolute left-0 right-0 h-24 bg-gradient-to-b from-transparent via-[#40B4A6]/15 to-transparent pointer-events-none"
-                                    />
-                                )}
-                            </div>
+                                    <div className="space-y-3 opacity-60 hover:opacity-100 transition-opacity duration-500">
+                                        <label className={cn(labelClasses, "text-[9px] text-[#1B365D]/30")}>{t("network.drawer.dropZone")}</label>
+                                        <div
+                                            onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
+                                            onClick={() => fileInputRef.current?.click()}
+                                            className={cn(
+                                                "relative rounded-xl border border-dashed flex items-center justify-between transition-all duration-700 cursor-pointer overflow-hidden px-5 py-3",
+                                                isDragging ? "border-[#40B4A6] bg-[#40B4A6]/5" : file ? "border-[#40B4A6]/30 bg-[#40B4A6]/5" : "border-[#1B365D]/5 bg-white/10 hover:border-[#1B365D]/10 shadow-sm"
+                                            )}
+                                        >
+                                            <input type="file" className="hidden" ref={fileInputRef} onChange={handleFileChange} accept=".pdf,.doc,.docx" />
+                                            <div className="flex items-center gap-3">
+                                                <div className={cn("w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500", file ? "bg-[#40B4A6]/10" : "bg-[#1B365D]/5")}>
+                                                    <Upload className={cn("w-3 h-3", file ? "text-[#40B4A6]" : "text-[#1B365D]/20")} />
+                                                </div>
+                                                <p className="font-lato font-light text-[11px] text-[#1B365D]/50 italic">{file ? file.name : t("network.drawer.dropHint")}</p>
+                                            </div>
+                                            {file && <FileCheck className="w-4 h-4 text-[#40B4A6]" />}
+                                        </div>
+                                    </div>
 
-                            {file && !isSuccess && (
-                                <button
-                                    onClick={handleSubmit}
-                                    disabled={isSubmitting}
-                                    className="w-full rounded-full bg-[#1B365D] text-white py-5 font-nunito font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-[#0F2440] transition-colors disabled:opacity-60 shadow-xl shadow-[#1B365D]/20"
-                                >
-                                    {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                                    {t("network.drawer.cta")}
-                                </button>
+                                    <div className="relative pb-10">
+                                        <button
+                                            disabled={isSubmitting || !formData.name || !formData.email || !formData.social || (formData.role === "other" && !formData.otherRole)}
+                                            className="w-full group/btn relative rounded-full bg-[#1B365D] text-white py-6 px-10 font-nunito font-black text-xs uppercase tracking-[0.4em] flex items-center justify-center gap-3 hover:bg-[#0F2440] transition-all duration-700 disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_25px_50px_rgba(27,54,93,0.25)] overflow-hidden"
+                                        >
+                                            <motion.div animate={{ scale: [1, 1.05, 1], opacity: [0, 0.2, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 bg-[#40B4A6] rounded-full pointer-events-none" />
+                                            <div className="absolute inset-0 bg-gradient-to-r from-[#40B4A6] to-[#1B365D] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700" />
+                                            <span className="relative z-10 flex items-center gap-3">
+                                                {t("network.drawer.cta")}
+                                                <div className="w-1.5 h-1.5 rounded-full bg-[#40B4A6] shadow-[0_0_8px_#40B4A6] animate-pulse" />
+                                            </span>
+                                            <div className="absolute inset-0 z-0 bg-white/10 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-700" />
+                                        </button>
+                                    </div>
+                                </form>
                             )}
                         </div>
 
-                        {/* Security footer */}
-                        <div className="px-8 py-6 border-t border-[#1B365D]/5 flex items-center gap-3">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#40B4A6] animate-pulse" />
-                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#1B365D]/30">
-                                {t("network.drawer.encryption")}
-                            </span>
+                        {/* Security Architect footer */}
+                        <div className="px-8 py-6 border-t border-[#1B365D]/5 flex items-center justify-between flex-shrink-0 bg-white/20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1 h-1 rounded-full bg-[#40B4A6] shadow-[0_0_8px_#40B4A6]" />
+                                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[#1B365D]/20">{t("network.drawer.encryption")}</span>
+                            </div>
+                            <div className="text-[9px] font-nunito font-black text-[#1B365D]/10">v.3.2.0-STABLE</div>
                         </div>
                     </motion.div>
                 </>

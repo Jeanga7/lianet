@@ -294,10 +294,10 @@ const fr = {
       eyebrow: "CHOISIR VOTRE VOIE",
       title: "Quel bâtisseur êtes-vous ?",
       expert: {
-        label: "L'EXPERT FREELANCE",
+        label: "EXPERT FREELANCE",
       },
       team: {
-        label: "LE BÂTISSEUR INTERNE",
+        label: "BÂTISSEUR INTERNE",
       },
     },
     poles: {
@@ -378,14 +378,55 @@ const fr = {
       },
     },
     drawer: {
-      title: "Votre Candidature",
-      subtitle: "Nous cherchons l'excellence brute. Votre parcours est votre signature.",
-      dropZone: "Glissez votre CV ici",
-      dropHint: "Format PDF ou DOCX. Tolérance zéro pour les CV standardisés.",
-      cta: "Soumettre ma Candidature",
-      successTitle: "Candidature reçue.",
-      successDesc: "Notre équipe revient vers vous sous 48h.",
-      encryption: "Chiffrement Lianet Standard · Vos données sont protégées",
+      title: "Votre Empreinte",
+      subtitle: "L'excellence n'attend pas. Projetez votre impact sur l'écosystème.",
+      nameLabel: "NOM COMPLET",
+      namePlaceholder: "ex: Jean Kone",
+      emailLabel: "EMAIL PROFESSIONNEL",
+      emailPlaceholder: "ex: j.kone@expertise.africa",
+      roleLabel: "VOTRE EXPERTISE UNITAIRE",
+      roleHint: "Choisissez le rôle qui définit votre impact principal.",
+      roleGroups: {
+        code: "Architecture & Code",
+        design: "Design & Création",
+        content: "Présence & Contenu",
+        growth: "Performance & Croissance",
+        other: "Autre"
+      },
+      roles: {
+        fullstack: "Développeur Full-stack",
+        mobile: "Développeur Mobile",
+        cloud: "Architecte Cloud",
+        product: "Product Designer (UI/UX)",
+        brand: "Infographiste / Brand Designer",
+        motion: "Motion Designer",
+        community: "Community Manager",
+        copywriter: "Content Strategist / Copywriter",
+        seo: "Spécialiste SEO/SEA",
+        growth: "Growth & Data Marketer",
+        other: "Autre expertise d'élite"
+      },
+      otherLabel: "PRÉCISEZ VOTRE RÔLE",
+      otherPlaceholder: "ex: Consultant en Cybersécurité",
+      socialLabel: "LIEN D'IMPACT",
+      socialPlaceholder: {
+        code: "URL GitHub ou Portfolio technique",
+        design: "URL Behance, Dribbble ou Portfolio",
+        content: "URL LinkedIn ou Étude de cas",
+        growth: "URL LinkedIn ou Étude de cas",
+        other: "URL vers votre réalisation phare"
+      },
+      dropZone: "ASSET ADDITIONNEL",
+      dropHint: "Déposez votre CV ici (Optionnel)",
+      cta: "Lancer la mission",
+      successTitle: "Votre empreinte est enregistrée",
+      successDesc: "Nos architectes analysent votre profil. Accès validé sous 48h.",
+      encryption: "INTEGRATION SECURE // END-TO-END",
+      status: {
+        verifying: "Analyse de l'impact...",
+        aligning: "Alignement stratégique...",
+        authorizing: "Accès validé"
+      }
     },
   },
 } as const;
@@ -685,8 +726,8 @@ const en = {
     selector: {
       eyebrow: "CHOOSE YOUR PATH",
       title: "What kind of builder are you?",
-      expert: { label: "INDEPENDENT EXPERT" },
-      team: { label: "INTERNAL BUILDER" },
+      expert: { label: "EXPERT FREELANCE" },
+      team: { label: "BÂTISSEUR INTERNE" },
     },
     poles: {
       title: "VERTICALS OF EXCELLENCE",
@@ -766,14 +807,55 @@ const en = {
       },
     },
     drawer: {
-      title: "Your Application",
-      subtitle: "We look for raw excellence. Your journey is your signature.",
-      dropZone: "Drop your CV here",
-      dropHint: "PDF or DOCX format. Zero tolerance for standardized resumes.",
-      cta: "Submit my Application",
-      successTitle: "Application received.",
-      successDesc: "Our team will get back to you within 48h.",
-      encryption: "Lianet Encryption Standard · Your data is protected",
+      title: "Your Imprint",
+      subtitle: "Excellence doesn't wait. Project your impact on the ecosystem.",
+      nameLabel: "FULL NAME",
+      namePlaceholder: "e.g., John Doe",
+      emailLabel: "PROFESSIONAL EMAIL",
+      emailPlaceholder: "e.g., j.doe@expertise.africa",
+      roleLabel: "YOUR UNIT EXPERTISE",
+      roleHint: "Choose the role that defines your primary impact.",
+      roleGroups: {
+        code: "Architecture & Code",
+        design: "Design & Creation",
+        content: "Presence & Content",
+        growth: "Performance & Growth",
+        other: "Other"
+      },
+      roles: {
+        fullstack: "Full-stack Developer",
+        mobile: "Mobile Developer",
+        cloud: "Cloud Architect",
+        product: "Product Designer (UI/UX)",
+        brand: "Graphic / Brand Designer",
+        motion: "Motion Designer",
+        community: "Community Manager",
+        copywriter: "Content Strategist / Copywriter",
+        seo: "SEO/SEA Specialist",
+        growth: "Growth & Data Marketer",
+        other: "Other elite expertise"
+      },
+      otherLabel: "SPECIFY YOUR ROLE",
+      otherPlaceholder: "e.g., Cybersecurity Consultant",
+      socialLabel: "IMPACT LINK",
+      socialPlaceholder: {
+        code: "GitHub URL or technical Portfolio",
+        design: "Behance, Dribbble or Portfolio URL",
+        content: "LinkedIn URL or Case Study",
+        growth: "LinkedIn URL or Case Study",
+        other: "Link to your primary achievement"
+      },
+      dropZone: "ADDITIONAL ASSET",
+      dropHint: "Drop your CV here (Optional)",
+      cta: "Launch Mission",
+      successTitle: "Your imprint is recorded",
+      successDesc: "Our architects are analyzing your profile. Access validated within 48h.",
+      encryption: "SECURE INTEGRATION // END-TO-END",
+      status: {
+        verifying: "Analyzing impact...",
+        aligning: "Strategic alignment...",
+        authorizing: "Access validated"
+      }
     },
   },
 } as const;
