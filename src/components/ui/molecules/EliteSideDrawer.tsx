@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Upload, FileCheck, Loader2, ChevronDown, Check } from "lucide-react";
 import { useI18n } from "@/lib/useI18n";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 interface EliteSideDrawerProps {
@@ -29,10 +29,48 @@ export default function EliteSideDrawer({ isOpen, onClose, title, track }: Elite
         setFormData(prev => ({ ...prev, track }));
     }, [track]);
 
+    // Reset form when drawer closes to ensure fresh state
+    useEffect(() => {
+        if (!isOpen) {
+            const timer = setTimeout(() => {
+                setFormData({
+                    name: "",
+                    email: "",
+                    role: "fullstack",
+                    otherRole: "",
+                    social: "",
+                    track: track
+                });
+                setFile(null);
+                setIsSuccess(false);
+                setIsDragging(false);
+                setCurrentStatus("");
+                setIsSubmitting(false);
+            }, 700); // Wait for AnimatePresence exit
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen, track]);
+
     const [file, setFile] = useState<File | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [currentStatus, setCurrentStatus] = useState<"verifying" | "aligning" | "authorizing" | "">("");
     const [isSuccess, setIsSuccess] = useState(false);
+
+    // Validation logic
+    const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validateUrl = (url: string) => {
+        try { return new URL(url).protocol.startsWith('http'); }
+        catch { return false; }
+    };
+
+    const validation = useMemo(() => ({
+        name: formData.name.trim().length >= 2,
+        email: validateEmail(formData.email),
+        social: validateUrl(formData.social),
+        otherRole: formData.role !== "other" || formData.otherRole.trim().length >= 2
+    }), [formData]);
+
+    const isFormValid = validation.name && validation.email && validation.social && validation.otherRole;
 
     // Dropdown State
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -264,6 +302,21 @@ export default function EliteSideDrawer({ isOpen, onClose, title, track }: Elite
                                             transition={{ duration: 3, repeat: Infinity }}
                                             className="absolute inset-0 bg-[#40B4A6] rounded-full blur-3xl opacity-30"
                                         />
+                                        {/* Light Sparkles */}
+                                        {[...Array(6)].map((_, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, scale: 0 }}
+                                                animate={{
+                                                    opacity: [0, 1, 0],
+                                                    scale: [0, 1, 0],
+                                                    x: [0, (i % 2 ? 1 : -1) * (20 + i * 10)],
+                                                    y: [0, (i < 3 ? -1 : 1) * (20 + i * 10)]
+                                                }}
+                                                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                                                className="absolute top-1/2 left-1/2 w-1 h-1 bg-[#40B4A6] rounded-full shadow-[0_0_10px_#40B4A6]"
+                                            />
+                                        ))}
                                         <div className="relative w-32 h-32 rounded-full bg-[#1B365D] flex items-center justify-center shadow-[0_20px_50px_rgba(27,54,93,0.3)]">
                                             <FileCheck className="w-14 h-14 text-[#40B4A6]" />
                                         </div>
@@ -283,26 +336,40 @@ export default function EliteSideDrawer({ isOpen, onClose, title, track }: Elite
                                     <div className="space-y-8">
                                         <div className="space-y-3">
                                             <label className={labelClasses}>{t("network.drawer.nameLabel")}</label>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder={t("network.drawer.namePlaceholder")}
-                                                className={inputClasses}
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            />
+                                            <div className="relative">
+                                                <input
+                                                    required
+                                                    type="text"
+                                                    placeholder={t("network.drawer.namePlaceholder")}
+                                                    className={cn(inputClasses, validation.name && "border-[#40B4A6]/30")}
+                                                    value={formData.name}
+                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                />
+                                                {validation.name && (
+                                                    <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="absolute right-4 top-1/2 -translate-y-1/2">
+                                                        <Check className="w-3.5 h-3.5 text-[#40B4A6]" />
+                                                    </motion.div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className={labelClasses}>{t("network.drawer.emailLabel")}</label>
-                                            <input
-                                                required
-                                                type="email"
-                                                placeholder={t("network.drawer.emailPlaceholder")}
-                                                className={inputClasses}
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            />
+                                            <div className="relative">
+                                                <input
+                                                    required
+                                                    type="email"
+                                                    placeholder={t("network.drawer.emailPlaceholder")}
+                                                    className={cn(inputClasses, validation.email && "border-[#40B4A6]/30")}
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                />
+                                                {validation.email && (
+                                                    <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="absolute right-4 top-1/2 -translate-y-1/2">
+                                                        <Check className="w-3.5 h-3.5 text-[#40B4A6]" />
+                                                    </motion.div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         {/* CUSTOM ELITE DROPDOWN */}
@@ -398,14 +465,21 @@ export default function EliteSideDrawer({ isOpen, onClose, title, track }: Elite
 
                                         <div className="space-y-3">
                                             <label className={labelClasses}>{t("network.drawer.socialLabel")}</label>
-                                            <input
-                                                required
-                                                type="url"
-                                                placeholder={impactPlaceholder}
-                                                className={cn(inputClasses, "border-[#40B4A6]/20 bg-white/10")}
-                                                value={formData.social}
-                                                onChange={(e) => setFormData({ ...formData, social: e.target.value })}
-                                            />
+                                            <div className="relative">
+                                                <input
+                                                    required
+                                                    type="url"
+                                                    placeholder={impactPlaceholder}
+                                                    className={cn(inputClasses, "border-[#40B4A6]/20 bg-white/10", validation.social && "border-[#40B4A6]/40")}
+                                                    value={formData.social}
+                                                    onChange={(e) => setFormData({ ...formData, social: e.target.value })}
+                                                />
+                                                {validation.social && (
+                                                    <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} className="absolute right-4 top-1/2 -translate-y-1/2">
+                                                        <Check className="w-3.5 h-3.5 text-[#40B4A6]" />
+                                                    </motion.div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
 
@@ -432,7 +506,7 @@ export default function EliteSideDrawer({ isOpen, onClose, title, track }: Elite
 
                                     <div className="relative pb-10">
                                         <button
-                                            disabled={isSubmitting || !formData.name || !formData.email || !formData.social || (formData.role === "other" && !formData.otherRole)}
+                                            disabled={isSubmitting || !isFormValid}
                                             className="w-full group/btn relative rounded-full bg-[#1B365D] text-white py-6 px-10 font-nunito font-black text-xs uppercase tracking-[0.4em] flex items-center justify-center gap-3 hover:bg-[#0F2440] transition-all duration-700 disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_25px_50px_rgba(27,54,93,0.25)] overflow-hidden"
                                         >
                                             <motion.div animate={{ scale: [1, 1.05, 1], opacity: [0, 0.2, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 bg-[#40B4A6] rounded-full pointer-events-none" />

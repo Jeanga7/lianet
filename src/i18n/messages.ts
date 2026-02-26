@@ -429,6 +429,75 @@ const fr = {
       }
     },
   },
+  about: {
+    hero: {
+      eyebrow: "NOTRE ADN — 01",
+      titleLine1: "Lianet : L'Infrastructure",
+      titleLine2: "de l'Excellence Digitale.",
+      subtitle: "Nous bâtissons des solutions souveraines en mobilisant l'élite du digital africain. Plus qu'une agence, un système à haute performance conçu pour l'impact.",
+      primaryCta: "DÉCOUVRIR NOTRE VISION",
+      secondaryCta: "REJOINDRE LE SYSTÈME"
+    },
+    story: {
+      eyebrow: "L'HISTOIRE DU SYSTÈME",
+      title: "Plus qu'une Agence, une Infrastructure de Croissance.",
+      content: "Lianet est né d'une conviction simple : le talent africain mérite un cadre à la mesure de son excellence. Nous ne nous contentons pas de livrer des produits ; nous bâtissons les fondations de votre souveraineté numérique.",
+      quote: "L'exigence n'est pas une option, c'est notre système d'exploitation."
+    },
+    model: {
+      eyebrow: "L'INGÉNIERIE DE LA PERFORMANCE",
+      title: "Le Modèle Agile",
+      description: "Un écosystème conçu pour transformer la vision en réalité tangible avec une précision chirurgicale.",
+      pillars: [
+        {
+          id: "core",
+          title: "Le Noyau Stratégique",
+          desc: "Les architectes qui pilotent la vision et garantissent une gouvernance qualité sans faille.",
+        },
+        {
+          id: "squads",
+          title: "Les Elite Squads",
+          desc: "Des commandos d'experts (Dev, Design, Growth) mobilisés sur-mesure pour chaque mission critique.",
+        },
+        {
+          id: "impact",
+          title: "Résultat d'Impact",
+          desc: "Une exécution rapide, une rentabilité maximale et une qualité digne des standards internationaux.",
+        }
+      ]
+    },
+    commitments: {
+      client: {
+        title: "Zéro Risque, Maximum Impact.",
+        bullets: [
+          "Sélection rigoureuse des talents",
+          "Gestion de projet 100% transparente",
+          "ROI piloté par la donnée"
+        ]
+      },
+      freelance: {
+        title: "Un Cadre pour l'Excellence.",
+        bullets: [
+          "Accès aux projets d'envergure",
+          "Sécurité contractuelle totale",
+          "Communauté d'élite africaine"
+        ]
+      }
+    },
+    founders: {
+      title: "Les Architectes du Système",
+      jean: {
+        name: "Jean Gabriel G.",
+        role: "Structure & Stratégie",
+        bio: "Expert en orchestration opérationnelle, Jean-Gabriel conçoit les processus qui garantissent une exécution sans faille. Il transforme la complexité en systèmes fluides et prévisibles."
+      },
+      barthelemy: {
+        name: "Barthélémy L. D.",
+        role: "Vision & Innovation",
+        bio: "Architecte logiciel et catalyseur technologique, Barthélémy repousse les frontières du possible. Il veille à ce que chaque solution Lianet soit à la pointe de l'innovation mondiale."
+      }
+    }
+  },
 } as const;
 
 const en = {
@@ -857,6 +926,75 @@ const en = {
         authorizing: "Access validated"
       }
     },
+  },
+  about: {
+    hero: {
+      eyebrow: "OUR DNA — 01",
+      titleLine1: "Lianet: The Infrastructure",
+      titleLine2: "of Digital Excellence.",
+      subtitle: "Building sovereign solutions by mobilizing Africa's digital elite. More than an agency, a high-performance system engineered for impact.",
+      primaryCta: "DISCOVER OUR VISION",
+      secondaryCta: "JOIN THE SYSTEM"
+    },
+    story: {
+      eyebrow: "THE SYSTEM'S STORY",
+      title: "More Than an Agency, a Growth Infrastructure.",
+      content: "Lianet was born from a simple conviction: African talent deserves a framework matching its excellence. We don't just deliver products; we build the foundations of your digital sovereignty.",
+      quote: "Excellence is not an option, it's our operating system."
+    },
+    model: {
+      eyebrow: "PERFORMANCE ENGINEERING",
+      title: "The Agile Model",
+      description: "An ecosystem designed to transform vision into tangible reality with surgical precision.",
+      pillars: [
+        {
+          id: "core",
+          title: "Strategic Core",
+          desc: "The architects driving the vision and ensuring flawless quality governance.",
+        },
+        {
+          id: "squads",
+          title: "Elite Squads",
+          desc: "Precision units (Dev, Design, Growth) custom-mobilized for every critical mission.",
+        },
+        {
+          id: "impact",
+          title: "Impact Result",
+          desc: "Rapid execution, maximum profitability, and quality matching international standards.",
+        }
+      ]
+    },
+    commitments: {
+      client: {
+        title: "Zero Risk, Maximum Impact.",
+        bullets: [
+          "Rigorous talent selection",
+          "100% transparent project management",
+          "Data-driven ROI focus"
+        ]
+      },
+      freelance: {
+        title: "A Framework for Excellence.",
+        bullets: [
+          "Access to large-scale projects",
+          "Total contractual security",
+          "Elite African community membership"
+        ]
+      }
+    },
+    founders: {
+      title: "The System Architects",
+      jean: {
+        name: "Jean Gabriel G.",
+        role: "Structure & Strategy",
+        bio: "Expert in operational orchestration, Jean-Gabriel designs the processes that guarantee flawless execution. He transforms complexity into smooth, predictable systems."
+      },
+      barthelemy: {
+        name: "Barthélémy L. D.",
+        role: "Vision & Innovation",
+        bio: "Software architect and technological catalyst, Barthélémy pushes the boundaries of the possible. He ensures every Lianet solution is at the forefront of global innovation."
+      }
+    }
   },
 } as const;
 
