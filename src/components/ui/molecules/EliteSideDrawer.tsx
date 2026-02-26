@@ -10,11 +10,25 @@ interface EliteSideDrawerProps {
     isOpen: boolean;
     onClose: () => void;
     title: string;
+    track: "expert" | "team";
 }
 
-export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDrawerProps) {
+export default function EliteSideDrawer({ isOpen, onClose, title, track }: EliteSideDrawerProps) {
     const { t } = useI18n();
     const [isDragging, setIsDragging] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        role: "fullstack",
+        otherRole: "",
+        social: "",
+        track: track
+    });
+    // Update track in formData whenever the prop changes
+    useEffect(() => {
+        setFormData(prev => ({ ...prev, track }));
+    }, [track]);
+
     const [file, setFile] = useState<File | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [currentStatus, setCurrentStatus] = useState<"verifying" | "aligning" | "authorizing" | "">("");
@@ -23,15 +37,6 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
     // Dropdown State
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    // Prospect Info State
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        role: "fullstack",
-        otherRole: "",
-        social: ""
-    });
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -132,7 +137,7 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
             setTimeout(() => {
                 setFile(null);
                 setIsSuccess(false);
-                setFormData({ name: "", email: "", role: "fullstack", otherRole: "", social: "" });
+                setFormData({ name: "", email: "", role: "fullstack", otherRole: "", social: "", track: track });
             }, 600);
         }, 4000);
     };
@@ -148,8 +153,8 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const inputClasses = "w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 font-lato font-light text-[#1B365D] placeholder:text-[#1B365D]/25 focus:outline-none focus:border-[#40B4A6]/30 focus:bg-white/10 transition-all duration-500 shadow-sm backdrop-blur-sm";
-    const labelClasses = "font-nunito font-black text-[10px] uppercase tracking-[0.4em] text-[#1B365D]/40 ml-1";
+    const inputClasses = "w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 font-lato font-light text-[#1B365D] placeholder:text-[#1B365D]/45 focus:outline-none focus:border-[#40B4A6]/30 focus:bg-white/10 transition-all duration-500 shadow-sm backdrop-blur-sm";
+    const labelClasses = "font-nunito font-black text-[10px] uppercase tracking-[0.4em] text-[#1B365D]/65 ml-1";
 
     return (
         <AnimatePresence>
@@ -187,12 +192,29 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                     >
                         {/* Header */}
                         <div className="px-8 py-8 border-b border-[#1B365D]/5 flex items-center justify-between flex-shrink-0">
-                            <div>
-                                <h3 className="font-nunito font-black text-2xl text-[#1B365D] tracking-tight uppercase">{t("network.drawer.title")}</h3>
-                                <p className="font-lato font-light text-sm text-[#1B365D]/50 mt-1 max-w-[280px] leading-relaxed italic">{t("network.drawer.subtitle")}</p>
+                            <div className="space-y-4">
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <div className={cn(
+                                            "px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest",
+                                            track === "expert" ? "bg-[#40B4A6]/10 text-[#40B4A6]" : "bg-[#1B365D]/10 text-[#1B365D]"
+                                        )}>
+                                            {track === "expert" ? "PÔLE D'IMPACT" : "PÔLE DE CONSTRUCTION"}
+                                        </div>
+                                        <p className="font-nunito text-[11px] font-black uppercase tracking-[0.2em] text-[#1B365D]/40">
+                                            Fast-Track System
+                                        </p>
+                                    </div>
+                                    <h2 className="font-nunito text-[clamp(1.8rem,4vw,2.4rem)] font-black leading-[1.02] tracking-[-0.03em] text-[#1B365D]">
+                                        {title}
+                                    </h2>
+                                </div>
+                                <p className="font-lato font-light text-[15px] leading-relaxed text-[#1B365D]/65">
+                                    {t("network.drawer.subtitle")}
+                                </p>
                             </div>
                             <button onClick={onClose} className="p-2 rounded-full hover:bg-[#1B365D]/5 transition-colors group">
-                                <X className="w-5 h-5 text-[#1B365D]/30 group-hover:text-[#1B365D]/60" />
+                                <X className="w-5 h-5 text-[#1B365D]/40 group-hover:text-[#1B365D]/70" />
                             </button>
                         </div>
 
@@ -251,7 +273,7 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                                             {t("network.drawer.successTitle")}
                                         </p>
                                         <div className="w-12 h-[2px] bg-[#40B4A6]/30 mx-auto rounded-full" />
-                                        <p className="font-lato font-light text-base text-[#1B365D]/60 max-w-xs mx-auto leading-relaxed">
+                                        <p className="font-lato font-light text-base text-[#1B365D]/75 max-w-xs mx-auto leading-relaxed">
                                             {t("network.drawer.successDesc")}
                                         </p>
                                     </div>
@@ -291,10 +313,10 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                                     className={cn(inputClasses, "cursor-pointer flex items-center justify-between select-none relative z-20", isDropdownOpen && "border-[#40B4A6]/30 bg-white/10")}
                                                 >
-                                                    <span className={cn("transition-colors", formData.role ? "text-[#1B365D]" : "text-[#1B365D]/25")}>
+                                                    <span className={cn("transition-colors", formData.role ? "text-[#1B365D]" : "text-[#1B365D]/40")}>
                                                         {currentRoleLabel}
                                                     </span>
-                                                    <ChevronDown className={cn("w-4 h-4 text-[#1B365D]/40 transition-transform duration-500", isDropdownOpen && "rotate-180")} />
+                                                    <ChevronDown className={cn("w-4 h-4 text-[#1B365D]/50 transition-transform duration-500", isDropdownOpen && "rotate-180")} />
                                                 </div>
 
                                                 <AnimatePresence>
@@ -310,7 +332,7 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                                                                 {roleGroups.map(group => (
                                                                     <div key={group.id} className="mb-4">
                                                                         <div className="px-6 py-2">
-                                                                            <span className="font-nunito font-black text-[9px] uppercase tracking-[0.4em] text-[#1B365D]/30">
+                                                                            <span className="font-nunito font-black text-[9px] uppercase tracking-[0.4em] text-[#1B365D]/55">
                                                                                 {group.label}
                                                                             </span>
                                                                         </div>
@@ -328,7 +350,7 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                                                                                     )}
                                                                                 >
                                                                                     <span className={cn(
-                                                                                        "font-lato font-light text-sm text-[#1B365D]/70 transition-colors group-hover/item:text-[#1B365D]",
+                                                                                        "font-lato font-light text-sm text-[#1B365D]/80 transition-colors group-hover/item:text-[#1B365D]",
                                                                                         formData.role === role.id && "text-[#1B365D] font-medium"
                                                                                     )}>
                                                                                         {role.label}
@@ -348,7 +370,7 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                                                     )}
                                                 </AnimatePresence>
                                             </div>
-                                            <p className="font-lato font-light text-[11px] text-[#1B365D]/40 italic ml-1">
+                                            <p className="font-lato font-light text-[11px] text-[#1B365D]/85 italic ml-1">
                                                 {t("network.drawer.roleHint")}
                                             </p>
                                         </div>
@@ -387,22 +409,22 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                                         </div>
                                     </div>
 
-                                    <div className="space-y-3 opacity-60 hover:opacity-100 transition-opacity duration-500">
-                                        <label className={cn(labelClasses, "text-[9px] text-[#1B365D]/30")}>{t("network.drawer.dropZone")}</label>
+                                    <div className="space-y-3 transition-opacity duration-500">
+                                        <label className={cn(labelClasses, "text-[9px] text-[#1B365D]/60")}>{t("network.drawer.dropZone")}</label>
                                         <div
                                             onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
                                             onClick={() => fileInputRef.current?.click()}
                                             className={cn(
                                                 "relative rounded-xl border border-dashed flex items-center justify-between transition-all duration-700 cursor-pointer overflow-hidden px-5 py-3",
-                                                isDragging ? "border-[#40B4A6] bg-[#40B4A6]/5" : file ? "border-[#40B4A6]/30 bg-[#40B4A6]/5" : "border-[#1B365D]/5 bg-white/10 hover:border-[#1B365D]/10 shadow-sm"
+                                                isDragging ? "border-[#40B4A6] bg-[#40B4A6]/5" : file ? "border-[#40B4A6]/40 bg-[#40B4A6]/5" : "border-[#1B365D]/25 bg-white/20 hover:border-[#1B365D]/40 shadow-sm"
                                             )}
                                         >
                                             <input type="file" className="hidden" ref={fileInputRef} onChange={handleFileChange} accept=".pdf,.doc,.docx" />
                                             <div className="flex items-center gap-3">
-                                                <div className={cn("w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500", file ? "bg-[#40B4A6]/10" : "bg-[#1B365D]/5")}>
-                                                    <Upload className={cn("w-3 h-3", file ? "text-[#40B4A6]" : "text-[#1B365D]/20")} />
+                                                <div className={cn("w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500", file ? "bg-[#40B4A6]/10" : "bg-[#1B365D]/10")}>
+                                                    <Upload className={cn("w-3 h-3", file ? "text-[#40B4A6]" : "text-[#1B365D]/60")} />
                                                 </div>
-                                                <p className="font-lato font-light text-[11px] text-[#1B365D]/50 italic">{file ? file.name : t("network.drawer.dropHint")}</p>
+                                                <p className="font-lato font-light text-[11px] text-[#1B365D]/85 italic">{file ? file.name : t("network.drawer.dropHint")}</p>
                                             </div>
                                             {file && <FileCheck className="w-4 h-4 text-[#40B4A6]" />}
                                         </div>
@@ -430,9 +452,9 @@ export default function EliteSideDrawer({ isOpen, onClose, title }: EliteSideDra
                         <div className="px-8 py-6 border-t border-[#1B365D]/5 flex items-center justify-between flex-shrink-0 bg-white/20">
                             <div className="flex items-center gap-3">
                                 <div className="w-1 h-1 rounded-full bg-[#40B4A6] shadow-[0_0_8px_#40B4A6]" />
-                                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[#1B365D]/20">{t("network.drawer.encryption")}</span>
+                                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-[#1B365D]/45">{t("network.drawer.encryption")}</span>
                             </div>
-                            <div className="text-[9px] font-nunito font-black text-[#1B365D]/10">v.3.2.0-STABLE</div>
+                            <div className="text-[9px] font-nunito font-black text-[#1B365D]/30">v.3.2.0-STABLE</div>
                         </div>
                     </motion.div>
                 </>

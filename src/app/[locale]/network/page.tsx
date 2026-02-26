@@ -769,6 +769,7 @@ export default function JoinSquadsPage() {
                 isOpen={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
                 title={activeTrack === "expert" ? t("network.tracks.expert.cta") : t("network.tracks.team.cta")}
+                track={activeTrack}
             />
 
             <FooterSection />
