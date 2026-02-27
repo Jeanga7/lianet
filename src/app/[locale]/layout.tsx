@@ -16,10 +16,10 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   const dictionary = messages[normalizedLocale];
   return {
     title: {
-      default: dictionary.metadata.title,
-      template: `%s | ${dictionary.metadata.title}`,
+      default: dictionary.metadata.home.title,
+      template: `%s | Lianet`,
     },
-    description: dictionary.metadata.description,
+    description: dictionary.metadata.home.description,
   };
 }
 

@@ -1,10 +1,24 @@
 const fr = {
   metadata: {
-    description:
-      "Lianet connecte les entreprises africaines avec des talents digitaux d'élite pour concevoir des solutions impactantes et évolutives.",
+    home: {
+      title: "Lianet — L'Excellence Stratégique & Technologique en Afrique",
+      description: "Connectez-vous aux meilleurs talents digitaux et bâtissez des solutions impactantes. Lianet est l'infrastructure de confiance pour l'innovation africaine.",
+    },
     about: {
-      title: "À Propos — L'Infrastructure de l'Impact | Lianet",
+      title: "À Propos — L'Infrastructure de l'Impact",
       description: "Découvrez Lianet, le système d'excellence technologique qui transforme le paysage numérique africain. Architecture, talent et souveraineté.",
+    },
+    solutions: {
+      title: "Solutions — Maîtrisez la Complexité Digitale",
+      description: "Expertise, Strategy, Lab. Découvrez nos pôles d'intervention pour propulser votre croissance technologique.",
+    },
+    network: {
+      title: "Network — Accédez au Top 3% des Talents Africains",
+      description: "Elite Squads & Experts. Rejoignez ou mobilisez le réseau d'excellence technologique de Lianet.",
+    },
+    contact: {
+      title: "Contact — Démarrer votre Projet d'Excellence",
+      description: "Prêt à transformer votre vision en réalité ? Contactez les experts Lianet dès aujourd'hui.",
     }
   },
   common: {
@@ -592,8 +606,26 @@ const fr = {
 
 const en = {
   metadata: {
-    title: "About — The Infrastructure of Impact | Lianet",
-    description: "Discover Lianet, the technological excellence system transforming the African digital landscape. Architecture, talent, and sovereignty.",
+    home: {
+      title: "Lianet — Strategic & Technological Excellence in Africa",
+      description: "Connect with top digital talent and build impactful solutions. Lianet is the trusted infrastructure for African innovation.",
+    },
+    about: {
+      title: "About — The Infrastructure of Impact",
+      description: "Discover Lianet, the technological excellence system transforming the African digital landscape. Architecture, talent, and sovereignty.",
+    },
+    solutions: {
+      title: "Solutions — Mastering Digital Complexity",
+      description: "Expertise, Strategy, Lab. Discover our intervention poles to propel your technological growth.",
+    },
+    network: {
+      title: "Network — Access the Top 3% of African Talent",
+      description: "Elite Squads & Experts. Join or mobilize Lianet's technological excellence network.",
+    },
+    contact: {
+      title: "Contact — Start your Excellence Project",
+      description: "Ready to transform your vision into reality? Contact Lianet experts today.",
+    }
   },
 
   common: {
