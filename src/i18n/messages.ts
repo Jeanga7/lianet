@@ -1,8 +1,11 @@
 const fr = {
   metadata: {
-    title: "Lianet",
     description:
       "Lianet connecte les entreprises africaines avec des talents digitaux d'élite pour concevoir des solutions impactantes et évolutives.",
+    about: {
+      title: "À Propos — L'Infrastructure de l'Impact | Lianet",
+      description: "Découvrez Lianet, le système d'excellence technologique qui transforme le paysage numérique africain. Architecture, talent et souveraineté.",
+    }
   },
   common: {
     whatsapp: {
@@ -430,82 +433,169 @@ const fr = {
     },
   },
   about: {
+    sections: {
+      hero: "SYSTÈME",
+      manifeste: "MANIFESTE",
+      system: "LIANET OS",
+      squad: "SQUAD",
+      agile: "MODÈLE",
+      commitments: "ENGAGEMENTS",
+      founders: "ORIGINE",
+      signature: "VISION"
+    },
     hero: {
-      eyebrow: "NOTRE ADN — 01",
-      titleLine1: "Lianet : L'Infrastructure",
-      titleLine2: "de l'Excellence Digitale.",
-      subtitle: "Nous bâtissons des solutions souveraines en mobilisant l'élite du digital africain. Plus qu'une agence, un système à haute performance conçu pour l'impact.",
-      primaryCta: "DÉCOUVRIR NOTRE VISION",
-      secondaryCta: "REJOINDRE LE SYSTÈME"
+      eyebrow: "LE SYSTÈME — 01",
+      titleLine1: "L'Infrastructure",
+      titleLine2: "de l'Impact.",
+      subtitle: "Lianet n'est pas un prestataire. C'est une position. Le standard de référence pour l'excellence technologique en Afrique.",
+      primaryCta: "DÉCOUVRIR LE SYSTÈME",
+      secondaryCta: "INTÉGRER LE RÉSEAU",
+      parallaxWords: ["SYSTÈME", "PRÉCISION", "IMPACT"]
     },
     story: {
-      eyebrow: "L'HISTOIRE DU SYSTÈME",
-      title: "Plus qu'une Agence, une Infrastructure de Croissance.",
-      content: "Lianet est né d'une conviction simple : le talent africain mérite un cadre à la mesure de son excellence. Nous ne nous contentons pas de livrer des produits ; nous bâtissons les fondations de votre souveraineté numérique.",
-      quote: "L'exigence n'est pas une option, c'est notre système d'exploitation."
+      eyebrow: "LE MANIFESTE",
+      title: "Au-delà de l'Agence.",
+      content: "Dans un paysage numérique saturé de solutions fragiles, Lianet s'érige comme l'infrastructure de confiance pour les ambitions africaines. Nous ne cherchons pas à être une agence de plus. Nous bâtissons le standard de référence pour l'excellence technologique. Lianet est née de la convergence de deux parcours d'excellence : la rigueur architecturale et l'intelligence de marché. Le résultat n'est pas un service, c'est un système.",
+      quote: "Nous ne sommes pas une option, nous sommes une position."
     },
-    model: {
-      eyebrow: "L'INGÉNIERIE DE LA PERFORMANCE",
-      title: "Le Modèle Agile",
-      description: "Un écosystème conçu pour transformer la vision en réalité tangible avec une précision chirurgicale.",
+    system: {
+      eyebrow: "LE LIANET OS",
+      title: "Le Système d'Exploitation.",
+      description: "Le succès d'un projet ne repose pas sur la chance, mais sur un système. Lianet opère selon un protocole rigoureux, conçu pour éliminer le risque et maximiser l'impact.",
+      capabilities: [
+        {
+          id: "diagnostic",
+          title: "Le Diagnostic d'Impact",
+          desc: "Nous ne codons pas pour coder. Nous analysons la rentabilité et la pertinence stratégique de chaque brique technologique avant d'écrire la première ligne."
+        },
+        {
+          id: "assemblage",
+          title: "L'Assemblage de Précision",
+          desc: "Pour chaque mission, Lianet déploie une Squad Dédiée. L'élite spécifique au besoin, mobilisée avec une agilité qu'aucune structure lourde ne peut égaler."
+        },
+        {
+          id: "souverainete",
+          title: "La Garantie de Souveraineté",
+          desc: "Nous construisons des outils que nos clients possèdent et maîtrisent. Zéro dépendance, zéro boîte noire. Votre technologie vous appartient."
+        }
+      ]
+    },
+    squad: {
+      eyebrow: "LE MODÈLE",
+      title: "Squad-as-a-Service.",
+      subtitle: "Lianet ne déploie pas des individus, mais des Squads. Des cellules autonomes, multidisciplinaires, activables en un temps record.",
       pillars: [
         {
-          id: "core",
-          title: "Le Noyau Stratégique",
-          desc: "Les architectes qui pilotent la vision et garantissent une gouvernance qualité sans faille.",
+          id: "elite",
+          title: "L'Unité d'Élite",
+          desc: "Une cellule autonome composée d'experts (Dev, Design, Growth) qui travaillent en sprints agiles. Résultat : des livraisons itératives et une qualité sans compromis."
         },
         {
-          id: "squads",
-          title: "Les Elite Squads",
-          desc: "Des commandos d'experts (Dev, Design, Growth) mobilisés sur-mesure pour chaque mission critique.",
+          id: "commando",
+          title: "Activation Commando",
+          desc: "Oubliez les processus de recrutement de 3 mois. Notre réseau est déjà prêt. Une Squad Lianet peut être activée et opérationnelle sur votre projet en un temps record."
         },
         {
-          id: "impact",
-          title: "Résultat d'Impact",
-          desc: "Une exécution rapide, une rentabilité maximale et une qualité digne des standards internationaux.",
+          id: "scalabilite",
+          title: "Flexibilité & Scalabilité",
+          desc: "Votre besoin grandit ? Votre Squad s'adapte. Ajustez la taille de votre équipe d'experts en fonction de vos cycles de développement et de votre budget."
+        },
+        {
+          id: "resultat",
+          title: "Obsession du Résultat",
+          desc: "Nous ne facturons pas des heures, nous livrons de l'impact. Chaque sprint de la Squad est aligné sur vos objectifs business de rentabilité et de visibilité."
+        }
+      ],
+      badges: [
+        "Time-to-Market accéléré",
+        "Zéro coût de recrutement",
+        "Expertise d'élite garantie"
+      ],
+      cycle: [
+        { step: "Besoin Client", label: "01" },
+        { step: "Assemblage Squad", label: "02" },
+        { step: "Sprint Agile", label: "03" },
+        { step: "Livraison d'Impact", label: "04" }
+      ]
+    },
+    model: {
+      eyebrow: "LES PILIERS DU SYSTÈME",
+      title: "Structure & Vision.",
+      description: "L'équilibre de Lianet repose sur une dualité fondamentale qui infuse chaque projet. Deux forces complémentaires, un seul standard d'excellence.",
+      pillars: [
+        {
+          id: "rigueur",
+          title: "Rigueur Architecturale",
+          desc: "Une obsession pour la robustesse, la sécurité et la discipline du code. Chaque système est conçu pour durer et scaler."
+        },
+        {
+          id: "intelligence",
+          title: "Intelligence de Marché",
+          desc: "Une approche orientée vers la conversion, l'esthétique de haut standing et la viabilité commerciale. La technologie au service du business."
+        },
+        {
+          id: "execution",
+          title: "Exécution Chirurgicale",
+          desc: "Sprints courts, livrables auditables, itérations pilotées par la donnée. Chaque cycle est un pas mesurable vers le résultat final."
+        },
+        {
+          id: "garantie",
+          title: "Garantie de Performance",
+          desc: "Le résultat n'est pas une promesse, c'est un contrat. ROI mesuré, qualité auditée, performance validée par la donnée."
         }
       ]
     },
     commitments: {
+      eyebrow: "NOTRE ENGAGEMENT",
+      mainTitle: "Un écosystème de confiance.",
       client: {
-        title: "Zéro Risque, Maximum Impact.",
+        title: "Le Système Garantit la Perfection.",
+        subtitle: "Peu importe qui code, le résultat est contractuel.",
         bullets: [
-          "Sélection rigoureuse des talents",
-          "Gestion de projet 100% transparente",
-          "ROI piloté par la donnée"
+          "Sélection algorithmique des talents (top 3%)",
+          "Gouvernance transparente, pilotée par la donnée",
+          "Garantie de performance intégrée au contrat"
         ]
       },
       freelance: {
-        title: "Un Cadre pour l'Excellence.",
+        title: "Rejoignez une Machine de Guerre.",
+        subtitle: "Votre expertise mérite un système qui la valorise.",
         bullets: [
-          "Accès aux projets d'envergure",
-          "Sécurité contractuelle totale",
-          "Communauté d'élite africaine"
+          "Accès exclusif aux missions à fort impact technique",
+          "Rémunération premium et sécurité contractuelle",
+          "Intégration dans un écosystème d'architectes"
         ]
       }
     },
     founders: {
-      title: "Les Architectes du Système",
+      title: "L'Origine du Système",
       jean: {
         name: "Jean Gabriel G.",
-        role: "Structure & Stratégie",
-        bio: "Expert en orchestration opérationnelle, Jean-Gabriel conçoit les processus qui garantissent une exécution sans faille. Il transforme la complexité en systèmes fluides et prévisibles."
+        role: "Structure",
+        specialties: ["Orchestration", "Systèmes", "Processus"],
+        bio: "Gardien de la rigueur architecturale. La robustesse, la sécurité et la discipline du code."
       },
       barthelemy: {
         name: "Barthélémy L. D.",
-        role: "Vision & Innovation",
-        bio: "Architecte logiciel et catalyseur technologique, Barthélémy repousse les frontières du possible. Il veille à ce que chaque solution Lianet soit à la pointe de l'innovation mondiale."
+        role: "Vision",
+        specialties: ["Architecture", "Innovation", "Produit"],
+        bio: "Gardien de l'intelligence de marché. La conversion, l'esthétique et la viabilité commerciale."
       }
+    },
+    signature: {
+      quote: "Le scout voit grand et regarde loin.",
+      author: "Robert Baden-Powell",
+      tagline: "L'éthique qui guide chaque ligne de code."
     }
   },
 } as const;
 
 const en = {
   metadata: {
-    title: "Lianet",
-    description:
-      "Lianet connects African businesses with top-tier digital talent to craft impactful and scalable solutions.",
+    title: "About — The Infrastructure of Impact | Lianet",
+    description: "Discover Lianet, the technological excellence system transforming the African digital landscape. Architecture, talent, and sovereignty.",
   },
+
   common: {
     whatsapp: {
       tooltip: "Chat with an expert",
@@ -929,73 +1019,159 @@ const en = {
   },
   about: {
     hero: {
-      eyebrow: "OUR DNA — 01",
-      titleLine1: "Lianet: The Infrastructure",
-      titleLine2: "of Digital Excellence.",
-      subtitle: "Building sovereign solutions by mobilizing Africa's digital elite. More than an agency, a high-performance system engineered for impact.",
-      primaryCta: "DISCOVER OUR VISION",
-      secondaryCta: "JOIN THE SYSTEM"
+      eyebrow: "THE SYSTEM — 01",
+      titleLine1: "The Infrastructure",
+      titleLine2: "of Impact.",
+      subtitle: "Lianet is not a vendor. It's a position. The reference standard for technological excellence in Africa.",
+      primaryCta: "DISCOVER THE SYSTEM",
+      secondaryCta: "JOIN THE NETWORK",
+      parallaxWords: ["SYSTEM", "PRECISION", "IMPACT"]
     },
     story: {
-      eyebrow: "THE SYSTEM'S STORY",
-      title: "More Than an Agency, a Growth Infrastructure.",
-      content: "Lianet was born from a simple conviction: African talent deserves a framework matching its excellence. We don't just deliver products; we build the foundations of your digital sovereignty.",
-      quote: "Excellence is not an option, it's our operating system."
+      eyebrow: "THE MANIFESTO",
+      title: "Beyond the Agency.",
+      content: "In a digital landscape saturated with fragile solutions, Lianet stands as the infrastructure of trust for African ambitions. We're not trying to be yet another agency. We're building the reference standard for technological excellence. Lianet was born from the convergence of two paths of excellence: architectural rigor and market intelligence. The result is not a service — it's a system.",
+      quote: "We are not an option, we are a position."
     },
-    model: {
-      eyebrow: "PERFORMANCE ENGINEERING",
-      title: "The Agile Model",
-      description: "An ecosystem designed to transform vision into tangible reality with surgical precision.",
-      pillars: [
+    system: {
+      eyebrow: "THE LIANET OS",
+      title: "The Operating System.",
+      description: "A project's success doesn't depend on luck, but on a system. Lianet operates under a rigorous protocol designed to eliminate risk and maximize impact.",
+      capabilities: [
         {
-          id: "core",
-          title: "Strategic Core",
-          desc: "The architects driving the vision and ensuring flawless quality governance.",
+          id: "diagnostic",
+          title: "The Impact Diagnosis",
+          desc: "We don't code for the sake of coding. We analyze the profitability and strategic relevance of every technological building block before writing the first line."
         },
         {
-          id: "squads",
-          title: "Elite Squads",
-          desc: "Precision units (Dev, Design, Growth) custom-mobilized for every critical mission.",
+          id: "assemblage",
+          title: "Precision Assembly",
+          desc: "For every mission, Lianet deploys a Dedicated Squad. The specific elite for the need, mobilized with an agility no heavy structure can match."
         },
         {
-          id: "impact",
-          title: "Impact Result",
-          desc: "Rapid execution, maximum profitability, and quality matching international standards.",
+          id: "souverainete",
+          title: "The Sovereignty Guarantee",
+          desc: "We build tools that our clients own and master. Zero dependency, zero black box. Your technology belongs to you."
         }
       ]
     },
-    commitments: {
-      client: {
-        title: "Zero Risk, Maximum Impact.",
-        bullets: [
-          "Rigorous talent selection",
-          "100% transparent project management",
-          "Data-driven ROI focus"
+    about: {
+      sections: {
+        hero: "SYSTEM",
+        manifeste: "MANIFESTO",
+        system: "LIANET OS",
+        squad: "SQUAD",
+        agile: "MODEL",
+        commitments: "COMMITMENTS",
+        founders: "ORIGIN",
+        signature: "VISION"
+      },
+      squad: {
+        title: "Squad-as-a-Service.",
+        subtitle: "Lianet doesn't deploy individuals, but Squads. Autonomous, multidisciplinary cells, ready to activate in record time.",
+        pillars: [
+          {
+            id: "elite",
+            title: "The Elite Unit",
+            desc: "An autonomous cell of experts (Dev, Design, Growth) working in agile sprints. Result: iterative deliveries and uncompromising quality."
+          },
+          {
+            id: "commando",
+            title: "Commando Activation",
+            desc: "Forget 3-month recruitment processes. Our network is already ready. A Lianet Squad can be activated and operational on your project in record time."
+          },
+          {
+            id: "scalabilite",
+            title: "Flexibility & Scalability",
+            desc: "Your need grows? Your Squad adapts. Adjust the size of your expert team based on your development cycles and budget."
+          },
+          {
+            id: "resultat",
+            title: "Obsession with Results",
+            desc: "We don't bill hours, we deliver impact. Every Squad sprint is aligned with your business objectives of profitability and visibility."
+          }
+        ],
+        badges: [
+          "Accelerated Time-to-Market",
+          "Zero Recruitment Cost",
+          "Guaranteed Elite Expertise"
+        ],
+        cycle: [
+          { step: "Client Need", label: "01" },
+          { step: "Squad Assembly", label: "02" },
+          { step: "Agile Sprint", label: "03" },
+          { step: "Impact Delivery", label: "04" }
         ]
       },
-      freelance: {
-        title: "A Framework for Excellence.",
-        bullets: [
-          "Access to large-scale projects",
-          "Total contractual security",
-          "Elite African community membership"
+      model: {
+        eyebrow: "THE SYSTEM PILLARS",
+        title: "Structure & Vision.",
+        description: "Lianet's balance rests on a fundamental duality that infuses every project. Two complementary forces, one single standard of excellence.",
+        pillars: [
+          {
+            id: "rigueur",
+            title: "Architectural Rigor",
+            desc: "An obsession with robustness, security, and code discipline. Every system is designed to last and scale."
+          },
+          {
+            id: "intelligence",
+            title: "Market Intelligence",
+            desc: "A conversion-oriented approach, premium aesthetics, and commercial viability. Technology in service of business."
+          },
+          {
+            id: "execution",
+            title: "Surgical Execution",
+            desc: "Short sprints, auditable deliverables, data-driven iterations. Each cycle is a measurable step toward the final result."
+          },
+          {
+            id: "garantie",
+            title: "Performance Guarantee",
+            desc: "Results aren't a promise, they're a contract. ROI measured, quality audited, performance validated by data."
+          }
         ]
-      }
-    },
-    founders: {
-      title: "The System Architects",
-      jean: {
-        name: "Jean Gabriel G.",
-        role: "Structure & Strategy",
-        bio: "Expert in operational orchestration, Jean-Gabriel designs the processes that guarantee flawless execution. He transforms complexity into smooth, predictable systems."
       },
-      barthelemy: {
-        name: "Barthélémy L. D.",
-        role: "Vision & Innovation",
-        bio: "Software architect and technological catalyst, Barthélémy pushes the boundaries of the possible. He ensures every Lianet solution is at the forefront of global innovation."
+      commitments: {
+        client: {
+          title: "The System Guarantees Perfection.",
+          subtitle: "No matter who codes, the result is contractual.",
+          bullets: [
+            "Algorithmic talent selection (top 3%)",
+            "Transparent, data-driven governance",
+            "Performance guarantee built into the contract"
+          ]
+        },
+        freelance: {
+          title: "Join a War Machine.",
+          subtitle: "Your expertise deserves a system that values it.",
+          bullets: [
+            "Exclusive access to high-impact technical missions",
+            "Premium compensation and contractual security",
+            "Integration into an architect ecosystem"
+          ]
+        }
+      },
+      founders: {
+        title: "The Origin of the System",
+        jean: {
+          name: "Jean Gabriel G.",
+          role: "Structure",
+          specialties: ["Orchestration", "Systems", "Process"],
+          bio: "Guardian of architectural rigor. Robustness, security, and code discipline."
+        },
+        barthelemy: {
+          name: "Barthélémy L. D.",
+          role: "Vision",
+          specialties: ["Architecture", "Innovation", "Product"],
+          bio: "Guardian of market intelligence. Conversion, aesthetics, and commercial viability."
+        }
+      },
+      signature: {
+        quote: "A scout sees far and looks beyond.",
+        author: "Robert Baden-Powell",
+        tagline: "The ethic that guides every line of code."
       }
     }
-  },
+  }
 } as const;
 
 export const messages = {
@@ -1004,3 +1180,4 @@ export const messages = {
 } as const;
 
 export type Messages = typeof fr;
+export default fr;

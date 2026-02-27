@@ -5,6 +5,7 @@ import { useI18n } from "@/lib/useI18n";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 
+
 export default function BrandingStory() {
     const { t } = useI18n();
     const containerRef = useRef(null);
@@ -57,32 +58,63 @@ export default function BrandingStory() {
 
                                 <blockquote className="mt-12">
                                     <p className="text-2xl md:text-3xl font-nunito font-bold text-[#1B365D] leading-tight italic">
-                                        "{t("about.story.quote")}"
+                                        &ldquo;{t("about.story.quote")}&rdquo;
                                     </p>
                                 </blockquote>
                             </motion.div>
                         </div>
 
-                        {/* Abstract Visual / Branding Mark */}
+                        {/* Pictogram Stamp — replaces LN text */}
                         <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                            <div className="relative w-full aspect-square max-w-md">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                                transition={{ duration: 1.2, delay: 0.6 }}
+                                className="relative w-full aspect-square max-w-sm"
+                            >
+                                {/* Outer rotating ring */}
                                 <motion.div
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                                     className="absolute inset-0 rounded-full border border-dashed border-[#1B365D]/10"
                                 />
+                                {/* Inner counter-rotating ring */}
                                 <motion.div
                                     animate={{ rotate: -360 }}
                                     transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                                     className="absolute inset-8 rounded-full border border-dashed border-[#40B4A6]/20"
                                 />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-1/3 h-1/3 bg-[#1B365D] rounded-full blur-3xl opacity-10 animate-pulse" />
-                                    <div className="text-8xl font-black text-[#1B365D]/5 select-none font-nunito">
-                                        LN
+
+                                {/* Stamp Frame — tilted, ink-press feel */}
+                                <motion.div
+                                    initial={{ rotate: -6, scale: 0.85 }}
+                                    animate={isInView ? { rotate: -3, scale: 1 } : {}}
+                                    transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
+                                    className="absolute inset-12 flex items-center justify-center"
+                                >
+                                    <div className="relative w-full h-full rounded-[28px] border-2 border-[#1B365D]/10 bg-white/60 backdrop-blur-sm shadow-xl shadow-[#1B365D]/5 flex items-center justify-center p-6">
+                                        {/* Pictogram */}
+                                        <div className="relative w-4/5 h-4/5 flex items-center justify-center">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src="/pictogram-lianet.png"
+                                                alt="Lianet"
+                                                loading="eager"
+                                                className="w-full h-full object-contain drop-shadow-[0_4px_20px_rgba(27,54,93,0.15)]"
+                                            />
+                                        </div>
+                                        {/* INFRASTRUCTURE label */}
+                                        <p className="absolute bottom-4 left-0 right-0 text-center text-[8px] tracking-[0.4em] text-[#1B365D]/25 uppercase font-nunito">
+                                            INFRASTRUCTURE
+                                        </p>
                                     </div>
+                                </motion.div>
+
+                                {/* Soft glow behind */}
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div className="w-1/3 h-1/3 bg-[#1B365D] rounded-full blur-3xl opacity-5 animate-pulse" />
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </div>
