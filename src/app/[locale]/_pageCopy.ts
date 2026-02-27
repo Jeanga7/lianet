@@ -91,13 +91,13 @@ const frCopy: Record<PageKey, PageCopy> = {
   },
   contact: {
     eyebrow: "CONTACT",
-    title: "Contact",
+    title: "Démarrons l'impossible.",
     description:
-      "Page de conversion centrale: formulaire, coordonnées, localisation et qualification de besoin.",
+      "Prêt à élever vos standards technologiques ? L'élite est à un message de distance. Nous analysons chaque projet avec une rigueur chirurgicale.",
     modules: [
-      { title: "Formulaire", description: "Structure formulaire de brief projet et qualification." },
-      { title: "Coordonnées", description: "Blocs email, téléphone, réseaux et créneaux de disponibilité." },
-      { title: "Localisation", description: "Intégration carte, adresses et informations pratiques." },
+      { title: "Brief Projet", description: "Discutez de vos ambitions avec nos architectes et recevez un diagnostic d'impact sous 48h." },
+      { title: "Network Support", description: "Un besoin spécifique sur le réseau ou une question sur nos Elite Squads ? Nous sommes là." },
+      { title: "Partenariats", description: "Explorez comment Lianet peut devenir l'infrastructure de confiance de votre croissance." },
     ],
   },
   insights: {
@@ -204,13 +204,13 @@ const enCopy: Record<PageKey, PageCopy> = {
   },
   contact: {
     eyebrow: "CONTACT",
-    title: "Contact",
+    title: "Let's build the impossible.",
     description:
-      "Main conversion page: project brief form, contact details, location, and qualification.",
+      "Ready to elevate your technological standards? The elite is one message away. We analyze every project with surgical precision.",
     modules: [
-      { title: "Form", description: "Project brief and lead qualification structure." },
-      { title: "Contact Details", description: "Email, phone, social channels, and availability blocks." },
-      { title: "Location", description: "Map, addresses, and practical information." },
+      { title: "Project Brief", description: "Discuss your ambitions with our architects and receive an impact diagnosis within 48h." },
+      { title: "Network Support", description: "A specific need for the network or a question about our Elite Squads? We are here." },
+      { title: "Partnerships", description: "Explore how Lianet can become the trusted infrastructure for your growth." },
     ],
   },
   insights: {

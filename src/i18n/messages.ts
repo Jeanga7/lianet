@@ -1087,121 +1087,121 @@ const en = {
         }
       ]
     },
-    about: {
-      sections: {
-        hero: "SYSTEM",
-        manifeste: "MANIFESTO",
-        system: "LIANET OS",
-        squad: "SQUAD",
-        agile: "MODEL",
-        commitments: "COMMITMENTS",
-        founders: "ORIGIN",
-        signature: "VISION"
-      },
-      squad: {
-        title: "Squad-as-a-Service.",
-        subtitle: "Lianet doesn't deploy individuals, but Squads. Autonomous, multidisciplinary cells, ready to activate in record time.",
-        pillars: [
-          {
-            id: "elite",
-            title: "The Elite Unit",
-            desc: "An autonomous cell of experts (Dev, Design, Growth) working in agile sprints. Result: iterative deliveries and uncompromising quality."
-          },
-          {
-            id: "commando",
-            title: "Commando Activation",
-            desc: "Forget 3-month recruitment processes. Our network is already ready. A Lianet Squad can be activated and operational on your project in record time."
-          },
-          {
-            id: "scalabilite",
-            title: "Flexibility & Scalability",
-            desc: "Your need grows? Your Squad adapts. Adjust the size of your expert team based on your development cycles and budget."
-          },
-          {
-            id: "resultat",
-            title: "Obsession with Results",
-            desc: "We don't bill hours, we deliver impact. Every Squad sprint is aligned with your business objectives of profitability and visibility."
-          }
-        ],
-        badges: [
-          "Accelerated Time-to-Market",
-          "Zero Recruitment Cost",
-          "Guaranteed Elite Expertise"
-        ],
-        cycle: [
-          { step: "Client Need", label: "01" },
-          { step: "Squad Assembly", label: "02" },
-          { step: "Agile Sprint", label: "03" },
-          { step: "Impact Delivery", label: "04" }
+    sections: {
+      hero: "SYSTEM",
+      manifeste: "MANIFESTO",
+      system: "LIANET OS",
+      squad: "SQUAD",
+      agile: "MODEL",
+      commitments: "COMMITMENTS",
+      founders: "ORIGIN",
+      signature: "VISION"
+    },
+    squad: {
+      title: "Squad-as-a-Service.",
+      subtitle: "Lianet doesn't deploy individuals, but Squads. Autonomous, multidisciplinary cells, ready to activate in record time.",
+      pillars: [
+        {
+          id: "elite",
+          title: "The Elite Unit",
+          desc: "An autonomous cell of experts (Dev, Design, Growth) working in agile sprints. Result: iterative deliveries and uncompromising quality."
+        },
+        {
+          id: "commando",
+          title: "Commando Activation",
+          desc: "Forget 3-month recruitment processes. Our network is already ready. A Lianet Squad can be activated and operational on your project in record time."
+        },
+        {
+          id: "scalabilite",
+          title: "Flexibility & Scalability",
+          desc: "Your need grows? Your Squad adapts. Adjust the size of your expert team based on your development cycles and budget."
+        },
+        {
+          id: "resultat",
+          title: "Obsession with Results",
+          desc: "We don't bill hours, we deliver impact. Every Squad sprint is aligned with your business objectives of profitability and visibility."
+        }
+      ],
+      badges: [
+        "Accelerated Time-to-Market",
+        "Zero Recruitment Cost",
+        "Guaranteed Elite Expertise"
+      ],
+      cycle: [
+        { step: "Client Need", label: "01" },
+        { step: "Squad Assembly", label: "02" },
+        { step: "Agile Sprint", label: "03" },
+        { step: "Impact Delivery", label: "04" }
+      ]
+    },
+    model: {
+      eyebrow: "THE SYSTEM PILLARS",
+      title: "Structure & Vision.",
+      description: "Lianet's balance rests on a fundamental duality that infuses every project. Two complementary forces, one single standard of excellence.",
+      pillars: [
+        {
+          id: "rigueur",
+          title: "Architectural Rigor",
+          desc: "An obsession with robustness, security, and code discipline. Every system is designed to last and scale."
+        },
+        {
+          id: "intelligence",
+          title: "Market Intelligence",
+          desc: "A conversion-oriented approach, premium aesthetics, and commercial viability. Technology in service of business."
+        },
+        {
+          id: "execution",
+          title: "Surgical Execution",
+          desc: "Short sprints, auditable deliverables, data-driven iterations. Each cycle is a measurable step toward the final result."
+        },
+        {
+          id: "garantie",
+          title: "Performance Guarantee",
+          desc: "Results aren't a promise, they're a contract. ROI measured, quality audited, performance validated by data."
+        }
+      ]
+    },
+    commitments: {
+      client: {
+        title: "The System Guarantees Perfection.",
+        subtitle: "No matter who codes, the result is contractual.",
+        bullets: [
+          "Algorithmic talent selection (top 3%)",
+          "Transparent, data-driven governance",
+          "Performance guarantee built into the contract"
         ]
       },
-      model: {
-        eyebrow: "THE SYSTEM PILLARS",
-        title: "Structure & Vision.",
-        description: "Lianet's balance rests on a fundamental duality that infuses every project. Two complementary forces, one single standard of excellence.",
-        pillars: [
-          {
-            id: "rigueur",
-            title: "Architectural Rigor",
-            desc: "An obsession with robustness, security, and code discipline. Every system is designed to last and scale."
-          },
-          {
-            id: "intelligence",
-            title: "Market Intelligence",
-            desc: "A conversion-oriented approach, premium aesthetics, and commercial viability. Technology in service of business."
-          },
-          {
-            id: "execution",
-            title: "Surgical Execution",
-            desc: "Short sprints, auditable deliverables, data-driven iterations. Each cycle is a measurable step toward the final result."
-          },
-          {
-            id: "garantie",
-            title: "Performance Guarantee",
-            desc: "Results aren't a promise, they're a contract. ROI measured, quality audited, performance validated by data."
-          }
+      freelance: {
+        title: "Join a War Machine.",
+        subtitle: "Your expertise deserves a system that values it.",
+        bullets: [
+          "Exclusive access to high-impact technical missions",
+          "Premium compensation and contractual security",
+          "Integration into an ecosystem of architects"
         ]
-      },
-      commitments: {
-        client: {
-          title: "The System Guarantees Perfection.",
-          subtitle: "No matter who codes, the result is contractual.",
-          bullets: [
-            "Algorithmic talent selection (top 3%)",
-            "Transparent, data-driven governance",
-            "Performance guarantee built into the contract"
-          ]
-        },
-        freelance: {
-          title: "Join a War Machine.",
-          subtitle: "Your expertise deserves a system that values it.",
-          bullets: [
-            "Exclusive access to high-impact technical missions",
-            "Premium compensation and contractual security",
-            "Integration into an architect ecosystem"
-          ]
-        }
-      },
-      founders: {
-        title: "The Origin of the System",
-        jean: {
-          name: "Jean Gabriel G.",
-          role: "Structure",
-          specialties: ["Orchestration", "Systems", "Process"],
-          bio: "Guardian of architectural rigor. Robustness, security, and code discipline."
-        },
-        barthelemy: {
-          name: "Barthélémy L. D.",
-          role: "Vision",
-          specialties: ["Architecture", "Innovation", "Product"],
-          bio: "Guardian of market intelligence. Conversion, aesthetics, and commercial viability."
-        }
-      },
-      signature: {
-        quote: "A scout sees far and looks beyond.",
-        author: "Robert Baden-Powell",
-        tagline: "The ethic that guides every line of code."
       }
+    },
+    founders: {
+      eyebrow: "THE ORIGINS",
+      title: "The Power of Duality.",
+      subtitle: "The convergence of architectural rigor and market intelligence.",
+      note1: {
+        name: "Jean-Gabriel A.",
+        role: "Architecture",
+        specialties: ["Code", "Infrastructure", "Ops"],
+        bio: "The guard of technical integrity. Scalability, security, and the precision of the invisible."
+      },
+      note2: {
+        name: "Frédérick A.",
+        role: "Vision",
+        specialties: ["Market Intelligence", "Product", "Brand"],
+        bio: "The sentinel of market logic. Conversion, aesthetics, and commercial viability."
+      }
+    },
+    signature: {
+      quote: "The scout sees grand and looks far.",
+      author: "Robert Baden-Powell",
+      tagline: "The ethics that guide every line of code."
     }
   }
 } as const;
@@ -1211,5 +1211,6 @@ export const messages = {
   en,
 } as const;
 
+export type Locale = keyof typeof messages;
 export type Messages = typeof fr;
 export default fr;
