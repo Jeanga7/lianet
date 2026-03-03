@@ -3,8 +3,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check } from "lucide-react";
 import { useI18n } from "@/lib/useI18n";
+import { localizePathname } from "@/lib/locale";
+import { appRoutes } from "@/lib/routes";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { FilmGrain } from "@/components/sections";
 import { Magnetic, EliteButton } from "@/components/ui/atoms";
 
@@ -14,7 +16,21 @@ interface PillarDeepDiveProps {
 }
 
 export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProps) {
-    const { t, tArray } = useI18n();
+    const { t, tArray, locale } = useI18n();
+
+    const handleCta = useCallback(() => {
+        onClose();
+        // Navigate with PageWipe to /contact — pass activeId as query param so the form pre-selects the right ambition
+        setTimeout(() => {
+            const baseUrl = localizePathname(appRoutes.contact, locale);
+            const url = activeId ? `${baseUrl}?solution=${activeId}` : baseUrl;
+            window.dispatchEvent(
+                new CustomEvent("navigateWithWipe", {
+                    detail: { href: url },
+                })
+            );
+        }, 200);
+    }, [onClose, locale, activeId]);
 
     // Bloquer le scroll du fond quand ouvert
     useEffect(() => {
@@ -167,7 +183,7 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
                                             <p className="mt-1 text-lg font-bold text-[#1B365D]">{t("solutions.common.ctaExpert")}</p>
                                         </div>
                                         <EliteButton
-                                            onClick={() => {/* potential contact action */ }}
+                                            onClick={handleCta}
                                             arrow="right"
                                             className="h-14 px-6 py-0 text-[12px] tracking-[0.14em] whitespace-nowrap sm:h-auto sm:px-8 sm:py-4 sm:text-[13px] sm:tracking-[0.2em]"
                                         >

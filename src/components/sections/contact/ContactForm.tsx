@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { ChevronDown, Send } from "lucide-react";
 import { EliteButton } from "@/components/ui/atoms";
 import { cn } from "@/lib/utils";
@@ -15,13 +16,37 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ dictionary, onSuccess, isTransmitting, setIsTransmitting }: ContactFormProps) {
+    const searchParams = useSearchParams();
+
+    // Map solution IDs (from modal CTAs) to ambition IDs in the form
+    const SOLUTION_TO_AMBITION: Record<string, string> = {
+        talent: "squad",    // Réseau d'experts → SaaS Squad
+        strategy: "growth", // Stratégie & conseil → Growth
+        lab: "code",        // Lab & produit → Code & Design
+    };
+
+    const getInitialAmbition = () => {
+        const solution = searchParams?.get("solution") ?? "";
+        return SOLUTION_TO_AMBITION[solution] ?? "";
+    };
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         company: "",
-        ambition: "",
+        ambition: getInitialAmbition(),
         briefing: ""
     });
+
+    // If the URL changes after mount (e.g. soft navigation), sync the ambition
+    useEffect(() => {
+        const solution = searchParams?.get("solution") ?? "";
+        const mapped = SOLUTION_TO_AMBITION[solution] ?? "";
+        if (mapped) {
+            setFormData(prev => ({ ...prev, ambition: mapped }));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams]);
 
     const [touched, setTouched] = useState<Record<string, boolean>>({});
     const [error, setError] = useState<string | null>(null);

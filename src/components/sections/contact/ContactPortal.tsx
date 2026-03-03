@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { FilmGrain, FooterSection } from "@/components/sections";
 import { ContactForm } from "@/components/sections/contact/ContactForm";
 import { ContactInfo } from "@/components/sections/contact/ContactInfo";
@@ -68,12 +68,14 @@ export function ContactPortal({ dictionary, locale }: ContactPortalProps) {
                                         exit={{ opacity: 0, scale: 0.95 }}
                                         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                                     >
-                                        <ContactForm
-                                            dictionary={dictionary}
-                                            onSuccess={handleSuccess}
-                                            isTransmitting={status === "transmitting"}
-                                            setIsTransmitting={(val: boolean) => setStatus(val ? "transmitting" : "idle")}
-                                        />
+                                        <Suspense fallback={null}>
+                                            <ContactForm
+                                                dictionary={dictionary}
+                                                onSuccess={handleSuccess}
+                                                isTransmitting={status === "transmitting"}
+                                                setIsTransmitting={(val: boolean) => setStatus(val ? "transmitting" : "idle")}
+                                            />
+                                        </Suspense>
                                     </motion.div>
                                 ) : (
                                     <motion.div
