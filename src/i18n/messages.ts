@@ -16,9 +16,45 @@ const fr = {
       title: "Network — Accédez au Top 3% des Talents Africains",
       description: "Elite Squads & Experts. Rejoignez ou mobilisez le réseau d'excellence technologique de Lianet.",
     },
-    contact: {
-      title: "Contact — Démarrer votre Projet d'Excellence",
-      description: "Prêt à transformer votre vision en réalité ? Contactez les experts Lianet dès aujourd'hui.",
+  },
+  contact: {
+    title: "Démarrer l'Initialisation",
+    description: "Prêt à élever vos standards technologiques ? L'élite est à un message de distance. Nous analysons chaque projet avec une rigueur chirurgicale.",
+    hero: {
+      eyebrow: "LE PORTAIL — 05",
+      title: "Prêt à initialiser votre mission ?",
+      subtitle: "Engagez l'infrastructure Lianet pour transformer votre vision en standard de référence.",
+    },
+    form: {
+      name: "Identité",
+      namePlaceholder: "Votre nom complet",
+      email: "Email Professionnel",
+      emailPlaceholder: "nom@entreprise.africa",
+      company: "Organisation / Projet",
+      companyPlaceholder: "Nom de votre structure",
+      ambition: "Sélecteur d'Ambition",
+      ambitions: {
+        code: "Je veux bâtir un produit (Code & Design)",
+        growth: "Je veux propulser ma croissance (Marketing & CM)",
+        squad: "Je veux une Squad dédiée (SaaS)",
+        other: "Autre défi stratégique"
+      },
+      briefing: "Le Briefing",
+      briefingPlaceholder: "Décrivez votre vision ou le défi que nous devons relever ensemble.",
+      submit: "Initialiser la Transmission",
+      transmitting: "Transmission en cours...",
+      success: {
+        title: "Briefing reçu.",
+        message: "Nos architectes analysent vos données. À très vite.",
+        cta: "Retour à l'accueil"
+      }
+    },
+    info: {
+      location: "Dakar, Sénégal",
+      hub: "Hub Afrique",
+      email: "contact@lianet.sn",
+      status: "Opérationnel",
+      responseTime: "Réponse sous 24h"
     }
   },
   common: {
@@ -622,9 +658,45 @@ const en = {
       title: "Network — Access the Top 3% of African Talent",
       description: "Elite Squads & Experts. Join or mobilize Lianet's technological excellence network.",
     },
-    contact: {
-      title: "Contact — Start your Excellence Project",
-      description: "Ready to transform your vision into reality? Contact Lianet experts today.",
+  },
+  contact: {
+    title: "Start Initialization",
+    description: "Ready to elevate your technological standards? The elite is one message away. We analyze every project with surgical precision.",
+    hero: {
+      eyebrow: "THE PORTAL — 05",
+      title: "Ready to initialize your mission?",
+      subtitle: "Engage the Lianet infrastructure to transform your vision into a reference standard.",
+    },
+    form: {
+      name: "Identity",
+      namePlaceholder: "Your full name",
+      email: "Professional Email",
+      emailPlaceholder: "name@company.africa",
+      company: "Organization / Project",
+      companyPlaceholder: "Structure name",
+      ambition: "Ambition Selector",
+      ambitions: {
+        code: "I want to build a product (Code & Design)",
+        growth: "I want to propel my growth (Marketing & CM)",
+        squad: "I want a dedicated Squad (SaaS)",
+        other: "Another strategic challenge"
+      },
+      briefing: "The Briefing",
+      briefingPlaceholder: "Describe your vision or the challenge we must solve together.",
+      submit: "Initialize Transmission",
+      transmitting: "Transmission in progress...",
+      success: {
+        title: "Briefing received.",
+        message: "Our architects are analyzing your data. See you soon.",
+        cta: "Back to home"
+      }
+    },
+    info: {
+      location: "Dakar, Senegal",
+      hub: "Africa Hub",
+      email: "contact@lianet.sn",
+      status: "Operational",
+      responseTime: "Response under 24h"
     }
   },
 

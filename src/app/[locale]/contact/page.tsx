@@ -13,13 +13,18 @@ export async function generateMetadata({ params }: PageProps) {
   const t = await getI18n(currentLocale);
 
   return {
-    title: String(t("metadata.contact.title")),
-    description: String(t("metadata.contact.description")),
+    title: String(t("contact.title")),
+    description: String(t("contact.description")),
   };
 }
 
+import { ContactPortal } from "@/components/sections/contact";
+import { messages } from "@/i18n/messages";
+
 export default async function ContactPage({ params }: PageProps) {
   const { locale } = await params;
-  const currentLocale: Locale = isLocale(locale) ? locale : "fr";
-  return <PageScaffold locale={currentLocale} {...getPageCopy("contact", currentLocale)} />;
+  const currentLocale = isLocale(locale) ? locale : "fr";
+  const dictionary = messages[currentLocale].contact;
+
+  return <ContactPortal dictionary={dictionary} locale={currentLocale} />;
 }
