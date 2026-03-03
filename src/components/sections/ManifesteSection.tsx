@@ -1,14 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Dna, Send } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, CheckCircle, Dna, Loader2, Send, XCircle } from "lucide-react";
 import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
 import { useI18n } from "@/lib/useI18n";
+import { sendManifesteEmail } from "@/lib/actions/email";
 
 type FocusField = "ambition" | "email" | "cta" | null;
+type SubmitState = "idle" | "loading" | "success" | "error";
 
 const springTransition = {
   type: "spring" as const,
@@ -26,14 +28,34 @@ export default function ManifesteSection() {
   const [focusField, setFocusField] = useState<FocusField>(null);
   const [ambition, setAmbition] = useState("");
   const [email, setEmail] = useState("");
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
 
   const navigateWithWipe = (href: string) => {
     window.dispatchEvent(new CustomEvent("navigateWithWipe", { detail: { href } }));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigateWithWipe(localizePathname(appRoutes.contact, locale));
+    if (!email || !ambition) return;
+    setSubmitState("loading");
+    try {
+      const result = await sendManifesteEmail({ email, ambition });
+      if (result.success) {
+        setSubmitState("success");
+        // Reset form after 4s so the user can submit again
+        setTimeout(() => {
+          setSubmitState("idle");
+          setEmail("");
+          setAmbition("");
+        }, 4000);
+      } else {
+        setSubmitState("error");
+        setTimeout(() => setSubmitState("idle"), 4000);
+      }
+    } catch {
+      setSubmitState("error");
+      setTimeout(() => setSubmitState("idle"), 4000);
+    }
   };
 
   return (
@@ -215,6 +237,39 @@ export default function ManifesteSection() {
               </div>
 
               <div className="mt-10">
+
+                {/* ── Inline feedback states ───────────────────────── */}
+                <AnimatePresence mode="wait">
+                  {submitState === "success" && (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="mb-6 flex items-center gap-3 rounded-xl border border-[#8FD6CC]/40 bg-[#8FD6CC]/10 px-5 py-4"
+                    >
+                      <CheckCircle className="h-5 w-5 shrink-0 text-[#8FD6CC]" />
+                      <p className="text-sm font-medium text-[#F8FAFC]" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+                        Message envoyé ! Nous vous recontacterons très bientôt.
+                      </p>
+                    </motion.div>
+                  )}
+                  {submitState === "error" && (
+                    <motion.div
+                      key="error"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="mb-6 flex items-center gap-3 rounded-xl border border-red-400/40 bg-red-500/10 px-5 py-4"
+                    >
+                      <XCircle className="h-5 w-5 shrink-0 text-red-300" />
+                      <p className="text-sm font-medium text-[#F8FAFC]" style={{ fontFamily: "var(--font-lato), 'Lato', sans-serif" }}>
+                        Une erreur est survenue. Veuillez réessayer.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <div className="relative">
                   {focusField === "cta" && (
                     <motion.span
@@ -227,15 +282,16 @@ export default function ManifesteSection() {
                     <HeroPrimaryButton
                       type="submit"
                       size="compact"
-                      label={t("manifeste.primaryCta")}
-                      iconStart={Send}
-                      iconEnd={ArrowUpRight}
+                      label={submitState === "loading" ? "Envoi en cours..." : t("manifeste.primaryCta")}
+                      iconStart={submitState === "loading" ? Loader2 : Send}
+                      iconEnd={submitState === "loading" ? undefined : ArrowUpRight}
                       showEndIconOnMobile
                       onMouseEnter={() => setFocusField("cta")}
                       onMouseLeave={() => setFocusField(null)}
                       onFocus={() => setFocusField("cta")}
                       onBlur={() => setFocusField(null)}
-                      className="!w-full"
+                      className={`!w-full ${submitState === "loading" ? "opacity-70 cursor-not-allowed" : ""}`}
+                      disabled={submitState === "loading" || submitState === "success"}
                     />
                   </Magnetic>
                 </div>

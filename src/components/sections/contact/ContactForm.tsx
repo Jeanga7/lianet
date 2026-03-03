@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ChevronDown, Send } from "lucide-react";
 import { EliteButton } from "@/components/ui/atoms";
 import { cn } from "@/lib/utils";
+import { sendContactEmail } from "@/lib/actions/email";
 
 interface ContactFormProps {
     dictionary: any;
@@ -23,6 +24,7 @@ export function ContactForm({ dictionary, onSuccess, isTransmitting, setIsTransm
     });
 
     const [touched, setTouched] = useState<Record<string, boolean>>({});
+    const [error, setError] = useState<string | null>(null);
 
     const ambitions = [
         { id: "code", label: dictionary.form.ambitions.code },
@@ -41,13 +43,22 @@ export function ContactForm({ dictionary, onSuccess, isTransmitting, setIsTransm
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError(null);
         setIsTransmitting(true);
 
-        // Simulate "Transmission" micro-animation / API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        setIsTransmitting(false);
-        onSuccess();
+        try {
+            const result = await sendContactEmail(formData);
+            if (result.success) {
+                // Do NOT call setIsTransmitting(false) here — onSuccess() handles the state transition
+                onSuccess();
+            } else {
+                setIsTransmitting(false);
+                setError(result.error || "Une erreur s'est produite. Veuillez réessayer.");
+            }
+        } catch (err) {
+            setIsTransmitting(false);
+            setError("Impossible de contacter le serveur. Vérifiez votre connexion.");
+        }
     };
 
     const renderField = (name: keyof typeof formData, label: string, placeholder: string, type = "text") => {
@@ -158,6 +169,16 @@ export function ContactForm({ dictionary, onSuccess, isTransmitting, setIsTransm
                     />
                 )}
             </div>
+
+            {error && (
+                <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-red-500 font-lato text-sm font-bold"
+                >
+                    {error}
+                </motion.p>
+            )}
         </form >
     );
 }

@@ -3,8 +3,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { FilmGrain, FooterSection } from "@/components/sections";
-import { ContactForm } from "./ContactForm";
-import { ContactInfo } from "./ContactInfo";
+import { ContactForm } from "@/components/sections/contact/ContactForm";
+import { ContactInfo } from "@/components/sections/contact/ContactInfo";
 
 interface ContactPortalProps {
     dictionary: any;

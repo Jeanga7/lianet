@@ -5,6 +5,7 @@ import { X, Upload, FileCheck, Loader2, ChevronDown, Check } from "lucide-react"
 import { useI18n } from "@/lib/useI18n";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { sendNetworkEmail } from "@/lib/actions/email";
 
 interface EliteSideDrawerProps {
     isOpen: boolean;
@@ -159,25 +160,48 @@ export default function EliteSideDrawer({ isOpen, onClose, title, track }: Elite
 
         setIsSubmitting(true);
 
-        setCurrentStatus("verifying");
-        await new Promise(r => setTimeout(r, 1400));
-        setCurrentStatus("aligning");
-        await new Promise(r => setTimeout(r, 1400));
-        setCurrentStatus("authorizing");
-        await new Promise(r => setTimeout(r, 1200));
+        try {
+            setCurrentStatus("verifying");
+            const data = new FormData();
+            data.append("name", formData.name);
+            data.append("email", formData.email);
+            data.append("role", formData.role);
+            data.append("otherRole", formData.otherRole);
+            data.append("social", formData.social);
+            data.append("track", formData.track);
+            if (file) {
+                data.append("file", file);
+            }
 
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        setCurrentStatus("");
+            const result = await sendNetworkEmail(data);
 
-        setTimeout(() => {
-            onClose();
-            setTimeout(() => {
-                setFile(null);
-                setIsSuccess(false);
-                setFormData({ name: "", email: "", role: "fullstack", otherRole: "", social: "", track: track });
-            }, 600);
-        }, 4000);
+            if (result.success) {
+                setCurrentStatus("aligning");
+                await new Promise(r => setTimeout(r, 800));
+                setCurrentStatus("authorizing");
+                await new Promise(r => setTimeout(r, 600));
+
+                setIsSubmitting(false);
+                setIsSuccess(true);
+                setCurrentStatus("");
+
+                setTimeout(() => {
+                    onClose();
+                    setTimeout(() => {
+                        setFile(null);
+                        setIsSuccess(false);
+                        setFormData({ name: "", email: "", role: "fullstack", otherRole: "", social: "", track: track });
+                    }, 600);
+                }, 4000);
+            } else {
+                // Fallback or error handling could be more robust here
+                setIsSubmitting(false);
+                alert("Submission failed. Please try again.");
+            }
+        } catch (err) {
+            setIsSubmitting(false);
+            alert("A connection error occurred.");
+        }
     };
 
     // Close dropdown on click outside
