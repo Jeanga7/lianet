@@ -83,7 +83,7 @@ export default function PillarDeepDive({ activeId, onClose }: PillarDeepDiveProp
                     className="relative flex h-full max-h-[85vh] w-full max-w-6xl overflow-hidden rounded-[2.5rem] bg-white shadow-2xl sm:max-h-[90vh]"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <FilmGrain opacity={0.3} />
+                    <FilmGrain opacity={0.04} />
 
                     {/* Persistent Close Button */}
                     <div className="absolute right-6 top-6 z-50 lg:right-10 lg:top-10">

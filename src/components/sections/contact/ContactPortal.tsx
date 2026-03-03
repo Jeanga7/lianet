@@ -23,7 +23,7 @@ export function ContactPortal({ dictionary, locale }: ContactPortalProps) {
             id="main-scroll"
             className="relative h-screen overflow-y-auto overflow-x-hidden lg:overflow-y-scroll scrollbar-hide bg-[#F8FAFC]"
         >
-            <FilmGrain opacity={0.2} />
+            <FilmGrain opacity={0.04} />
 
             {/* Background Grid Pattern */}
             <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]"

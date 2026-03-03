@@ -31,7 +31,7 @@ export default function PageScaffold({
       id="main-scroll"
       className="relative h-screen overflow-y-auto overflow-x-hidden lg:overflow-y-scroll scrollbar-hide bg-[#F8FAFC]"
     >
-      <FilmGrain opacity={0.3} />
+      <FilmGrain opacity={0.04} />
       <section className="relative w-full px-6 pb-20 pt-32 sm:px-8 lg:px-14 lg:pt-48">
         <div className="mx-auto max-w-5xl">
           <p className="font-nunito text-[11px] font-bold uppercase tracking-[0.3em] text-[#1B365D]/55">{eyebrow}</p>

@@ -731,7 +731,7 @@ export default function NetworkClient() {
             id="main-scroll"
             className="relative h-screen overflow-y-auto overflow-x-hidden scrollbar-hide bg-[#F8FAFC]"
         >
-            <FilmGrain opacity={0.02} />
+            <FilmGrain opacity={0.04} />
 
             <SquadsHero onSelectTrack={(t) => handleApply(t)} />
             <PolesDeForce />

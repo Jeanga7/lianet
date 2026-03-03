@@ -25,7 +25,7 @@ export default async function AboutPage({ params }: PageProps) {
   return (
     <main id="main-scroll" className="relative h-screen w-full overflow-y-auto overflow-x-hidden lg:overflow-y-scroll bg-white scroll-smooth scrollbar-hide">
       <BackgroundEffects />
-      <FilmGrain opacity={0.2} />
+      <FilmGrain opacity={0.04} />
 
       <div className="relative z-10">
         <section id="hero"><AboutHero /></section>
