@@ -102,13 +102,12 @@ const frCopy: Record<PageKey, PageCopy> = {
   },
   insights: {
     eyebrow: "INSIGHTS",
-    title: "Blog & Insights",
-    description:
-      "Espace éditorial prévu pour articles, analyses, retours d’expérience et perspectives marché.",
+    title: "Intelligence & Perspectives",
+    description: "Nos analyses stratégiques et retours d'expérience sont en cours d'initialisation. Revenez bientôt pour explorer les standards de l'excellence technologique.",
     modules: [
-      { title: "Editorial Grid", description: "Structure listing des contenus avec filtres thématiques." },
-      { title: "Featured", description: "Zone mise en avant des analyses stratégiques." },
-      { title: "Newsletter", description: "Bloc d’inscription et capture d’audience qualifiée." },
+      { title: "Grid Éditoriale", description: "Prochainement : analyses approfondies et décryptages technologiques." },
+      { title: "Featured", description: "Sélection des meilleures pratiques pour l'infrastructure digitale." },
+      { title: "Newsletter", description: "Bientôt disponible pour rester connecté à l'écosystème." },
     ],
   },
   careers: {
@@ -123,14 +122,13 @@ const frCopy: Record<PageKey, PageCopy> = {
     ],
   },
   caseStudies: {
-    eyebrow: "CASE STUDIES",
-    title: "Études de Cas",
-    description:
-      "Page dédiée aux succès clients, méthodologies appliquées et résultats observables.",
+    eyebrow: "ÉTUDES DE CAS",
+    title: "Systèmes & Réussites",
+    description: "Nous finalisons la documentation de nos interventions stratégiques. Découvrez bientôt comment nous transformons la complexité en impact mesurable.",
     modules: [
-      { title: "Success Stories", description: "Structure pour cas clients par secteur." },
-      { title: "Méthode", description: "Sections détaillant approche, stack et livrables." },
-      { title: "Impact", description: "Blocs KPI avant/après et preuves de performance." },
+      { title: "Success Stories", description: "Documentation détaillée de nos déploiements critiques." },
+      { title: "Méthode", description: "Anatomie de nos solutions et standards de performance." },
+      { title: "Impact", description: "Indicateurs de transformation et résultats d'infrastructure." },
     ],
   },
 };
@@ -215,13 +213,12 @@ const enCopy: Record<PageKey, PageCopy> = {
   },
   insights: {
     eyebrow: "INSIGHTS",
-    title: "Blog & Insights",
-    description:
-      "Editorial space planned for articles, analysis, experience reports, and market perspectives.",
+    title: "Intelligence & Perspectives",
+    description: "Our strategic analysis and insights are being initialized. Check back soon to explore the standards of technological excellence.",
     modules: [
-      { title: "Editorial Grid", description: "Listing structure with thematic filters." },
-      { title: "Featured", description: "Spotlight zone for strategic analysis." },
-      { title: "Newsletter", description: "Subscription block for qualified audience capture." },
+      { title: "Editorial Grid", description: "Coming soon: in-depth analysis and technological insights." },
+      { title: "Featured", description: "Selection of best practices for digital infrastructure." },
+      { title: "Newsletter", description: "Coming soon to keep you connected to the ecosystem." },
     ],
   },
   careers: {
@@ -237,13 +234,12 @@ const enCopy: Record<PageKey, PageCopy> = {
   },
   caseStudies: {
     eyebrow: "CASE STUDIES",
-    title: "Case Studies",
-    description:
-      "Page dedicated to client wins, applied methods, and measurable outcomes.",
+    title: "Systems & Success",
+    description: "We are finalizing the documentation of our strategic interventions. Discover soon how we transform complexity into measurable impact.",
     modules: [
-      { title: "Success Stories", description: "Client case structure by industry." },
-      { title: "Method", description: "Sections detailing approach, stack, and deliverables." },
-      { title: "Impact", description: "Before/after KPIs and performance proof blocks." },
+      { title: "Success Stories", description: "Detailed documentation of our critical deployments." },
+      { title: "Method", description: "Anatomy of our solutions and performance standards." },
+      { title: "Impact", description: "Transformation indicators and infrastructure results." },
     ],
   },
 };

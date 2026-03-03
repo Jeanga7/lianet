@@ -234,14 +234,11 @@ export default function FooterSection() {
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 md:justify-start">
             <span>&copy; {currentYear} Lianet. {t("footer.rights")}</span>
             <div className="hidden md:block w-[1px] h-3 bg-white/20 self-center" />
-            <Link href={localizePathname("/legal", locale)} className="hover:text-white transition-colors">
+            <Link href={localizePathname("/terms", locale)} className="hover:text-white transition-colors">
               {t("footer.links.legalNotices")}
             </Link>
-            <Link href={localizePathname("/privacy", locale)} className="hover:text-white transition-colors">
+            <Link href={localizePathname("/privacy-policy", locale)} className="hover:text-white transition-colors">
               {t("footer.links.privacy")}
-            </Link>
-            <Link href={localizePathname("/cgu", locale)} className="hover:text-white transition-colors">
-              {t("footer.links.terms")}
             </Link>
           </div>
 

@@ -289,6 +289,7 @@ const fr = {
       resources: "Ressources",
       contact: "Contact & Localisation",
       social: "Social",
+      policies: "Politiques",
     },
     poles: {
       talent: {
@@ -632,12 +633,52 @@ const fr = {
         bio: "Gardien de l'intelligence de marché. La conversion, l'esthétique et la viabilité commerciale."
       }
     },
-    signature: {
-      quote: "Le scout voit grand et regarde loin.",
-      author: "Robert Baden-Powell",
-      tagline: "L'éthique qui guide chaque ligne de code."
-    }
   },
+  signature: {
+    quote: "Le scout voit grand et regarde loin.",
+    author: "Robert Baden-Powell",
+    tagline: "L'éthique qui guide chaque ligne de code."
+  },
+  legal: {
+    privacy: {
+      title: "Politique de Confidentialité",
+      eyebrow: "LIANET LEGAL",
+      lastUpdated: "Mars 2026",
+      sections: [
+        {
+          title: "Engagement de Confidentialité",
+          content: "Lianet s'engage à protéger l'intégrité de vos données stratégiques. Toute information transmise via nos portails est traitée avec une rigueur protocolaire conforme aux standards de l'industrie."
+        },
+        {
+          title: "Collecte des Données",
+          content: "Nous collectons exclusivement les données nécessaires à l'initialisation de nos missions d'excellence : identité, email professionnel, organisation et briefing technique."
+        },
+        {
+          title: "Finalité du Traitement",
+          content: "Vos données sont traitées uniquement pour l'analyse de vos besoins stratégiques et la mobilisation de nos squads dédiées. Aucune donnée n'est cédée à des tiers."
+        }
+      ]
+    },
+    terms: {
+      title: "Mentions Légales",
+      eyebrow: "LIANET LEGAL",
+      lastUpdated: "Mars 2026",
+      sections: [
+        {
+          title: "Éditeur du Système",
+          content: "Lianet SARL - Infrastructure Technologique d'Excellence. Siège Social : Dakar, Sénégal."
+        },
+        {
+          title: "Propriété Intellectuelle",
+          content: "L'architecture visuelle, les protocoles de design et le code source de ce système sont la propriété exclusive de Lianet."
+        },
+        {
+          title: "Hébergement",
+          content: "Le système est déployé sur l'infrastructure Vercel Inc., garantissant une performance et une sécurité de rang mondial."
+        }
+      ]
+    }
+  }
 } as const;
 
 const en = {
@@ -932,6 +973,7 @@ const en = {
       resources: "Resources",
       contact: "Contact & Location",
       social: "Social",
+      policies: "Policies",
     },
     poles: {
       talent: {
@@ -1270,10 +1312,50 @@ const en = {
         bio: "The sentinel of market logic. Conversion, aesthetics, and commercial viability."
       }
     },
-    signature: {
-      quote: "The scout sees grand and looks far.",
-      author: "Robert Baden-Powell",
-      tagline: "The ethics that guide every line of code."
+  },
+  signature: {
+    quote: "The scout sees grand and looks far.",
+    author: "Robert Baden-Powell",
+    tagline: "The ethics that guide every line of code."
+  },
+  legal: {
+    privacy: {
+      title: "Privacy Policy",
+      eyebrow: "LIANET LEGAL",
+      lastUpdated: "March 2026",
+      sections: [
+        {
+          title: "Privacy Commitment",
+          content: "Lianet is committed to protecting the integrity of your strategic data. All information transmitted through our portals is treated with protocol rigor in line with industry standards."
+        },
+        {
+          title: "Data Collection",
+          content: "We collect only the data necessary for the initialization of our excellence missions: identity, professional email, organization, and technical briefing."
+        },
+        {
+          title: "Purpose of Processing",
+          content: "Your data is processed solely for the analysis of your strategic needs and the mobilization of our dedicated squads. No data is shared with third parties."
+        }
+      ]
+    },
+    terms: {
+      title: "Legal Notices",
+      eyebrow: "LIANET LEGAL",
+      lastUpdated: "March 2026",
+      sections: [
+        {
+          title: "System Publisher",
+          content: "Lianet SARL - Technological Infrastructure of Excellence. Headquarters: Dakar, Senegal."
+        },
+        {
+          title: "Intellectual Property",
+          content: "The visual architecture, design protocols, and source code of this system are the exclusive property of Lianet."
+        },
+        {
+          title: "Hosting",
+          content: "The system is deployed on Vercel Inc. infrastructure, ensuring world-class performance and security."
+        }
+      ]
     }
   }
 } as const;

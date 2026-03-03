@@ -19,11 +19,10 @@ interface FullMenuProps {
 
 const backdropVariants: Variants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } },
+  show: { opacity: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
   exit: {
     opacity: 0,
-    pointerEvents: "none",
-    transition: { duration: 0.04, ease: [0.4, 0, 1, 1] as const },
+    transition: { duration: 0.2, ease: "easeInOut" },
   },
 };
 
@@ -32,30 +31,30 @@ const panelVariants: Variants = {
   show: {
     opacity: 1,
     transition: {
-      duration: 0.35,
-      ease: [0.16, 1, 0.3, 1] as const,
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
       when: "beforeChildren",
-      staggerChildren: 0.08,
+      staggerChildren: 0.05,
     },
   },
   exit: {
     opacity: 0,
-    pointerEvents: "none",
-    transition: { duration: 0.04, ease: [0.4, 0, 1, 1] as const },
+    transition: { duration: 0.2, ease: "easeInOut" },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+    filter: "blur(0px)",
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
   exit: {
     opacity: 0,
-    y: -10,
-    transition: { duration: 0.1, ease: [0.4, 0, 1, 1] as const },
+    y: -20,
+    transition: { duration: 0.2, ease: "easeIn" },
   },
 };
 
@@ -104,7 +103,13 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
     href: localizePathname(item.path, locale),
     label: t(item.labelKey),
     suffix: item.suffixKey ? t(item.suffixKey) : null,
+    isComingSoon: item.path === appRoutes.insights || item.path === appRoutes.caseStudies,
   }));
+
+  const legalLinks = [
+    { href: localizePathname("/privacy-policy", locale), label: t("footer.links.privacy") },
+    { href: localizePathname("/terms", locale), label: t("footer.links.legalNotices") },
+  ];
 
   const socialLinks = [
     { icon: Linkedin, href: "https://linkedin.com/company/lianet", label: "LinkedIn" },
@@ -191,10 +196,11 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
           variants={backdropVariants}
         >
           {/* Mobile version - Light Glass aligned with desktop */}
-          <div className="absolute inset-0 h-[100dvh] overflow-hidden bg-background/95 lg:hidden">
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-secondary/12 via-white/70 to-accent/10" />
-            <div className="pointer-events-none absolute inset-0 grid-pattern opacity-20" />
-            <div className="pointer-events-none absolute left-6 top-0 h-full w-px bg-[#40B4A6]/35" />
+          <div className="absolute inset-0 h-[100dvh] overflow-hidden bg-white lg:hidden">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-secondary/10 via-white/80 to-accent/10" />
+            <div className="pointer-events-none absolute inset-0 grid-pattern opacity-[0.08]" />
+            <div className="grain-bg opacity-[0.2] pointer-events-none" />
+            <div className="pointer-events-none absolute left-6 top-0 h-full w-px bg-secondary/15" />
 
 
 
@@ -279,12 +285,12 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                   </motion.div>
 
                   {/* CTA principal au-dessus de la ligne de flottaison */}
-                  <motion.div variants={poleTitleVariants} className="pt-5 pb-7 pl-4 border-b border-[#1B365D]/10">
+                  <motion.div variants={poleTitleVariants} className="pt-5 pb-7 px-4 m-1 border-b border-[#1B365D]/10">
                     <HeroSecondaryButton
                       onClick={() => openRoute(appRoutes.contact)}
                       label={t("fullMenu.startProject")}
                       size="compact"
-                      className="w-full sm:w-full bg-[#40B4A6]/20 hover:bg-[#40B4A6]/32 border border-[#40B4A6]/35 shadow-lg shadow-[#40B4A6]/5"
+                      className="w-full bg-[#40B4A6]/20 hover:bg-[#40B4A6]/32 border border-[#40B4A6]/35 shadow-lg shadow-[#40B4A6]/5"
                     />
                   </motion.div>
 
@@ -418,7 +424,27 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                                 >
                                   {item.label}
                                   {item.suffix ? <span className="text-[#1B365D]/55 text-sm font-normal">{item.suffix}</span> : null}
+                                  {item.isComingSoon && (
+                                    <span className="ml-2 rounded bg-[#1B365D]/10 px-1.5 py-0.5 text-[8px] font-bold uppercase text-[#1B365D]/60 whitespace-nowrap">
+                                      Soon
+                                    </span>
+                                  )}
                                   <span className="ml-auto text-[#40B4A6] opacity-0 transition-opacity group-active:opacity-100">→</span>
+                                </Link>
+                              </li>
+                            ))}
+                            <div className="my-4 border-t border-[#1B365D]/10" />
+                            {legalLinks.map((item) => (
+                              <li key={item.href}>
+                                <Link
+                                  href={item.href}
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    openLocalizedHref(item.href);
+                                  }}
+                                  className="group flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium tracking-tight text-[#1B365D]/60 active:bg-[#1B365D]/5"
+                                >
+                                  {item.label}
                                 </Link>
                               </li>
                             ))}
@@ -535,52 +561,64 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
 
           {/* Desktop version */}
           <div className="hidden lg:block">
-            {/* Backdrop */}
+            {/* Liquid Backdrop with refined glassmorphism */}
             <motion.div
               variants={backdropVariants}
-              className="absolute inset-0 bg-[#1B365D]/10 backdrop-blur-md"
+              className="absolute inset-0 z-0"
               onClick={onClose}
               aria-hidden="true"
+            >
+              {/* Background wash with solid white plus blur for depth */}
+              <div className="absolute inset-0 bg-white backdrop-blur-3xl" />
+              <div className="grain-bg opacity-[0.35] pointer-events-none" />
+
+              {/* Complex ambient gradients */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(64,180,166,0.06),transparent_50%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(27,54,93,0.04),transparent_50%)]" />
+
+              {/* Sophisticated grid with subtle depth */}
+              <div className="absolute inset-0 grid-pattern opacity-[0.1]" />
+            </motion.div>
+
+            {/* Organic Reactive Shape (The "Blob") */}
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-20 top-1/2 h-[850px] w-[850px] -translate-y-1/2 bg-gradient-to-br from-secondary/40 via-secondary/20 to-accent/30 mix-blend-multiply"
+              animate={{
+                borderRadius:
+                  hoveredPole === "talent" ? "30% 70% 70% 30% / 30% 30% 70% 70%" :
+                    hoveredPole === "strategy" ? "50% 50% 50% 50% / 40% 40% 60% 60%" :
+                      hoveredPole === "lab" ? "40% 60% 60% 40% / 50% 50% 50% 50%" :
+                        "30% 70% 70% 30% / 60% 40% 60% 40%",
+                scale: hoveredPole ? 1.15 : 1,
+                rotate: hoveredPole ? 15 : 0,
+                x: hoveredPole ? -50 : 0,
+                opacity: hoveredPole ? 0.6 : 0.35,
+              }}
+              transition={{
+                duration: 1.2,
+                ease: [0.19, 1, 0.22, 1],
+              }}
+              style={{
+                filter: "blur(60px)",
+              }}
             />
 
-            {/* Base wash (blanc) */}
-            <div className="absolute inset-0 bg-background/92" />
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-transparent to-accent/10" />
-
-            {/* Subtle grid pattern for structure */}
-            <div className="absolute inset-0 grid-pattern opacity-30" />
-
-            {/* Desktop Brand Watermark */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-[5%] right-[5%] w-[35vw] max-w-[700px] opacity-[0.15]"
+            {/* Brand Watermark with depth */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 0.08, scale: 1 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              className="pointer-events-none absolute bottom-10 right-10 w-[600px]"
             >
               <Image
                 src="/logo-lianet-ori.svg"
                 alt=""
                 width={800}
                 height={800}
-                className="w-full h-auto"
+                className="w-full h-auto grayscale opacity-50 contrast-125"
               />
-            </div>
-
-            {/* Organic brand shape (réagit au hover Innovation Lab) */}
-            <motion.div
-              aria-hidden="true"
-              className="pointer-events-none absolute -right-40 top-1/2 h-[780px] w-[780px] -translate-y-1/2 bg-gradient-to-br from-secondary/70 to-accent/60 opacity-80"
-              animate={{
-                borderRadius: hoveredPole === "lab"
-                  ? "45% 55% 60% 40% / 45% 35% 65% 55%"
-                  : "60% 40% 30% 70% / 60% 30% 70% 40%",
-                rotate: hoveredPole === "lab" ? -8 : 0,
-                scale: hoveredPole === "lab" ? 1.03 : 1,
-                opacity: hoveredPole === "lab" ? 0.55 : 0.45,
-              }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                filter: "blur(0px)",
-              }}
-            />
+            </motion.div>
 
             {/* Content desktop */}
             <motion.div
@@ -750,12 +788,37 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                             {item.suffix ? (
                               <span className="text-[#1B365D]/60 normal-case tracking-normal">{item.suffix}</span>
                             ) : null}
+                            {item.isComingSoon && (
+                              <span className="ml-2 rounded bg-[#1B365D]/10 px-2 py-0.5 text-[9px] font-bold uppercase text-[#1B365D]/50">
+                                Soon
+                              </span>
+                            )}
                             <span className="translate-x-0 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100">
                               →
                             </span>
                           </Link>
                         </li>
                       ))}
+                      <div className="pt-8">
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1B365D]/45 mb-5">
+                          {t("fullMenu.sections.policies")}
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          {legalLinks.map((item) => (
+                            <Link
+                              key={`desktop-legal-${item.href}`}
+                              href={item.href}
+                              onClick={(event) => {
+                                event.preventDefault();
+                                openLocalizedHref(item.href);
+                              }}
+                              className="text-sm font-medium text-[#1B365D]/50 transition-colors hover:text-[#1B365D]"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
                     </ul>
                   </motion.section>
 
@@ -801,12 +864,12 @@ export default function FullMenu({ isOpen, onClose, onNavigateWithWipe }: FullMe
                         </div>
                       </div>
 
-                      <div className="pt-2">
+                      <div className="pt-2 px-2 m-1">
                         <HeroSecondaryButton
                           onClick={() => openRoute(appRoutes.contact)}
                           label={t("fullMenu.startProject")}
                           size="compact"
-                          className="w-full sm:w-full bg-[#40B4A6]/18 hover:bg-[#40B4A6]/28 border border-[#40B4A6]/30 shadow-xl shadow-[#40B4A6]/8"
+                          className="w-full bg-[#40B4A6]/18 hover:bg-[#40B4A6]/28 border border-[#40B4A6]/30 shadow-xl shadow-[#40B4A6]/8"
                         />
                       </div>
                     </div>
