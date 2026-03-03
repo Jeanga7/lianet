@@ -44,8 +44,13 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
       description: dictionary.metadata.home.description,
     },
     icons: {
-      icon: '/favicon.ico',
-      apple: '/apple-touch-icon.png',
+      icon: [
+        { url: '/pictogram-lianet.png', type: 'image/png', sizes: '256x256' },
+      ],
+      apple: [
+        { url: '/pictogram-lianet.png', sizes: '180x180', type: 'image/png' },
+      ],
+      shortcut: '/pictogram-lianet.png',
     },
   };
 }
