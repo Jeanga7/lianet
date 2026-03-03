@@ -10,7 +10,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Activity, ArrowUpRight, PenTool, Rocket, Search } from "lucide-react";
+import { Activity, ArrowUpRight, PenTool, Rocket, Search, Users2 } from "lucide-react";
 import { HeroPrimaryButton, HeroSecondaryButton, Magnetic, SectionColorBridge } from "@/components/ui";
 import { localizePathname } from "@/lib/locale";
 import { appRoutes } from "@/lib/routes";
@@ -368,7 +368,7 @@ export default function BlueprintSection() {
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.6 }}
           transition={motionSpring}
-          className="mx-auto mt-14 grid w-full max-w-[38rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:mt-12 lg:mb-8"
+          className="mx-auto mt-14 grid w-full max-w-[40rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:mt-12 lg:mb-8"
         >
           <Magnetic className="flex w-full min-w-0" strength={24}>
             <HeroPrimaryButton
@@ -385,9 +385,9 @@ export default function BlueprintSection() {
           <Magnetic className="flex w-full min-w-0" strength={24}>
             <HeroSecondaryButton
               size="compact"
-              label={t("blueprint.cta.secondary")}
-              iconStart={Search}
-              onClick={() => navigateWithWipe(localizePathname(appRoutes.solutions, locale))}
+              label={t("blueprint.cta.network")}
+              iconStart={Users2}
+              onClick={() => navigateWithWipe(localizePathname(appRoutes.network, locale))}
               className="!border-0 !bg-[#1B365D] !text-[#F8FAFC] shadow-[0_14px_32px_rgba(15,23,42,0.32)] hover:!bg-[#0F2440] hover:!text-white !w-full"
             />
           </Magnetic>

@@ -196,6 +196,7 @@ const fr = {
       primary: "Démarrer un projet",
       secondary: "Nos solutions",
       protocol: "Appliquer le Protocole",
+      network: "Rejoindre le réseau",
     },
   },
   solutions: {
@@ -270,6 +271,7 @@ const fr = {
       strategy: "Digital Strategy",
       lab: "Innovation Lab",
       stories: "Success Stories",
+      insights: "Ressources & Insights",
       about: "Notre ADN (À Propos)",
       careers: "Talent",
       contact: "Contact",
@@ -880,6 +882,7 @@ const en = {
       primary: "Start a project",
       secondary: "Our solutions",
       protocol: "Apply the Protocol",
+      network: "Join the network",
     },
   },
   solutions: {
@@ -954,6 +957,7 @@ const en = {
       strategy: "Digital Strategy",
       lab: "Innovation Lab",
       stories: "Success Stories",
+      insights: "Resources & Insights",
       about: "Our DNA (About)",
       careers: "Talent",
       contact: "Contact",
