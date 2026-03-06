@@ -148,7 +148,7 @@ export function ContactForm({ dictionary, onSuccess, isTransmitting, setIsTransm
                                 formData.ambition && "text-[#1B365D]"
                             )}
                         >
-                            <option value="" disabled className="text-[#1B365D]/30">Choose ambition</option>
+                            <option value="" disabled className="text-[#1B365D]/30">{dictionary.form.ambitionPlaceholder}</option>
                             {ambitions.map(opt => (
                                 <option key={opt.id} value={opt.id}>{opt.label}</option>
                             ))}

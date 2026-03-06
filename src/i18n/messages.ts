@@ -1,20 +1,24 @@
 const fr = {
   metadata: {
     home: {
-      title: "Lianet — L'Excellence Stratégique & Technologique en Afrique",
-      description: "Connectez-vous aux meilleurs talents digitaux et bâtissez des solutions impactantes. Lianet est l'infrastructure de confiance pour l'innovation africaine.",
+      title: "Lianet | L'Infrastructure de l'Excellence Digitale en Afrique",
+      description: "Propulsez votre business avec Lianet. Agence digitale d'élite spécialisée en Squad-as-a-Service, développement web, design UI/UX et stratégie de croissance au Sénégal.",
     },
     about: {
-      title: "À Propos — L'Infrastructure de l'Impact",
-      description: "Découvrez Lianet, le système d'excellence technologique qui transforme le paysage numérique africain. Architecture, talent et souveraineté.",
+      title: "À Propos de Lianet | Souveraineté & Ingénierie Digitale",
+      description: "L'histoire d'un système conçu pour la performance. Découvrez le modèle Squad-as-a-Service et la vision de nos architectes pour le futur technologique africain.",
     },
     solutions: {
-      title: "Solutions — Maîtrisez la Complexité Digitale",
-      description: "Expertise, Strategy, Lab. Découvrez nos pôles d'intervention pour propulser votre croissance technologique.",
+      title: "Solutions Digitales & Squads d'Élite | Lianet",
+      description: "Découvrez nos piliers d'impact : Code, Design, et Stratégie. Des Squads multidisciplinaires pour une exécution chirurgicale de vos projets numériques.",
     },
     network: {
-      title: "Network — Accédez au Top 3% des Talents Africains",
-      description: "Elite Squads & Experts. Rejoignez ou mobilisez le réseau d'excellence technologique de Lianet.",
+      title: "Network — Le Hub des Meilleurs Développeurs & Experts d'Afrique",
+      description: "Squads Dédiées & Elite Talent. Mobilisez l'expertise tech tech certifiée Lianet pour vos missions les plus critiques au Sénégal et à l'international.",
+    },
+    contact: {
+      title: "Contact — Initialisez votre Projet Technologique d'Élite",
+      description: "Prêt à transformer votre vision en standard ? Contactez les architectes de Lianet pour une analyse stratégique de vos besoins digitaux.",
     },
   },
   contact: {
@@ -33,6 +37,7 @@ const fr = {
       company: "Organisation / Projet",
       companyPlaceholder: "Nom de votre structure",
       ambition: "Sélecteur d'Ambition",
+      ambitionPlaceholder: "Choisissez votre ambition",
       ambitions: {
         code: "Je veux bâtir un produit (Code & Design)",
         growth: "Je veux propulser ma croissance (Marketing & CM)",
@@ -53,6 +58,7 @@ const fr = {
       location: "Dakar, Sénégal",
       hub: "Hub Afrique",
       email: "contact@lianet.sn",
+      phone: "+221 77 875 66 31",
       status: "Opérationnel",
       responseTime: "Réponse sous 24h"
     }
@@ -83,8 +89,8 @@ const fr = {
   },
   hero: {
     eyebrow: "LIANET — STRATEGIC EXCELLENCE",
-    titleLine1: "Connecting",
-    titleLine2: "the Future",
+    titleLine1: "L'Elite au Service",
+    titleLine2: "de votre Impact",
     paragraph:
       "Lianet connecte les entreprises africaines aux meilleurs talents digitaux pour bâtir des solutions impactantes et évolutives.",
     primaryCta: "Découvrir nos solutions",
@@ -272,6 +278,7 @@ const fr = {
       lab: "Innovation Lab",
       stories: "Success Stories",
       insights: "Ressources & Insights",
+      network: "Réseau d'experts",
       about: "Notre ADN (À Propos)",
       careers: "Talent",
       contact: "Contact",
@@ -484,6 +491,13 @@ const fr = {
         authorizing: "Accès validé"
       }
     },
+    finalCta: {
+      eyebrow: "L'ÉLITE VOUS ATTEND",
+      title: "Rejoignez les meilleurs.",
+      subtitle: "Les places sont limitées. Le processus de sélection est exigeant. Si vous êtes ici, vous savez déjà à quelle élite vous appartenez.",
+      applyExpert: "Postuler en tant qu'expert",
+      startProject: "Démarrer un projet client",
+    },
   },
   about: {
     sections: {
@@ -622,18 +636,25 @@ const fr = {
     },
     founders: {
       title: "L'Origine du Système",
-      jean: {
+      note1: {
         name: "Jean Gabriel G.",
         role: "Structure",
         specialties: ["Orchestration", "Systèmes", "Processus"],
         bio: "Gardien de la rigueur architecturale. La robustesse, la sécurité et la discipline du code."
       },
-      barthelemy: {
+      note2: {
         name: "Barthélémy L. D.",
         role: "Vision",
         specialties: ["Architecture", "Innovation", "Produit"],
         bio: "Gardien de l'intelligence de marché. La conversion, l'esthétique et la viabilité commerciale."
       }
+    },
+    cta: {
+      eyebrow: "LA PROCHAINE ÉTAPE",
+      title: "Prêt à collaborer ?",
+      subtitle: "Vous connaissez maintenant notre ADN. Chaque projet mérite une réponse à la hauteur de son ambition. Initialisons la vôtre.",
+      primary: "Démarrer un projet",
+      secondary: "Voir nos solutions",
     },
   },
   signature: {
@@ -686,20 +707,24 @@ const fr = {
 const en = {
   metadata: {
     home: {
-      title: "Lianet — Strategic & Technological Excellence in Africa",
-      description: "Connect with top digital talent and build impactful solutions. Lianet is the trusted infrastructure for African innovation.",
+      title: "Lianet | The Digital Excellence Infrastructure in Africa",
+      description: "Propel your business with Lianet. Elite digital agency specializing in Squad-as-a-Service, web development, UI/UX design and growth strategy in Senegal.",
     },
     about: {
-      title: "About — The Infrastructure of Impact",
-      description: "Discover Lianet, the technological excellence system transforming the African digital landscape. Architecture, talent, and sovereignty.",
+      title: "About Lianet | Sovereignty & Digital Engineering",
+      description: "The story of a system built for performance. Discover the Squad-as-a-Service model and our architects' vision for Africa's technological future.",
     },
     solutions: {
-      title: "Solutions — Mastering Digital Complexity",
-      description: "Expertise, Strategy, Lab. Discover our intervention poles to propel your technological growth.",
+      title: "Digital Solutions & Elite Squads | Lianet",
+      description: "Discover our impact pillars: Code, Design, and Strategy. Multidisciplinary Squads for surgical execution of your digital projects.",
     },
     network: {
-      title: "Network — Access the Top 3% of African Talent",
-      description: "Elite Squads & Experts. Join or mobilize Lianet's technological excellence network.",
+      title: "Network — The Hub for Africa's Top Developers & Tech Experts",
+      description: "Dedicated Squads & Elite Talent. Mobilize Lianet-certified tech expertise for your most critical missions in Senegal and worldwide.",
+    },
+    contact: {
+      title: "Contact — Initialize your Elite Technological Project",
+      description: "Ready to transform your vision into a standard? Contact Lianet architects for a strategic analysis of your digital needs.",
     },
   },
   contact: {
@@ -718,6 +743,7 @@ const en = {
       company: "Organization / Project",
       companyPlaceholder: "Structure name",
       ambition: "Ambition Selector",
+      ambitionPlaceholder: "Choose your ambition",
       ambitions: {
         code: "I want to build a product (Code & Design)",
         growth: "I want to propel my growth (Marketing & CM)",
@@ -738,6 +764,7 @@ const en = {
       location: "Dakar, Senegal",
       hub: "Africa Hub",
       email: "contact@lianet.sn",
+      phone: "+221 77 875 66 31",
       status: "Operational",
       responseTime: "Response under 24h"
     }
@@ -767,15 +794,258 @@ const en = {
     footer: "Footer",
     menu: "Menu",
   },
+  footer: {
+    eyebrow: "LIANET — 05",
+    title: "Let's transform your ambitions into a leadership trajectory.",
+    subtitle: "Let's talk about your business priorities and build a concrete, measurable, and sustainable execution plan.",
+    heroLine1: "Deploy the future",
+    heroLine2: "together.",
+    brandStatement: "Lianet — The alliance of African boldness and international precision.",
+    cta: {
+      primary: "Start a project",
+      secondary: "Our solutions",
+    },
+    columns: {
+      expertise: "Expertise",
+      company: "Company",
+      legal: "Legal",
+    },
+    links: {
+      talent: "Talent Solutions",
+      strategy: "Digital Strategy",
+      lab: "Innovation Lab",
+      stories: "Success Stories",
+      insights: "Resources & Insights",
+      network: "Expert Network",
+      about: "Our DNA (About)",
+      careers: "Talent",
+      contact: "Contact",
+      legalNotices: "Legal Notices",
+      privacy: "Privacy",
+      terms: "Terms",
+    },
+    rights: "All rights reserved.",
+    qualityBadge: "Built for Excellence",
+  },
   hero: {
     eyebrow: "LIANET — STRATEGIC EXCELLENCE",
-    titleLine1: "Connecting",
-    titleLine2: "the Future",
+    titleLine1: "Elite Teams",
+    titleLine2: "for High Impact",
     paragraph:
       "Lianet connects African businesses with top digital talents to build impactful, scalable solutions.",
     primaryCta: "Explore our solutions",
     secondaryCta: "Start a project",
     scrollCta: "Scroll to next section",
+  },
+  fullMenu: {
+    ecosystem: "Lianet Ecosystem",
+    close: "Close menu",
+    startProject: "Start a project",
+    sections: {
+      poles: "Hubs",
+      resources: "Resources",
+      contact: "Contact & Location",
+      social: "Social",
+      policies: "Policies",
+    },
+    poles: {
+      talent: {
+        title: "Talent Solutions",
+        description:
+          "We don't just find profiles; we build power teams. Access the top 3% of African digital experts to propel your technical developments and interface designs.",
+        tags: "Staff Augmentation • Expert Recruitment • Agility",
+      },
+      strategy: {
+        title: "Digital Strategy",
+        description:
+          "Digital is not an option; it's your growth engine. Our consultants design your transformation roadmap, from initial audit to the deployment of scalable and secure solutions.",
+        tags: "Consulting • Roadmap • Measurable ROI",
+      },
+      lab: {
+        title: "Innovation Lab",
+        description:
+          "The laboratory where ideas become products. We incubate disruptive projects and explore emerging technologies (AI, Web3, IoT) to keep your company at the forefront of the market.",
+        tags: "R&D • Rapid Prototyping • Futurism",
+      },
+    },
+    resources: {
+      insights: "Blog & Insights",
+      caseStudies: "Case Studies",
+      caseStudiesSuffix: "(Success Stories)",
+    },
+    contact: {
+      dakar: "Dakar HQ",
+      city: "Dakar, Senegal",
+      map: "View on map",
+      email: "Email",
+    },
+    manifesto:
+      "Because Africa's future is written in lines of code and bold visions, Lianet weaves the link between leader ambitions and talent excellence. We don't just build solutions; we connect the builders of tomorrow's world.",
+    tagline: "Propelling African ambitions into the digital era.",
+    langActiveFr: "French language active",
+    langSwitchFr: "Switch to French",
+    langSwitchEn: "English language active",
+    langActiveEn: "English language active",
+  },
+  network: {
+    hero: {
+      eyebrow: "JOIN THE SQUADS",
+      title: "Digital Elite Rises Here.",
+      subtitle: "The rallying point for African excellence and impact.",
+      pitch: "We don't recruit to fill offices. We assemble elite forces to solve critical challenges. Whether you're a project commando or an architect of our future, your place is here.",
+      subpitch: "AT LIANET, ONLY SKILLS AND RESULTS OPEN DOORS.",
+      curation: {
+        title: "Manual Curation",
+        desc: "Every Squad member is validated by a strategic interview to guarantee zero-defect execution for the client.",
+        signature: "Home of African Digital Talents",
+      },
+      scrollLabel: "Scroll",
+    },
+    selector: {
+      eyebrow: "CHOOSE YOUR PATH",
+      title: "What kind of builder are you?",
+      expert: {
+        label: "FREELANCE EXPERT",
+      },
+      team: {
+        label: "INTERNAL BUILDER",
+      },
+    },
+    poles: {
+      title: "VERTICALS OF EXCELLENCE",
+      description: "The Heart of Strength.",
+      subtitle: "Propelling African ambition through 4 strategic hubs.",
+      items: [
+        {
+          id: "software",
+          label: "Software Engineering",
+          description: "Full-stack Architects, Mobile experts (iOS/Android), DevOps & Cloud Engineers.",
+          tag: "Technical",
+        },
+        {
+          id: "creative",
+          label: "Creative Design",
+          description: "UI/UX Product Designers, Brand Strategists, Graphic & Motion Designers.",
+          tag: "Creative",
+        },
+        {
+          id: "growth",
+          label: "Digital Growth",
+          description: "Strategic Community Managers, SEO/Ads Experts, Content Creators & Copywriters.",
+          tag: "Growth",
+        },
+        {
+          id: "intelligence",
+          label: "Data & Intelligence",
+          description: "Data Analysts, AI/ML Specialists, Digital Transformation Consultants.",
+          tag: "Strategy",
+        },
+      ],
+    },
+    protocol: {
+      eyebrow: "TRUST PROTOCOL",
+      title: "Curation of Impact.",
+      description: "Human exigency at the service of zero-defect execution.",
+      steps: [
+        {
+          num: "01",
+          title: "Human Evaluation",
+          desc: "A concrete challenge calibrated to your field. No cold algorithms — an expert eye to validate the real quality of your execution.",
+        },
+        {
+          num: "02",
+          title: "Alignment & Culture",
+          desc: "An interview to validate your vision, your professional ethics, and your alignment with Lianet's impact values.",
+        },
+        {
+          num: "03",
+          title: "Squad Integration",
+          desc: "Welcome to the network. Full access to major projects, transparent support, and a guaranteed secure environment.",
+        },
+      ],
+    },
+    tracks: {
+      expert: {
+        title: "The Freelance Expert",
+        description: "A high-flying specialist mobilized for specific missions.",
+        benefits: [
+          { title: "Total Freedom", desc: "Choose your battles and manage your time freely." },
+          { title: "Prestigious Projects", desc: "High-impact missions in Senegal and internationally." },
+          { title: "Secure Framework", desc: "Clear contracts, guaranteed payments, and high-level leadership." },
+        ],
+        cta: "Launch the mission",
+        ctaSub: "SELECTED FOR IMPACT",
+      },
+      team: {
+        title: "The Internal Builder",
+        description: "A strategic partner who builds Lianet's infrastructure and ecosystem.",
+        benefits: [
+          { title: "Project Ownership", desc: "Become the owner of the products and services you develop." },
+          { title: "Revenue Sharing", desc: "Benefit directly from growth with Revenue Share." },
+          { title: "Associate Evolution", desc: "Direct influence on the company's vision and equity participation." },
+        ],
+        cta: "Forge the future",
+        ctaSub: "BUILD & CO-OWN",
+      },
+    },
+    drawer: {
+      title: "Your Footprint",
+      subtitle: "Excellence doesn't wait. Project your impact on the ecosystem.",
+      nameLabel: "FULL NAME",
+      namePlaceholder: "e.g., Jean Kone",
+      emailLabel: "PROFESSIONAL EMAIL",
+      emailPlaceholder: "e.g., j.kone@expertise.sn",
+      roleLabel: "YOUR UNITARY EXPERTISE",
+      roleHint: "Choose the role that defines your primary impact.",
+      roleGroups: {
+        code: "Architecture & Code",
+        design: "Design & Creation",
+        content: "Presence & Content",
+        growth: "Performance & Growth",
+        other: "Other"
+      },
+      roles: {
+        fullstack: "Full-stack Developer",
+        mobile: "Mobile Developer",
+        cloud: "Cloud Architect",
+        product: "Product Designer (UI/UX)",
+        brand: "Graphic / Brand Designer",
+        motion: "Motion Designer",
+        community: "Community Manager",
+        copywriter: "Content Strategist / Copywriter",
+        seo: "SEO/SEA Specialist",
+        growth: "Growth & Data Marketer",
+        other: "Other elite expertise"
+      },
+      otherLabel: "SPECIFY YOUR ROLE",
+      otherPlaceholder: "e.g., Cybersecurity Consultant",
+      socialLabel: "IMPACT LINK",
+      socialPlaceholder: {
+        code: "GitHub URL or technical Portfolio",
+        design: "Behance, Dribbble or Portfolio URL",
+        content: "LinkedIn URL or Case Study",
+        growth: "LinkedIn URL or Case Study",
+        other: "URL to your flagship achievement"
+      },
+      dropZone: "ADDITIONAL ASSET",
+      dropHint: "Drop your CV here (Optional)",
+      cta: "Launch the mission",
+      successTitle: "Your footprint is recorded",
+      successDesc: "Our architects are analyzing your profile. Access validated within 48h.",
+      encryption: "SECURE INTEGRATION // END-TO-END",
+      status: {
+        verifying: "Impact analysis...",
+        aligning: "Strategic alignment...",
+        authorizing: "Access validated"
+      }
+    },
+    finalCta: {
+      eyebrow: "THE ELITE AWAITS YOU",
+      title: "Join the best.",
+      subtitle: "Spaces are limited. The selection process is demanding. If you're here, you already know which elite you belong to.",
+      applyExpert: "Apply as an expert",
+      startProject: "Start a client project",
+    },
   },
   expertise: {
     eyebrow: "EXPERTISE — 02",
@@ -882,14 +1152,13 @@ const en = {
       primary: "Start a project",
       secondary: "Our solutions",
       protocol: "Apply the Protocol",
-      network: "Join the network",
     },
   },
   solutions: {
     hero: {
-      eyebrow: "SOLUTIONS — HUB",
-      title: "Elite solutions for African digital sovereignty.",
-      description: "We merge strategic excellence, technological talent, and agile experimentation to propel your growth in the digital era.",
+      eyebrow: "SOLUTIONS — 03",
+      title: "Solutions designed for sovereignty and impact.",
+      description: "Precision engineering for companies that demand technical and strategic excellence.",
     },
     common: {
       protocolTitle: "Protocol Key Points",
@@ -936,246 +1205,15 @@ const en = {
       detail: "The Lab is your insurance against obsolescence. We explore the frontiers of AI and Web3 to create pockets of innovation that can be industrialized and integrated into your core business in record time.",
     },
   },
-  footer: {
-    eyebrow: "LIANET — 05",
-    title: "Turn ambition into market leadership.",
-    subtitle: "Let's align on your business priorities and build a concrete, measurable execution plan.",
-    heroLine1: "Let's deploy the future",
-    heroLine2: "together.",
-    brandStatement: "Lianet — The alliance of African audacity and international precision.",
-    cta: {
-      primary: "Start a project",
-      secondary: "Our solutions",
-    },
-    columns: {
-      expertise: "Expertise",
-      company: "Company",
-      legal: "Legal",
-    },
-    links: {
-      talent: "Talent Solutions",
-      strategy: "Digital Strategy",
-      lab: "Innovation Lab",
-      stories: "Success Stories",
-      insights: "Resources & Insights",
-      about: "Our DNA (About)",
-      careers: "Talent",
-      contact: "Contact",
-      legalNotices: "Legal Notices",
-      privacy: "Privacy",
-      terms: "Terms of Use",
-    },
-    rights: "All rights reserved.",
-    qualityBadge: "Built for Excellence",
-  },
-  fullMenu: {
-    ecosystem: "Lianet Ecosystem",
-    close: "Close menu",
-    startProject: "Start a Project",
-    sections: {
-      poles: "Pillars",
-      resources: "Resources",
-      contact: "Contact & Location",
-      social: "Social",
-      policies: "Policies",
-    },
-    poles: {
-      talent: {
-        title: "Talent Solutions",
-        description:
-          "We do more than source profiles, we build high-impact teams. Access the top 3% of African digital experts to accelerate your engineering and product design execution.",
-        tags: "Staff Augmentation • Expert Hiring • Agility",
-      },
-      strategy: {
-        title: "Digital Strategy",
-        description:
-          "Digital is not optional, it is your growth engine. Our consultants shape your transformation roadmap, from initial audit to scalable and secure deployment.",
-        tags: "Consulting • Roadmap • Measurable ROI",
-      },
-      lab: {
-        title: "Innovation Lab",
-        description:
-          "A laboratory where ideas become products. We incubate disruptive projects and explore emerging tech (AI, Web3, IoT) to keep your business ahead of the curve.",
-        tags: "R&D • Rapid Prototyping • Future-ready",
-      },
-    },
-    resources: {
-      insights: "Blog & Insights",
-      caseStudies: "Case Studies",
-      caseStudiesSuffix: "(Success Stories)",
-    },
-    contact: {
-      dakar: "Dakar HQ",
-      city: "Dakar, Senegal",
-      map: "View on map",
-      email: "Email",
-    },
-    manifesto:
-      "Because Africa’s future is written in lines of code and bold vision, Lianet weaves a bridge between leaders’ ambitions and top-tier talent. We do not just build solutions, we connect tomorrow’s builders.",
-    tagline: "Powering African ambitions into the digital era.",
-    langActiveFr: "Switch to French",
-    langSwitchFr: "Switch to French",
-    langSwitchEn: "English language active",
-    langActiveEn: "English language active",
-  },
-  network: {
-    hero: {
-      eyebrow: "JOIN THE SQUADS",
-      title: "Where the Digital Elite Rises.",
-      subtitle: "The rallying point for African excellence and impact.",
-      pitch: "We don't recruit to fill offices. We assemble elite forces to solve critical challenges. Whether you are a project commando or an architect of our future, your place is here.",
-      subpitch: "AT LIANET, ONLY SKILLS AND RESULTS OPEN DOORS.",
-      curation: {
-        title: "Manual Curation",
-        desc: "Each Squad member is validated through a strategic interview to guarantee zero-defect execution for the client.",
-        signature: "Home of African Digital Talents",
-      },
-      scrollLabel: "Scroll",
-    },
-    selector: {
-      eyebrow: "CHOOSE YOUR PATH",
-      title: "What kind of builder are you?",
-      expert: { label: "EXPERT FREELANCE" },
-      team: { label: "BÂTISSEUR INTERNE" },
-    },
-    poles: {
-      title: "VERTICALS OF EXCELLENCE",
-      description: "The Heart of Strength.",
-      subtitle: "Propelling African ambition via 4 strategic poles.",
-      items: [
-        {
-          id: "software",
-          label: "Software Engineering",
-          description: "Full-stack architects, Mobile experts (iOS/Android), DevOps & Cloud Engineers.",
-          tag: "Technical",
-        },
-        {
-          id: "creative",
-          label: "Creative Design",
-          description: "UI/UX Product Designers, Brand Strategists, Infographers & Motion Designers.",
-          tag: "Creative",
-        },
-        {
-          id: "growth",
-          label: "Digital Growth",
-          description: "Strategic Community Managers, SEO/Ads specialists, Content Creators & Copywriters.",
-          tag: "Growth",
-        },
-        {
-          id: "intelligence",
-          label: "Data & Intelligence",
-          description: "Data analysts, AI/ML specialists, Digital transformation consultants.",
-          tag: "Strategy",
-        },
-      ],
-    },
-    protocol: {
-      eyebrow: "PROTOCOL OF TRUST",
-      title: "Impact Curation.",
-      description: "Human excellence for zero-defect execution.",
-      steps: [
-        {
-          num: "01",
-          title: "Human Evaluation",
-          desc: "A concrete challenge calibrated to your field. No cold algorithms — an expert look to validate the true quality of your execution.",
-        },
-        {
-          num: "02",
-          title: "Alignment & Culture",
-          desc: "An interview to validate your vision, professional ethics, and alignment with Lianet's impact values.",
-        },
-        {
-          num: "03",
-          title: "Squad Integration",
-          desc: "Welcome to the network. Full access to major projects, transparent support, and guarantee of a secure environment.",
-        },
-      ],
-    },
-    tracks: {
-      expert: {
-        title: "The Independent Expert",
-        description: "A high-flying specialist mobilized for specific missions.",
-        benefits: [
-          { title: "Total Freedom", desc: "Choose your battles and manage your own time freely." },
-          { title: "Prestigious Projects", desc: "High-impact missions in Senegal and internationally." },
-          { title: "Secure Framework", desc: "Clear contracts, guaranteed payments, and top-level leadership." },
-        ],
-        cta: "Launch the mission",
-        ctaSub: "SELECTED FOR IMPACT",
-      },
-      team: {
-        title: "The Internal Builder",
-        description: "A strategic partner building Lianet's infrastructure and ecosystem.",
-        benefits: [
-          { title: "Project Ownership", desc: "Become the owner of the products and services you develop." },
-          { title: "Revenue Share", desc: "Benefit directly from growth with Revenue Share." },
-          { title: "Partner Path", desc: "Direct influence on company vision and path to equity." },
-        ],
-        cta: "Forge the future",
-        ctaSub: "BUILD & CO-OWN",
-      },
-    },
-    drawer: {
-      title: "Your Imprint",
-      subtitle: "Excellence doesn't wait. Project your impact on the ecosystem.",
-      nameLabel: "FULL NAME",
-      namePlaceholder: "e.g., John Doe",
-      emailLabel: "PROFESSIONAL EMAIL",
-      emailPlaceholder: "e.g., j.doe@expertise.sn",
-      roleLabel: "YOUR UNIT EXPERTISE",
-      roleHint: "Choose the role that defines your primary impact.",
-      roleGroups: {
-        code: "Architecture & Code",
-        design: "Design & Creation",
-        content: "Presence & Content",
-        growth: "Performance & Growth",
-        other: "Other"
-      },
-      roles: {
-        fullstack: "Full-stack Developer",
-        mobile: "Mobile Developer",
-        cloud: "Cloud Architect",
-        product: "Product Designer (UI/UX)",
-        brand: "Graphic / Brand Designer",
-        motion: "Motion Designer",
-        community: "Community Manager",
-        copywriter: "Content Strategist / Copywriter",
-        seo: "SEO/SEA Specialist",
-        growth: "Growth & Data Marketer",
-        other: "Other elite expertise"
-      },
-      otherLabel: "SPECIFY YOUR ROLE",
-      otherPlaceholder: "e.g., Cybersecurity Consultant",
-      socialLabel: "IMPACT LINK",
-      socialPlaceholder: {
-        code: "GitHub URL or technical Portfolio",
-        design: "Behance, Dribbble or Portfolio URL",
-        content: "LinkedIn URL or Case Study",
-        growth: "LinkedIn URL or Case Study",
-        other: "Link to your primary achievement"
-      },
-      dropZone: "ADDITIONAL ASSET",
-      dropHint: "Drop your CV here (Optional)",
-      cta: "Launch Mission",
-      successTitle: "Your imprint is recorded",
-      successDesc: "Our architects are analyzing your profile. Access validated within 48h.",
-      encryption: "SECURE INTEGRATION // END-TO-END",
-      status: {
-        verifying: "Analyzing impact...",
-        aligning: "Strategic alignment...",
-        authorizing: "Access validated"
-      }
-    },
-  },
   about: {
     hero: {
-      eyebrow: "THE SYSTEM — 01",
+      eyebrow: "DNA — 01",
       titleLine1: "The Infrastructure",
-      titleLine2: "of Impact.",
-      subtitle: "Lianet is not a vendor. It's a position. The reference standard for technological excellence in Africa.",
+      titleLine2: "of Sovereign Ambitions.",
+      subtitle: "We don't just build tools; we forge the technological assets of your digital sovereignty.",
       primaryCta: "DISCOVER THE SYSTEM",
       secondaryCta: "JOIN THE NETWORK",
-      parallaxWords: ["SYSTEM", "PRECISION", "IMPACT"]
+      parallaxWords: ["SOVEREIGNTY", "EXCELLENCE", "SYSTEM"],
     },
     story: {
       eyebrow: "THE MANIFESTO",
@@ -1304,17 +1342,24 @@ const en = {
       title: "The Power of Duality.",
       subtitle: "The convergence of architectural rigor and market intelligence.",
       note1: {
-        name: "Jean-Gabriel A.",
+        name: "Jean Gabriel G.",
         role: "Architecture",
         specialties: ["Code", "Infrastructure", "Ops"],
         bio: "The guard of technical integrity. Scalability, security, and the precision of the invisible."
       },
       note2: {
-        name: "Frédérick A.",
+        name: "Barthélémy L. D.",
         role: "Vision",
         specialties: ["Market Intelligence", "Product", "Brand"],
         bio: "The sentinel of market logic. Conversion, aesthetics, and commercial viability."
       }
+    },
+    cta: {
+      eyebrow: "THE NEXT STEP",
+      title: "Ready to collaborate?",
+      subtitle: "You now know our DNA. Every project deserves a response equal to its ambition. Let's initialize yours.",
+      primary: "Start a project",
+      secondary: "Explore our solutions",
     },
   },
   signature: {

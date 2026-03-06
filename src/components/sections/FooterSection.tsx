@@ -205,7 +205,7 @@ export default function FooterSection() {
               {t("footer.links.lab")}
             </FooterLink>
             <FooterLink href={appRoutes.network}>
-              {t("navigation.network")}
+              {t("footer.links.network")}
             </FooterLink>
             <FooterLink href={appRoutes.insights}>
               {t("footer.links.insights")}

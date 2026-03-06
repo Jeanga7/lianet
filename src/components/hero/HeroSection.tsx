@@ -189,12 +189,12 @@ const HeroSection = () => {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
       >
         {/* Zone Texte/CTA (Gauche) */}
-        <div className="flex flex-1 lg:basis-[52%] xl:basis-1/2 flex-col justify-center px-4 sm:px-6 py-16 lg:py-24 lg:pl-16 lg:pr-10 xl:pr-12 relative z-10">
+        <div className="flex flex-1 lg:basis-[62%] xl:basis-[60%] flex-col justify-center px-4 sm:px-6 py-16 lg:py-24 lg:pl-16 lg:pr-10 xl:pr-12 relative z-10">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="h-full max-w-[42rem] xl:max-w-[52rem] justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
+            className="min-h-fit max-w-5xl xl:max-w-7xl justify-center translate-y-12 sm:translate-y-0 space-y-6 relative z-10 text-center lg:text-left items-center lg:items-start flex flex-col"
           >
             {/* Eyebrow text */}
             <motion.p
@@ -214,7 +214,7 @@ const HeroSection = () => {
             {/* Titre massif avec effet reveal et interaction de scroll */}
             <div className="overflow-hidden w-full">
               <motion.h1
-                className="w-full mx-auto lg:mx-0 text-[clamp(3.3rem,13vw,6.5rem)] md:text-[clamp(3.8rem,9vw,7rem)] lg:text-[clamp(4rem,6.5vw,7.5rem)] xl:text-[clamp(4.2rem,6.8vw,8.2rem)] font-black leading-[1.04] relative z-20 text-center lg:text-left"
+                className="w-full mx-auto lg:mx-0 text-[clamp(2.8rem,10.5vw,5rem)] md:text-[clamp(3.8rem,9vw,6.5rem)] lg:text-[clamp(3rem,4.5vw,5.5rem)] xl:text-[clamp(3.5rem,4.8vw,6.2rem)] font-black leading-[1.04] relative z-20 text-center lg:text-left"
                 style={{
                   letterSpacing: titleTracking,
                   opacity: titleOpacity,
@@ -234,9 +234,8 @@ const HeroSection = () => {
                   ease: [0.16, 1, 0.3, 1],
                 }}
               >
-                {t("hero.titleLine1")}
-                <br className="block" />
-                <span className="inline-block">{t("hero.titleLine2")}</span>
+                <span className="block">{t("hero.titleLine1")}</span>
+                <span className="block text-[#40B4A6]">{t("hero.titleLine2")}</span>
               </motion.h1>
             </div>
 
